@@ -15,7 +15,6 @@ import views.DialogAdmin;
 import views.DialogDetails;
 import views.DialogEdit;
 import views.DialogUser;
-import views.MainWindow;
 import views.PanelActionAdmin;
 import views.PanelActionUser;
 import views.entrar.WindowsManager;
@@ -85,7 +84,6 @@ public class Controller implements ActionListener{
 		
 		}
 	}
-	
 	
 	private void addProduct() {
 		Product product = dialogAddProduct.createProduct();
