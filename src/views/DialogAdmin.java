@@ -142,7 +142,6 @@ public class DialogAdmin extends JFrame {
 		tableModel = new DefaultTableModel();
 		tableModel.setColumnIdentifiers(HEAD);
 		tableProductList = new JTable(tableModel);
-		tableProductList.setSize(200, 200);
 		tableProductList.setRowHeight(40);
 		pnlTable.add(tableProductList);
 		
@@ -206,11 +205,13 @@ public class DialogAdmin extends JFrame {
 	}
 
 	public int getProduct() {
+		System.out.println(tableProductList.getSelectedRow());
 		return Integer.parseInt(tableModel.getValueAt(tableProductList.getSelectedRow(), 0).toString());
 	}
 	
 	public void removeRow() {
 		tableModel.removeRow(tableProductList.getSelectedRow());
+		tableModel.fireTableStructureChanged();
 	}
 	
 	public void removePage() {
