@@ -161,7 +161,6 @@ public class DialogAddProduct  extends JDialog{
 	}
 
 	public void validateFields() {
-		
 			try {
 				ValidateFields.validateId(txtId);
 			} catch (ErrorDates e) {
