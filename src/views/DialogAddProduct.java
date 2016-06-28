@@ -199,6 +199,7 @@ public class DialogAddProduct extends JDialog {
 		gbc.weightx = 5.0;
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
+		txtDescription = new JTextArea();
 		add(txtDescription, gbc);
 
 		JScrollPane scroll = new JScrollPane(txtDescription);
