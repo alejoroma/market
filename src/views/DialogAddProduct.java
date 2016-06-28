@@ -23,6 +23,7 @@ import models.dao.ProductManager;
 import models.entity.Product;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
+import models.errores.ValidateFields;
 
 public class DialogAddProduct extends JDialog {
 
@@ -95,6 +96,7 @@ public class DialogAddProduct extends JDialog {
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtId = new JTextField();
+		ValidateFields.onlyNumber(txtId);
 		add(txtId, gbc);
 
 		gbc.gridx = 0;
@@ -116,6 +118,7 @@ public class DialogAddProduct extends JDialog {
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtName = new JTextField();
+		ValidateFields.onlyLetter(txtName);
 		add(txtName, gbc);
 
 		gbc.gridx = 0;
@@ -224,6 +227,7 @@ public class DialogAddProduct extends JDialog {
 		add(lbValue, gbc);
 
 		txtValue = new JTextField();
+		ValidateFields.onlyNumber(txtValue);
 		gbc.gridx = 1;
 		gbc.gridy = 7;
 		gbc.gridwidth = 1;
