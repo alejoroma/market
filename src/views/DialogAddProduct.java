@@ -1,259 +1,189 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
-
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-
 import controller.Action;
 import controller.Controller;
 import models.dao.ProductManager;
 import models.entity.Product;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
+import models.errores.ErrorDates;
 import models.errores.ValidateFields;
 
-public class DialogAddProduct extends JDialog {
+public class DialogAddProduct  extends JDialog{
 
 	private static final long serialVersionUID = 1L;
-	private JLabel lbImage, lbId;
 	private JTextField txtId, txtName, txtValue;
 	private JTextArea txtDescription;
 	private JSpinner spinerNumberProduct;
 	private JComboBox<TypePerson> cbxTypePerson;
 	private JComboBox<TypeProduct> cbxTypeProduct;
 	private JButton btnCreate, btnAddImage;
-
-	public JButton getBtnAddImage() {
-		return btnAddImage;
-	}
+	private JLabel lbImage, lbId;
+	private JTextArea textAreaErrors;
 
 	public DialogAddProduct(Controller controller) {
-		setSize(500, 500);
-		setModal(true);
-		setTitle("Crud-Product 1.0");
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
-		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		setLayout(new GridBagLayout());
-		getContentPane().setBackground(Color.WHITE);
-		GridBagConstraints gbc = new GridBagConstraints();
+		setModal(true);
+		setTitle("Data Entry Product");
+		setSize(500, 500);
+		this.getContentPane().setBackground(new Color(159, 182, 205));
+		setLayout(null);
 
-		gbc.insets.set(0, 2, 2, 40);
+		JPanel pnlDates = new JPanel();
+		pnlDates.setBackground(new Color(159, 182, 205));
+		pnlDates.setLayout(new GridLayout(8, 2, 20, 8));
 
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 0.5;
-		gbc.weighty = 2.0;
-		gbc.fill = GridBagConstraints.BOTH;
+		JLabel jLabelId = new JLabel("Id:");
+		jLabelId.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlDates.add(jLabelId);
+
+		txtId = new JTextField();
+		txtId.setToolTipText("Ingrese el numero que identifica el producto");
+		ValidateFields.onlyNumber(txtId);
+		pnlDates.add(txtId);
+
+		JLabel jLabelName = new JLabel("Product Name:");
+		jLabelName.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlDates.add(jLabelName);
+
+		txtName = new JTextField();
+		ValidateFields.onlyLetter(txtName);
+		txtName.setToolTipText("Ingrese el nombre del producto");
+		pnlDates.add(txtName);
+
+		JLabel jLabelBrand = new JLabel("Product Brand:");
+		jLabelBrand.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlDates.add(jLabelBrand);
+
+		SpinnerModel sm = new SpinnerNumberModel(1, 1,10000 , 1); 
+		spinerNumberProduct = new JSpinner(sm);
+		spinerNumberProduct.setToolTipText("Ingrese la marca del producto");
+		pnlDates.add(spinerNumberProduct);
+
+		JLabel jLabelCategory = new JLabel("Type Person:");
+		jLabelCategory.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlDates.add(jLabelCategory);
+
+		cbxTypePerson = new JComboBox<TypePerson>(TypePerson.values());
+		cbxTypePerson.setToolTipText("Escoga el tipo de categoria");
+		pnlDates.add(cbxTypePerson);
+
+		JLabel jLabelPrice = new JLabel("Type Product:");
+		jLabelPrice.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlDates.add(jLabelPrice);
+
+		cbxTypeProduct = new JComboBox<>(TypeProduct.values());
+		cbxTypeProduct.setToolTipText("Ingrese el precio del producto");
+		pnlDates.add(cbxTypeProduct);
+
+		JLabel jLabelDescription = new JLabel("Description:");
+		jLabelDescription.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlDates.add(jLabelDescription);
+
+		txtDescription = new JTextArea();
+		txtDescription.setToolTipText("Ingrese la descripcion del producto");
+		pnlDates.add(txtDescription);
+
+		JLabel jLabelStatus = new JLabel("Value:");
+		jLabelStatus.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlDates.add(jLabelStatus);
+
+		txtValue = new JTextField();
+		txtValue.setToolTipText("Ingrese el estado del producto");
+		pnlDates.add(txtValue);
+
+
+
 		lbImage = new JLabel(":)");
 		lbImage.setSize(50, 50);
 		lbImage.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbImage, gbc);
+		pnlDates.add(lbImage);
 
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.0;
-		gbc.fill = GridBagConstraints.BOTH;
 		btnAddImage = new JButton("New Image");
 		btnAddImage.setBackground(Color.decode("#FAAC58"));
 		btnAddImage.addActionListener(controller);
 		btnAddImage.setActionCommand(Action.ADD_IMAGE.name());
-		add(btnAddImage, gbc);
+		pnlDates.add(btnAddImage);
 
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		lbId = new JLabel("Id");
-		lbId.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbId, gbc);
+		pnlDates.setBounds(0, 0, getWidth()-15, 300);
+		add(pnlDates);
 
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		txtId = new JTextField();
-		ValidateFields.onlyNumber(txtId);
-		add(txtId, gbc);
+		textAreaErrors = new JTextArea();
+		JScrollPane scroll = new JScrollPane(textAreaErrors );
+		scroll.setBounds(0, 340, getWidth()-15, 75);
+		textAreaErrors.setVisible(false);
+		scroll.setAutoscrolls(true);
+		scroll.setBorder(BorderFactory.createTitledBorder("Errors:"));
+		add(scroll, BorderLayout.EAST);
 
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		JLabel lbName = new JLabel("Name");
-		lbName.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbName, gbc);
+		JPanel pnlButtonConfirmation = new JPanel();
+		pnlButtonConfirmation.setBackground(Color.decode("#2b82ad"));
+		pnlButtonConfirmation.setLayout(new GridLayout(1, 2, 8, 10));
+		pnlButtonConfirmation.setBounds(0, 420, getWidth(), 38);
 
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		txtName = new JTextField();
-		ValidateFields.onlyLetter(txtName);
-		add(txtName, gbc);
+		JButton btnCancel= new JButton("Cancel");
+		btnCancel.setIcon(new ImageIcon(getClass().getResource("/imgs/cancele.png")));
+		btnCancel.addActionListener(controller);
+		btnCancel.setActionCommand(Action.CANCELE.name());
+		btnCancel.setBackground(new Color(255, 240, 245));
+		pnlButtonConfirmation.add(btnCancel);
 
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		JLabel lbNumberProduct = new JLabel("Number");
-		lbNumberProduct.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbNumberProduct, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		spinerNumberProduct = new JSpinner();
-		add(spinerNumberProduct, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		JLabel lbTypePerson = new JLabel("Type Person");
-		lbTypePerson.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbTypePerson, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 4;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		cbxTypePerson = new JComboBox<>(TypePerson.values());
-		add(cbxTypePerson, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 5;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		JLabel lbTypeProduct = new JLabel("Type Product");
-		lbTypeProduct.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbTypeProduct, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 5;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		cbxTypeProduct = new JComboBox<>(TypeProduct.values());
-		add(cbxTypeProduct, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 6;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		JLabel lbDescription = new JLabel("Description");
-		lbDescription.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbDescription, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 6;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		txtDescription = new JTextArea();
-		add(txtDescription, gbc);
-
-		JScrollPane scroll = new JScrollPane(txtDescription);
-		gbc.gridx = 1;
-		gbc.gridy = 6;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		add(scroll, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 7;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		JLabel lbValue = new JLabel("Value");
-		lbValue.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbValue, gbc);
-
-		txtValue = new JTextField();
-		ValidateFields.onlyNumber(txtValue);
-		gbc.gridx = 1;
-		gbc.gridy = 7;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		txtDescription = new JTextArea();
-		add(txtValue, gbc);
-
-		btnCreate = new JButton("Create");
-		btnCreate.setBackground(Color.decode("#2E64FE"));
+		JButton btnCreate = new JButton("Create");
 		btnCreate.addActionListener(controller);
 		btnCreate.setActionCommand(Action.ADD.name());
-		gbc.gridx = 1;
-		gbc.gridy = 9;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 5.0;
-		gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH;
-		add(btnCreate, gbc);
+		btnCreate.setIcon(new ImageIcon(getClass().getResource("/imgs/add.png")));
+		btnCreate.setBackground(new Color(238,224 ,229));
+		pnlButtonConfirmation.add(btnCreate);
+
+		add(pnlButtonConfirmation);
 	}
 
+	public void validateFields() {
+		try {
+			ValidateFields.validateId(txtId);
+		} catch (ErrorDates e) {
+			textAreaErrors.setText(e.getMessage());
+		}
+		try {
+			ValidateFields.validateName(txtName);
+		} catch (ErrorDates e) {
+			textAreaErrors.setText(e.getMessage());
+		}
+		try {
+			ValidateFields.validateBrad(txtValue);
+		} catch (ErrorDates e) {
+			textAreaErrors.setText(e.getMessage());
+		}
+		try {
+			ValidateFields.validateDescription(txtDescription);
+		} catch (ErrorDates e) {
+			textAreaErrors.setText(e.getMessage());
+		}
+	}
 
 	public Product createProduct() {
+		
+		validateFields();
+		textAreaErrors.setVisible(true);
 		return ProductManager.createProduct(Integer.parseInt(txtId.getText()),
 				lbImage.getIcon().toString(), txtName.getText(),
 				(int) spinerNumberProduct.getValue(),
@@ -262,19 +192,19 @@ public class DialogAddProduct extends JDialog {
 				txtDescription.getText(),
 				Double.parseDouble(txtValue.getText()));
 	}
-
-	public void setLbImage(String image) {
-		ImageIcon image1 = new ImageIcon(image);
-		Icon icon = new ImageIcon(image1.getImage().getScaledInstance(this.lbImage.getWidth(), this.lbImage.getHeight(),Image.SCALE_DEFAULT));
-		this.lbImage.setIcon(icon);
-	}
-
+	
 	public void resetDialog() {
 		lbImage.setText("");
 		txtId.setText("");
 		txtName.setText("");
 		txtDescription.setText("");
 		txtValue.setText("");
+	}
+	
+	public void setLbImage(String image) {
+		ImageIcon image1 = new ImageIcon(image);
+		Icon icon = new ImageIcon(image1.getImage().getScaledInstance(this.lbImage.getWidth(), this.lbImage.getHeight(),Image.SCALE_DEFAULT));
+		this.lbImage.setIcon(icon);
 	}
 	
 	public JLabel getLbImage() {
@@ -316,4 +246,6 @@ public class DialogAddProduct extends JDialog {
 	public JButton getBtnCreate() {
 		return btnCreate;
 	}
+
+
 }

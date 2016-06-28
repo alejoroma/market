@@ -81,10 +81,16 @@ public class Controller implements ActionListener{
 		case FILTER_USER:
 			this.filterForUser();
 				break;
-		
+		case CANCELE:
+			cancele();
+				break;
 		}
 	}
 	
+	private void cancele() {
+		dialogAddProduct.setVisible(false);
+	}
+
 	private void showDialogAdd() {
 		dialogAddProduct.setLocationRelativeTo(mainWindow);
 		dialogAddProduct.setVisible(true);
