@@ -82,6 +82,7 @@ public class Controller implements ActionListener{
 		case FILTER_USER:
 			this.filterForUser();
 				break;
+		
 		}
 	}
 

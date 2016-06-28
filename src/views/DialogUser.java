@@ -31,6 +31,7 @@ public class DialogUser extends JFrame{
 	private JLabel lbPage;
 	private JTextField txtValueFilter;
 
+	
 	public DialogUser(Controller controller) {
 		setTitle("Crud-Product 1.0");
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());

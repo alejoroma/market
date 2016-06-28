@@ -1,5 +1,6 @@
 package views; 
 
+
 import controller.Action;
 import controller.Controller;
 import models.dao.ProductManager;

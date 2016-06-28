@@ -2,7 +2,6 @@ package views;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 

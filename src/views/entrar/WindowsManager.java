@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import controller.Controller;
 
+
 public class WindowsManager extends JFrame  {
 	
 	private static final long serialVersionUID = 1L;

@@ -14,6 +14,7 @@ public class TableRender extends DefaultTableCellRenderer {
 			int row, int column) {
 		if(value instanceof JComponent) {
 			JComponent component = (JComponent) value;
+			
     		return component;
     	}
     	return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
