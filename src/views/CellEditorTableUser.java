@@ -1,12 +1,9 @@
 package views;
 
 import java.awt.Component;
-import java.util.EventObject;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;
 import javax.swing.JTable;
-import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
 import controller.Controller;

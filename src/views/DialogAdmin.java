@@ -4,13 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,10 +17,6 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.Action;
 import controller.Controller;
-import models.dao.ProductManager;
-import models.entity.Product;
-import models.entity.TypePerson;
-import models.entity.TypeProduct;
 
 public class DialogAdmin extends JFrame {
 	
@@ -134,5 +126,4 @@ public class DialogAdmin extends JFrame {
 	 *  hacer lo de elimnar, editar, detalles  
 	 *  en usuario hacer filtro
 	 */
-	
 }

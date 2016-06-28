@@ -1,17 +1,11 @@
 package controller;
 
-import java.awt.Image;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import models.dao.ProductManager;
 import models.entity.Product;
@@ -24,10 +18,11 @@ import views.DialogUser;
 import views.MainWindow;
 import views.PanelActionAdmin;
 import views.PanelActionUser;
+import views.entrar.WindowsManager;
 
 public class Controller implements ActionListener{
 	
-	private MainWindow mainWindow;
+	private WindowsManager mainWindow;
 	private ProductManager productManager;
 	private DialogAdmin dialogAdmin;
 	private DialogAddProduct dialogAddProduct;
@@ -39,7 +34,7 @@ public class Controller implements ActionListener{
 	private int page = 0;
 	
 	public Controller() {
-		mainWindow = new MainWindow(this);
+		mainWindow = new WindowsManager(this);
 		productManager = new ProductManager();
 		dialogAdmin = new DialogAdmin(this);
 		dialogUser = new DialogUser(this);

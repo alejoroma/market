@@ -43,7 +43,7 @@ public class PersistenceManager {
 		bufferedReader.close();
 		Gson gson = new Gson();
 		if (!result.equals("")) {
-		JsonArray list = gson.fromJson(result, JsonElement.class);
+		JsonArray list = (JsonArray) gson.fromJson(result, JsonElement.class);
 		for (JsonElement jsonElement : list) {
 			JsonArray listP = jsonElement.getAsJsonObject().get("Products").getAsJsonArray();
 			for (JsonElement jsonElement2 : listP) {

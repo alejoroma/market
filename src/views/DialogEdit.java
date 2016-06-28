@@ -1,14 +1,8 @@
 package views; 
 
-import java.awt.Image;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import controller.Action;
 import controller.Controller;
 import models.dao.ProductManager;
-import models.entity.Product;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
 
