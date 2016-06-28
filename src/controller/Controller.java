@@ -34,8 +34,8 @@ public class Controller implements ActionListener{
 	
 	public Controller() {
 		mainWindow = new WindowsManager(this);
-		productManager = new ProductManager();
 		dialogAdmin = new DialogAdmin(this);
+		productManager = new ProductManager();
 		dialogUser = new DialogUser(this);
 		dialogAddProduct = new DialogAddProduct(this); 
 		dialogDetails = new DialogDetails();
