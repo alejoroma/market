@@ -112,9 +112,29 @@ public class DialogAdmin extends JFrame {
 		lbProducts.setBounds(0, 10, pnlButtons.getWidth()-240, 30);
 		pnlButtons.add(lbProducts);
 		
+		JPanel pnlMenu = new JPanel();	
+		pnlMenu.setOpaque(false);
+		pnlMenu.setLayout(null);
+		pnlMenu.setBounds(0, 50, 200, getHeight());
+		
+		JLabel lbLogo = new JLabel(new ImageIcon(getClass().getResource("/imgs/logo.png")));
+		lbLogo.setBounds(0, 5, 200, 105);
+		pnlMenu.add(lbLogo);
+		
+		JLabel lbProduct = new JLabel("Products");
+		lbProduct.setOpaque(true);
+		lbProduct.setHorizontalAlignment(SwingConstants.CENTER);
+		lbProduct.setBounds(0, 120, 200, 50);
+		lbProduct.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbProduct.setForeground(Color.WHITE);
+		lbProduct.setBackground(Color.BLACK);
+		pnlMenu.add(lbProduct);
+		
+		pnlFondo.add(pnlMenu);
 		
 		
 		JPanel pnlTable = new JPanel();
+		pnlTable.setBorder(BorderFactory.createTitledBorder("PANEL TABLA"));
 		pnlTable.setBounds(210, 170, getWidth()-240, getHeight()-300);
 		pnlTable.setBackground(Color.WHITE);
 		pnlTable.setLayout(new GridLayout(1, 1));
@@ -137,35 +157,40 @@ public class DialogAdmin extends JFrame {
 		JScrollPane scroll = new JScrollPane(tableProductList);
 		scroll.setBounds(210, 170, getWidth()-240, getHeight()-300);
 		scroll.setBackground(Color.WHITE);
-		add(scroll);
+		pnlTable.add(scroll);
 		
 		pnlFondo.add(pnlTable);
 		
-		JPanel pnlMenu = new JPanel();	
-		//pnlMenu.setBorder(BorderFactory.createTitledBorder("panel menu"));
-		pnlMenu.setOpaque(false);
-		pnlMenu.setLayout(null);
-		//pnlMenu.setBackground(Color.decode("#efe9e5"));
-		pnlMenu.setBounds(0, 50, 200, getHeight());
+		JPanel pnlPage = new JPanel();
+		pnlPage.setBackground(Color.WHITE);
+		pnlPage.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		add(pnlPage, BorderLayout.SOUTH);
 		
-		JLabel lbLogo = new JLabel(new ImageIcon(getClass().getResource("/imgs/logo.png")));
-		lbLogo.setBounds(0, 5, 200, 105);
-		pnlMenu.add(lbLogo);
+		JButton btnFirst = new JButton("<");
+		btnFirst.setBackground(Color.decode("#FE9A2E"));
+		pnlPage.add(btnFirst);
 		
-		JLabel lbProduct = new JLabel("Products");
-		lbProduct.setOpaque(true);
-		lbProduct.setHorizontalAlignment(SwingConstants.CENTER);
-		lbProduct.setBounds(0, 120, 200, 50);
-		lbProduct.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		lbProduct.setForeground(Color.WHITE);
-		lbProduct.setBackground(Color.BLACK);
-		pnlMenu.add(lbProduct);
+		JButton btnPreview = new JButton(new ImageIcon(getClass().getResource("/imgs/anterior.png")));
+		btnPreview.setBackground(Color.decode("#FE9A2E"));
+		btnPreview.addActionListener(controller);
+		btnPreview.setActionCommand(Action.PAGE_PREVIEW.name());
+		pnlPage.add(btnPreview);
 		
-		pnlFondo.add(pnlMenu);
+		lbPage = new JLabel("1");
+		lbPage.setBackground(Color.WHITE);
+		pnlPage.add(lbPage);
+		
+		JButton btnNext = new JButton(new ImageIcon(getClass().getResource("/imgs/siguiente.png")));
+		btnNext.setBackground(Color.decode("#FE9A2E"));
+		btnNext.addActionListener(controller);
+		btnNext.setActionCommand(Action.PAGE_NEXT.name());
+		pnlPage.add(btnNext);
+		
+		JButton btnLastest = new JButton(">");
+		btnLastest.setBackground(Color.decode("#FE9A2E"));
+		pnlPage.add(btnLastest);
 		
 		add(pnlFondo, BorderLayout.CENTER);
-			
-		setVisible(true);
 	}
 
 	public void addPage(int page) {
@@ -194,9 +219,9 @@ public class DialogAdmin extends JFrame {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		new DialogAdmin(null);
-//	}
+	public static void main(String[] args) {
+		new DialogAdmin(null);
+	}
 	/*
 	 *  crear una ventana de usuario y administrador
 	 *  en admin colocar lo basico en la tabla y colocar los detalles con lo q falta en la tabla
