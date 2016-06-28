@@ -39,18 +39,19 @@ public class DialogAddProduct  extends JDialog{
 	private JButton btnCreate, btnAddImage;
 	private JLabel lbImage, lbId;
 	private JTextArea textAreaErrors;
+	private JScrollPane scroll;
 
 	public DialogAddProduct(Controller controller) {
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
 		setModal(true);
 		setTitle("Data Entry Product");
-		setSize(500, 500);
+		setSize(500, 580);
 		this.getContentPane().setBackground(new Color(159, 182, 205));
 		setLayout(null);
 
 		JPanel pnlDates = new JPanel();
 		pnlDates.setBackground(new Color(159, 182, 205));
-		pnlDates.setLayout(new GridLayout(8, 2, 20, 8));
+		pnlDates.setLayout(new GridLayout(7, 2, 10, 10));
 
 		JLabel jLabelId = new JLabel("Id:");
 		jLabelId.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -111,34 +112,36 @@ public class DialogAddProduct  extends JDialog{
 		txtValue.setToolTipText("Ingrese el estado del producto");
 		pnlDates.add(txtValue);
 
-
-
 		lbImage = new JLabel(":)");
+		setLayout(null);
 		lbImage.setSize(50, 50);
+		lbImage.setBackground(Color.ORANGE);
+		lbImage.setBounds(100, 305, 100, 100);
 		lbImage.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlDates.add(lbImage);
+		add(lbImage);
 
 		btnAddImage = new JButton("New Image");
 		btnAddImage.setBackground(Color.decode("#FAAC58"));
+		btnAddImage.setBounds(320, 330, 140, 40);
 		btnAddImage.addActionListener(controller);
 		btnAddImage.setActionCommand(Action.ADD_IMAGE.name());
-		pnlDates.add(btnAddImage);
+		add(btnAddImage);
 
 		pnlDates.setBounds(0, 0, getWidth()-15, 300);
 		add(pnlDates);
 
 		textAreaErrors = new JTextArea();
-		JScrollPane scroll = new JScrollPane(textAreaErrors );
-		scroll.setBounds(0, 340, getWidth()-15, 75);
-		textAreaErrors.setVisible(false);
+		scroll = new JScrollPane(textAreaErrors );
+		scroll.setBounds(0, 410, getWidth()-15, 75);
 		scroll.setAutoscrolls(true);
 		scroll.setBorder(BorderFactory.createTitledBorder("Errors:"));
+		scroll.setVisible(false);
 		add(scroll, BorderLayout.EAST);
 
 		JPanel pnlButtonConfirmation = new JPanel();
-		pnlButtonConfirmation.setBackground(Color.decode("#2b82ad"));
+		pnlButtonConfirmation.setBackground(new Color(159, 182, 205));
 		pnlButtonConfirmation.setLayout(new GridLayout(1, 2, 8, 10));
-		pnlButtonConfirmation.setBounds(0, 420, getWidth(), 38);
+		pnlButtonConfirmation.setBounds(0, 500, getWidth(), 38);
 
 		JButton btnCancel= new JButton("Cancel");
 		btnCancel.setIcon(new ImageIcon(getClass().getResource("/imgs/cancele.png")));
@@ -158,32 +161,39 @@ public class DialogAddProduct  extends JDialog{
 	}
 
 	public void validateFields() {
-		try {
-			ValidateFields.validateId(txtId);
-		} catch (ErrorDates e) {
-			textAreaErrors.setText(e.getMessage());
-		}
+		
+			try {
+				ValidateFields.validateId(txtId);
+			} catch (ErrorDates e) {
+				scroll.setVisible(true);
+				textAreaErrors.setText(e.getMessage()+"\n");
+				textAreaErrors.setForeground(Color.RED);
+			}
 		try {
 			ValidateFields.validateName(txtName);
-		} catch (ErrorDates e) {
-			textAreaErrors.setText(e.getMessage());
+		} catch (ErrorDates e2) {
+			scroll.setVisible(true);
+			textAreaErrors.setText(e2.getMessage()+"\n");
+			textAreaErrors.setForeground(Color.RED);
 		}
 		try {
-			ValidateFields.validateBrad(txtValue);
-		} catch (ErrorDates e) {
-			textAreaErrors.setText(e.getMessage());
+			ValidateFields.validatePrece(txtValue);
+		} catch (ErrorDates e3) {
+			scroll.setVisible(true);
+			textAreaErrors.setText(e3.getMessage()+"\n");
+			textAreaErrors.setForeground(Color.RED);
 		}
 		try {
 			ValidateFields.validateDescription(txtDescription);
-		} catch (ErrorDates e) {
-			textAreaErrors.setText(e.getMessage());
+		} catch (ErrorDates e4) {
+			scroll.setVisible(true);
+			textAreaErrors.setText(e4.getMessage());
+			textAreaErrors.setForeground(Color.RED);
 		}
 	}
 
 	public Product createProduct() {
-		
 		validateFields();
-		textAreaErrors.setVisible(true);
 		return ProductManager.createProduct(Integer.parseInt(txtId.getText()),
 				lbImage.getIcon().toString(), txtName.getText(),
 				(int) spinerNumberProduct.getValue(),
@@ -199,6 +209,7 @@ public class DialogAddProduct  extends JDialog{
 		txtName.setText("");
 		txtDescription.setText("");
 		txtValue.setText("");
+		scroll.setVisible(false);
 	}
 	
 	public void setLbImage(String image) {
