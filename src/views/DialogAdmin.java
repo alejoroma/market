@@ -30,7 +30,6 @@ public class DialogAdmin extends JFrame {
 	private static String[] HEAD = {"Id", "Name", "Type of Person", "Type of Product", "Value", "Actions"};
 	private DefaultTableModel tableModel;
 	private JTable tableProductList;
-	private JButton btnAdd;
 	private JLabel lbPage;
 	private JComboBox<TypeProduct> typeCategory;
 
@@ -143,6 +142,7 @@ public class DialogAdmin extends JFrame {
 		tableModel = new DefaultTableModel();
 		tableModel.setColumnIdentifiers(HEAD);
 		tableProductList = new JTable(tableModel);
+		tableProductList.setSize(200, 200);
 		tableProductList.setRowHeight(40);
 		pnlTable.add(tableProductList);
 		

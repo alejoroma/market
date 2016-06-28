@@ -78,9 +78,6 @@ public class Controller implements ActionListener{
 		case PAGE_NEXT:
 			this.getPageNext();
 			break;
-		case FILTER_USER:
-			this.filterForUser();
-			break;
 		case CANCELE:
 			cancele();
 			break;
@@ -108,15 +105,6 @@ public class Controller implements ActionListener{
 			PersistenceManager.saveProduct(productManager.getProductList());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-
-
-	private void filterForUser() {
-		dialogUser.removePage();
-		for (Product product : productManager.getFilterUser(dialogUser.getValueFilter())) {
-			dialogUser.addToTable(product.getUserProduct(new ImageIcon(product.getImage()).getImage(), new PanelActionUser(this)));
 		}
 	}
 
@@ -168,11 +156,12 @@ public class Controller implements ActionListener{
 		dialogAdmin.setVisible(true);
 	}
 
+
 	private void showWindowUser() {
-		page = 1;
 		loadProduct();
+		dialogUser.clearPnlProducts();
 		for (Product product : productManager.getProductList()) {
-			dialogUser.addToTable(product.getUserProduct(dialogUser.getImage(product.getImage()), new PanelActionUser(this)));
+			dialogUser.addProduct(product.getImage(), product.getName(), product.getDescription(), product.getValue());
 		}
 		dialogUser.setVisible(true);
 	}
