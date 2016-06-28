@@ -56,7 +56,7 @@ public class Controller implements ActionListener{
 			dialogAddProduct.setVisible(true);
 			break;
 		case ADD:
-			this.addProduct();
+			addProduct();
 			break;
 		case REMOVE:
 			this.removeProduct();
@@ -85,6 +85,26 @@ public class Controller implements ActionListener{
 		
 		}
 	}
+	
+	
+	private void addProduct() {
+		Product product = dialogAddProduct.createProduct();
+		
+		productManager.addProduct(product);
+		product.setImage(wayImage);
+		
+		if ((productManager.getProductList().size() % 10) == 0) {
+			dialogAdmin.removePage();
+		}
+		dialogAdmin.addToTable(product.getAdminProduct(new PanelActionAdmin(this)));
+		try {
+			PersistenceManager.saveProduct(productManager.getProductList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	private void filterForUser() {
 		dialogUser.removePage();
@@ -211,19 +231,5 @@ public class Controller implements ActionListener{
 		System.out.println(productManager.getProductList());
 	}
 
-	private void addProduct() {
-		Product product = dialogAddProduct.createProduct();
-		productManager.addProduct(product);
-		product.setImage(wayImage);
-		if ((productManager.getProductList().size() % 10) == 0) {
-			dialogAdmin.removePage();
-		}
-		dialogAdmin.addToTable(product.getAdminProduct(new PanelActionAdmin(this)));
-		try {
-			PersistenceManager.saveProduct(productManager.getProductList());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println(productManager.getProductList());
-	}
+	
 }

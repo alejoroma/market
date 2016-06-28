@@ -1,6 +1,5 @@
 package models.entity;
 
-
 public class Product {
 
 	private int id;
@@ -12,12 +11,10 @@ public class Product {
 	private String description;
 	private double value;
 
-
 	public Product() {
 	}
 
-	public Product(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,
-			String description, double value) {
+	public Product(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,String description, double value) {
 		this.id = id;
 		this.image = image;
 		this.name = name;

@@ -14,10 +14,8 @@ public class ProductManager {
 		producList = new ArrayList<>();
 	}
 	
-	public static Product createProduct(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,
-		String description, double value) {
-		Product product = new Product(id, image, name, numberOfProduct, typePerson, typeProduct, description, value);
-		return product;
+	public static Product createProduct(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,	String description, double value) {
+		return  new Product(id, image, name, numberOfProduct, typePerson, typeProduct, description, value);
 	}
 	
 	public void addProduct(Product product) {
