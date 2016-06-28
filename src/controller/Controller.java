@@ -52,7 +52,7 @@ public class Controller implements ActionListener{
 			this.showWindowUser();
 			break;
 		case SHOW_DIALOD_ADD:
-			dialogAddProduct.setVisible(true);
+			showDialogAdd();
 			break;
 		case ADD:
 			addProduct();
@@ -85,12 +85,15 @@ public class Controller implements ActionListener{
 		}
 	}
 	
+	private void showDialogAdd() {
+		dialogAddProduct.setLocationRelativeTo(mainWindow);
+		dialogAddProduct.setVisible(true);
+	}
+
 	private void addProduct() {
 		Product product = dialogAddProduct.createProduct();
-		
 		productManager.addProduct(product);
 		product.setImage(wayImage);
-		
 		if ((productManager.getProductList().size() % 10) == 0) {
 			dialogAdmin.removePage();
 		}
