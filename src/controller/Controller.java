@@ -185,6 +185,7 @@ public class Controller implements ActionListener{
 		}
 		dialogDetails.loadData(product.getId(),product.getImage(), product.getName(), product.getNumberOfProduct(),
 					product.getTypePerson(), product.getTypeProduct(), product.getDescription(), product.getValue());
+		dialogDetails.setLocationRelativeTo(mainWindow);
 		dialogDetails.setVisible(true);
 	}
 
