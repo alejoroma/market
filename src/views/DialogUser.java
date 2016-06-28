@@ -85,18 +85,22 @@ public class DialogUser extends JFrame{
 		JButton btnFirst = new JButton("<");
 		btnFirst.setBackground(Color.decode("#FE9A2E"));
 		pnlPage.add(btnFirst);
+		
 		JButton btnPreview = new JButton(new ImageIcon(getClass().getResource("/imgs/anterior.png")));
 		btnPreview.setBackground(Color.decode("#FE9A2E"));
 		btnPreview.addActionListener(controller);
 		btnPreview.setActionCommand(Action.PAGE_PREVIEW.name());
 		pnlPage.add(btnPreview);
+		
 		lbPage = new JLabel("1");
 		pnlPage.add(lbPage);
+		
 		JButton btnNext = new JButton(new ImageIcon(getClass().getResource("/imgs/siguiente.png")));
 		btnNext.setBackground(Color.decode("#FE9A2E"));
 		btnNext.addActionListener(controller);
 		btnNext.setActionCommand(Action.PAGE_NEXT.name());
 		pnlPage.add(btnNext);
+		
 		JButton btnLastest = new JButton(">");
 		btnLastest.setBackground(Color.decode("#FE9A2E"));
 		pnlPage.add(btnLastest);

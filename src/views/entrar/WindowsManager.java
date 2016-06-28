@@ -2,6 +2,8 @@ package views.entrar;
 
 import java.awt.Color;
 import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import controller.Controller;
 
@@ -14,7 +16,8 @@ public class WindowsManager extends JFrame  {
 	private Panelfondo ventanaLogin;
 	
 	public WindowsManager(Controller controller) {
-		setTitle(":)");
+		setTitle("Iniciar cecion");
+		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(null);
 		setBackground(Color.decode("#4d4d4f"));

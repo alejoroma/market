@@ -71,13 +71,13 @@ public class DialogAddProduct  extends JDialog{
 		txtName.setToolTipText("Ingrese el nombre del producto");
 		pnlDates.add(txtName);
 
-		JLabel jLabelBrand = new JLabel("Product Brand:");
+		JLabel jLabelBrand = new JLabel("Cantidad Product:");
 		jLabelBrand.setHorizontalAlignment(SwingConstants.RIGHT);
 		pnlDates.add(jLabelBrand);
 
 		SpinnerModel sm = new SpinnerNumberModel(1, 1,10000 , 1); 
 		spinerNumberProduct = new JSpinner(sm);
-		spinerNumberProduct.setToolTipText("Ingrese la marca del producto");
+		spinerNumberProduct.setToolTipText("Ingrese la cantidad del producto");
 		pnlDates.add(spinerNumberProduct);
 
 		JLabel jLabelCategory = new JLabel("Type Person:");
@@ -150,7 +150,7 @@ public class DialogAddProduct  extends JDialog{
 		btnCancel.setBackground(new Color(255, 240, 245));
 		pnlButtonConfirmation.add(btnCancel);
 
-		JButton btnCreate = new JButton("Create");
+		btnCreate = new JButton("Create");
 		btnCreate.addActionListener(controller);
 		btnCreate.setActionCommand(Action.ADD.name());
 		btnCreate.setIcon(new ImageIcon(getClass().getResource("/imgs/add.png")));

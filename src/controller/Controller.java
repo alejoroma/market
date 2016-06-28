@@ -20,7 +20,7 @@ import views.PanelActionUser;
 import views.entrar.WindowsManager;
 
 public class Controller implements ActionListener{
-	
+
 	private WindowsManager mainWindow;
 	private ProductManager productManager;
 	private DialogAdmin dialogAdmin;
@@ -31,7 +31,7 @@ public class Controller implements ActionListener{
 	private String wayImage;
 	private Product	product;
 	private int page = 0;
-	
+
 	public Controller() {
 		mainWindow = new WindowsManager(this);
 		dialogAdmin = new DialogAdmin(this);
@@ -73,20 +73,20 @@ public class Controller implements ActionListener{
 			this.editProduct();
 			break;
 		case PAGE_PREVIEW:
-	    this.getPagePreview();
+			this.getPagePreview();
 			break;
 		case PAGE_NEXT:
 			this.getPageNext();
-				break;
+			break;
 		case FILTER_USER:
 			this.filterForUser();
-				break;
+			break;
 		case CANCELE:
 			cancele();
-				break;
+			break;
 		}
 	}
-	
+
 	private void cancele() {
 		dialogAddProduct.setVisible(false);
 	}
@@ -110,8 +110,8 @@ public class Controller implements ActionListener{
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 
 	private void filterForUser() {
 		dialogUser.removePage();
@@ -124,12 +124,12 @@ public class Controller implements ActionListener{
 		dialogAdmin.removePage();
 		if (page > 0) {
 			page--;
-		dialogAdmin.addPage(page + 1);
+			dialogAdmin.addPage(page + 1);
 		}
 		int i = page * 10;
-	  while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
-		  dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
-		  i++;
+		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
+			dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
+			i++;
 		}
 	}
 
@@ -140,9 +140,9 @@ public class Controller implements ActionListener{
 			dialogAdmin.addPage(page + 1);
 		}
 		int i = page * 10;
-	  while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
-		  dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
-		  i++;
+		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
+			dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
+			i++;
 		}
 	}
 
@@ -162,7 +162,7 @@ public class Controller implements ActionListener{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void showDialogAdmin() {
 		loadProduct();
 		dialogAdmin.setVisible(true);
@@ -172,7 +172,7 @@ public class Controller implements ActionListener{
 		page = 1;
 		loadProduct();
 		for (Product product : productManager.getProductList()) {
-		dialogUser.addToTable(product.getUserProduct(dialogUser.getImage(product.getImage()), new PanelActionUser(this)));
+			dialogUser.addToTable(product.getUserProduct(dialogUser.getImage(product.getImage()), new PanelActionUser(this)));
 		}
 		dialogUser.setVisible(true);
 	}
@@ -184,7 +184,7 @@ public class Controller implements ActionListener{
 			e.printStackTrace();
 		}
 		dialogDetails.loadData(product.getId(),product.getImage(), product.getName(), product.getNumberOfProduct(),
-					product.getTypePerson(), product.getTypeProduct(), product.getDescription(), product.getValue());
+				product.getTypePerson(), product.getTypeProduct(), product.getDescription(), product.getValue());
 		dialogDetails.setLocationRelativeTo(mainWindow);
 		dialogDetails.setVisible(true);
 	}
@@ -192,7 +192,7 @@ public class Controller implements ActionListener{
 	private void showDialogEdit() {
 		try {
 			System.out.println(dialogAdmin.getProduct());
-				product = productManager.getProduct(dialogAdmin.getProduct());
+			product = productManager.getProduct(dialogAdmin.getProduct());
 			dialogEdit.loadData(product.getId(),product.getImage(), product.getName(), product.getNumberOfProduct(),
 					product.getTypePerson(), product.getTypeProduct(), product.getDescription(), product.getValue());
 		} catch (Exception e) {
@@ -239,5 +239,5 @@ public class Controller implements ActionListener{
 		System.out.println(productManager.getProductList());
 	}
 
-	
+
 }
