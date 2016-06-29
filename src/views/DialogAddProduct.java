@@ -1,9 +1,12 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+
 import controller.Action;
 import controller.Controller;
 import models.dao.ProductManager;
@@ -38,6 +42,7 @@ public class DialogAddProduct  extends JDialog{
 	private JComboBox<TypeProduct> cbxTypeProduct;
 	private JButton btnCreate, btnAddImage;
 	private JLabel lbImage, lbId;
+	private JTextField txVerImagen;
 	private JTextArea textAreaErrors;
 	private JScrollPane scroll;
 
@@ -45,119 +50,272 @@ public class DialogAddProduct  extends JDialog{
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
 		setModal(true);
 		setTitle("Data Entry Product");
-		setSize(500, 580);
-		this.getContentPane().setBackground(new Color(159, 182, 205));
-		setLayout(null);
+		setSize(500, 500);
+		getContentPane().setBackground(Color.decode("#85929E"));
+		setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();	
 
-		JPanel pnlDates = new JPanel();
-		pnlDates.setBackground(new Color(159, 182, 205));
-		pnlDates.setLayout(new GridLayout(7, 2, 10, 10));
-
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.insets.set(6,6,6,6);
+		gbc.fill = GridBagConstraints.BOTH;
 		JLabel jLabelId = new JLabel("Id:");
 		jLabelId.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlDates.add(jLabelId);
-
+		add(jLabelId,gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		txtId = new JTextField();
 		txtId.setToolTipText("Ingrese el numero que identifica el producto");
 		ValidateFields.onlyNumber(txtId);
-		pnlDates.add(txtId);
-
+		add(txtId, gbc);;
+		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		JLabel jLabelName = new JLabel("Product Name:");
 		jLabelName.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlDates.add(jLabelName);
+		add(jLabelName, gbc);
 
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		txtName = new JTextField();
 		ValidateFields.onlyLetter(txtName);
 		txtName.setToolTipText("Ingrese el nombre del producto");
-		pnlDates.add(txtName);
+		add(txtName, gbc);
 
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		JLabel jLabelBrand = new JLabel("Cantidad Product:");
 		jLabelBrand.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlDates.add(jLabelBrand);
+		add(jLabelBrand, gbc);
 
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		SpinnerModel sm = new SpinnerNumberModel(1, 1,10000 , 1); 
 		spinerNumberProduct = new JSpinner(sm);
 		spinerNumberProduct.setToolTipText("Ingrese la cantidad del producto");
-		pnlDates.add(spinerNumberProduct);
+		add(spinerNumberProduct, gbc);
 
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		JLabel jLabelCategory = new JLabel("Type Person:");
 		jLabelCategory.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlDates.add(jLabelCategory);
+		add(jLabelCategory, gbc);
 
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		cbxTypePerson = new JComboBox<TypePerson>(TypePerson.values());
 		cbxTypePerson.setToolTipText("Escoga el tipo de categoria");
-		pnlDates.add(cbxTypePerson);
+		add(cbxTypePerson, gbc);
 
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		JLabel jLabelPrice = new JLabel("Type Product:");
 		jLabelPrice.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlDates.add(jLabelPrice);
+		add(jLabelPrice, gbc);
 
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		cbxTypeProduct = new JComboBox<>(TypeProduct.values());
 		cbxTypeProduct.setToolTipText("Ingrese el precio del producto");
-		pnlDates.add(cbxTypeProduct);
+		add(cbxTypeProduct, gbc);
 
-		JLabel jLabelDescription = new JLabel("Description:");
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		JLabel jLabelDescription = new JLabel(" ");
 		jLabelDescription.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlDates.add(jLabelDescription);
+		add(jLabelDescription, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 6;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		JLabel jLrelleno= new JLabel("Description:");
+		jLrelleno.setHorizontalAlignment(SwingConstants.RIGHT);
+		add(jLrelleno, gbc);
 
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		gbc.weightx = 1;
+		gbc.weighty = 2;
+		gbc.gridheight = 2;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		txtDescription = new JTextArea();
 		txtDescription.setToolTipText("Ingrese la descripcion del producto");
-		pnlDates.add(txtDescription);
+		add(txtDescription, gbc);
 
+		gbc.gridx = 0;
+		gbc.gridy = 7;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		JLabel jLabelStatus = new JLabel("Value:");
 		jLabelStatus.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlDates.add(jLabelStatus);
-
+		add(jLabelStatus, gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 7;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
 		txtValue = new JTextField();
 		txtValue.setToolTipText("Ingrese el estado del producto");
-		pnlDates.add(txtValue);
+		add(txtValue, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 8;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 2;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		JLabel LbRelleno2 = new JLabel("");
+		add(LbRelleno2, gbc);
+	
+		gbc.gridx = 1;
+		gbc.gridy = 8;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		lbImage = new JLabel();
+		lbImage.setBackground(Color.WHITE);
+		add(lbImage, gbc);
 
-		lbImage = new JLabel(":)");
-		setLayout(null);
-		lbImage.setSize(50, 50);
-		lbImage.setBackground(Color.ORANGE);
-		lbImage.setBounds(100, 305, 100, 100);
-		lbImage.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lbImage);
-
-		btnAddImage = new JButton("New Image");
-		btnAddImage.setBackground(Color.decode("#FAAC58"));
-		btnAddImage.setBounds(320, 330, 140, 40);
+		gbc.gridx = 1;
+		gbc.gridy = 9;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		btnAddImage = new JButton("Subir Image");
+		btnAddImage.setBackground(Color.decode("#808B96"));
 		btnAddImage.addActionListener(controller);
 		btnAddImage.setActionCommand(Action.ADD_IMAGE.name());
-		add(btnAddImage);
+		btnAddImage.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		btnAddImage.setForeground(Color.WHITE); 
+		add(btnAddImage, gbc);
+		
+		gbc.gridx = 2;
+		gbc.gridy = 0;
+		gbc.weightx = 0.5;
+		gbc.weighty = 1;
+		gbc.gridheight = 11;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		JLabel Lbrelleno3 = new JLabel("     ");
+		Lbrelleno3.setHorizontalAlignment(SwingConstants.RIGHT);
+		add(Lbrelleno3, gbc);
 
-		pnlDates.setBounds(0, 0, getWidth()-15, 300);
-		add(pnlDates);
-
+		gbc.gridx = 0;
+		gbc.gridy = 10;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 3;
+		gbc.fill = GridBagConstraints.BOTH;
 		textAreaErrors = new JTextArea();
 		scroll = new JScrollPane(textAreaErrors );
-		scroll.setBounds(0, 410, getWidth()-15, 75);
+		scroll.setBounds(0, 710, getWidth()-15, 75);
 		scroll.setAutoscrolls(true);
 		scroll.setBorder(BorderFactory.createTitledBorder("Errors:"));
 		scroll.setVisible(false);
-		add(scroll, BorderLayout.EAST);
-
-		JPanel pnlButtonConfirmation = new JPanel();
-		pnlButtonConfirmation.setBackground(new Color(159, 182, 205));
-		pnlButtonConfirmation.setLayout(new GridLayout(1, 2, 8, 10));
-		pnlButtonConfirmation.setBounds(0, 500, getWidth(), 38);
-
+		add(scroll, gbc);
+		
+		JPanel PanelBotones = new JPanel();
+		PanelBotones.setLayout(new  GridLayout(1, 2));
+		
 		JButton btnCancel= new JButton("Cancel");
 		btnCancel.setIcon(new ImageIcon(getClass().getResource("/imgs/cancele.png")));
 		btnCancel.addActionListener(controller);
 		btnCancel.setActionCommand(Action.CANCELE.name());
-		btnCancel.setBackground(new Color(255, 240, 245));
-		pnlButtonConfirmation.add(btnCancel);
+		btnCancel.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		btnCancel.setForeground(Color.WHITE); 
+		btnCancel.setBackground(Color.decode("#2980B9"));
+		PanelBotones.add(btnCancel);
 
+	
 		btnCreate = new JButton("Create");
 		btnCreate.addActionListener(controller);
 		btnCreate.setActionCommand(Action.ADD.name());
 		btnCreate.setIcon(new ImageIcon(getClass().getResource("/imgs/add.png")));
-		btnCreate.setBackground(new Color(238,224 ,229));
-		pnlButtonConfirmation.add(btnCreate);
-
-		add(pnlButtonConfirmation);
+		btnCreate.setBackground(Color.decode("#52BE80"));
+		btnCreate.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		btnCreate.setForeground(Color.WHITE); 
+		PanelBotones.add(btnCreate);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 11;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 3;
+		gbc.fill = GridBagConstraints.BOTH;
+		add(PanelBotones, gbc);
 	}
 
 	public void validateFields() {
@@ -189,6 +347,7 @@ public class DialogAddProduct  extends JDialog{
 			textAreaErrors.setText(e4.getMessage());
 			textAreaErrors.setForeground(Color.RED);
 		}
+		revalidate();
 	}
 
 	public Product createProduct() {
@@ -215,6 +374,7 @@ public class DialogAddProduct  extends JDialog{
 		ImageIcon image1 = new ImageIcon(image);
 		Icon icon = new ImageIcon(image1.getImage().getScaledInstance(this.lbImage.getWidth(), this.lbImage.getHeight(),Image.SCALE_DEFAULT));
 		this.lbImage.setIcon(icon);
+		this.txVerImagen.add(new JLabel(icon));
 	}
 	
 	public JLabel getLbImage() {
@@ -256,6 +416,4 @@ public class DialogAddProduct  extends JDialog{
 	public JButton getBtnCreate() {
 		return btnCreate;
 	}
-
-
 }
