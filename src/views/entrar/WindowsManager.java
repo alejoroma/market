@@ -16,8 +16,6 @@ import controller.Controller;
 public class WindowsManager extends JFrame  {
 	
 	private static final long serialVersionUID = 1L;
-	public static final int TAMAÑO_LETRA = 15;
-	public static final String TYPE_WORD = "Arial Black";
 	
 	public WindowsManager(Controller controller) {
 		setTitle("Iniciar cecion");
@@ -51,7 +49,6 @@ public class WindowsManager extends JFrame  {
 		
 		JButton btnUser = new JButton(new ImageIcon(getClass().getResource("/imgs/png//manager.png")));
 		btnUser.setBackground(Color.decode("#ffffff"));
-		btnUser.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
 		btnUser.setForeground(Color.WHITE); 
 		btnUser.setOpaque(false);
 		btnUser.setBorderPainted(false);
@@ -70,7 +67,6 @@ public class WindowsManager extends JFrame  {
 
 		JButton btnVisitante = new JButton(new ImageIcon(getClass().getResource("/imgs/png//users.png")));
 		btnVisitante.setBackground(Color.decode("#ffffff"));
-		btnVisitante.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
 		btnVisitante.setForeground(Color.WHITE); 
 		btnVisitante.setOpaque(false);
 		btnVisitante.setBounds(250, 350, 50, 50);

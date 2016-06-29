@@ -7,6 +7,8 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
+import com.sun.java.swing.plaf.windows.WindowsDesktopManager;
+
 import models.dao.ProductManager;
 import models.entity.Product;
 import persistence.PersistenceManager;
@@ -47,9 +49,11 @@ public class Controller implements ActionListener{
 		switch (Action.valueOf(e.getActionCommand())) {
 		case MANAGER:
 			this.showDialogAdmin();
+			mainWindow.setVisible(false);
 			break;
 		case USER:
 			this.showWindowUser();
+			mainWindow.setVisible(false);
 			break;
 		case SHOW_DIALOD_ADD:
 			showDialogAdd();
