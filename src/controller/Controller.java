@@ -83,7 +83,7 @@ public class Controller implements ActionListener{
 			break;
 		}
 	}
-
+	
 	private void cancele() {
 		dialogAddProduct.setVisible(false);
 	}

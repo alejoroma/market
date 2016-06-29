@@ -26,13 +26,13 @@ public class DialogEdit extends DialogAddProduct{
 		getCbxTypePerson().setSelectedItem(typePerson);
 		getCbxTypeProduct().setSelectedItem(typeProduct);
 		getTxtDescription().setText(description);
-		getTxtValue().setText("" + value);
+		getSpinerValue().setValue(1);
 	}
 	
 	public void editProduct(int id, String image) {
 		System.out.println(getTxtId().getText()+ "+*");
 		ProductManager.editProduct(id, Integer.parseInt(getTxtId().getText()), image, getTxtName().getText(),
 				(int)getSpinerNumberProduct().getValue(), (TypePerson)getCbxTypePerson().getSelectedItem(), 
-				(TypeProduct)getCbxTypeProduct().getSelectedItem(), getTxtDescription().getText(), Double.parseDouble(getTxtValue().getText()));
+				(TypeProduct)getCbxTypeProduct().getSelectedItem(), getTxtDescription().getText(), (double) getSpinerValue().getValue());
 	}
 }

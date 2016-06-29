@@ -6,6 +6,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -35,9 +41,9 @@ import models.errores.ValidateFields;
 public class DialogAddProduct  extends JDialog{
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtId, txtName, txtValue;
+	private JTextField txtId, txtName;
 	private JTextArea txtDescription;
-	private JSpinner spinerNumberProduct;
+	private JSpinner spinerNumberProduct, spinertValue;
 	private JComboBox<TypePerson> cbxTypePerson;
 	private JComboBox<TypeProduct> cbxTypeProduct;
 	private JButton btnCreate, btnAddImage;
@@ -220,9 +226,10 @@ public class DialogAddProduct  extends JDialog{
 		gbc.gridheight = 1;
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
-		txtValue = new JTextField();
-		txtValue.setToolTipText("Ingrese el estado del producto");
-		add(txtValue, gbc);
+		SpinnerModel spinerModelValue = new SpinnerNumberModel(1, 1,10000 , 1); 
+		spinertValue = new JSpinner(spinerModelValue);
+		spinertValue.setToolTipText("Ingrese el estado del producto");
+		add(spinertValue, gbc);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 8;
@@ -333,13 +340,13 @@ public class DialogAddProduct  extends JDialog{
 			textAreaErrors.setText(e2.getMessage()+"\n");
 			textAreaErrors.setForeground(Color.RED);
 		}
-		try {
-			ValidateFields.validatePrece(txtValue);
-		} catch (ErrorDates e3) {
-			scroll.setVisible(true);
-			textAreaErrors.setText(e3.getMessage()+"\n");
-			textAreaErrors.setForeground(Color.RED);
-		}
+//		try {
+//			ValidateFields.validatePrece(txtValue);
+//		} catch (ErrorDates e3) {
+//			scroll.setVisible(true);
+//			textAreaErrors.setText(e3.getMessage()+"\n");
+//			textAreaErrors.setForeground(Color.RED);
+//		}
 		try {
 			ValidateFields.validateDescription(txtDescription);
 		} catch (ErrorDates e4) {
@@ -352,13 +359,12 @@ public class DialogAddProduct  extends JDialog{
 
 	public Product createProduct() {
 		validateFields();
-		return ProductManager.createProduct(Integer.parseInt(txtId.getText()),
-				lbImage.getIcon().toString(), txtName.getText(),
-				(int) spinerNumberProduct.getValue(),
-				(TypePerson) cbxTypePerson.getSelectedItem(),
-				(TypeProduct) cbxTypeProduct.getSelectedItem(),
-				txtDescription.getText(),
-				Double.parseDouble(txtValue.getText()));
+		Product newProducto =  ProductManager.createProduct(Integer.parseInt(txtId.getText()),	lbImage.getIcon().toString(), txtName.getText(),
+				(int) spinerNumberProduct.getValue(),(TypePerson) cbxTypePerson.getSelectedItem(),	(TypeProduct) cbxTypeProduct.getSelectedItem(),
+				txtDescription.getText(),(int) spinertValue.getValue());
+		setVisible(false);
+		resetDialog();
+		return newProducto;
 	}
 	
 	public void resetDialog() {
@@ -366,7 +372,8 @@ public class DialogAddProduct  extends JDialog{
 		txtId.setText("");
 		txtName.setText("");
 		txtDescription.setText("");
-		txtValue.setText("");
+		spinerNumberProduct.setValue(1);
+		spinertValue.setValue(1);
 		scroll.setVisible(false);
 	}
 	
@@ -393,8 +400,8 @@ public class DialogAddProduct  extends JDialog{
 		return txtName;
 	}
 
-	public JTextField getTxtValue() {
-		return txtValue;
+	public JSpinner getSpinerValue() {
+		return spinertValue;
 	}
 
 	public JTextArea getTxtDescription() {

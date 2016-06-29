@@ -51,7 +51,7 @@ public class DialogUser extends JFrame{
 		pnlAction.setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(pnlAction, BorderLayout.NORTH);
 		
-		JLabel lbValueFilter = new JLabel("Filter for Value");
+		JLabel lbValueFilter = new JLabel("Filter for Value: ");
 		lbValueFilter.setFocusable(false);
 		pnlAction.add(lbValueFilter);
 		txtValueFilter = new JTextField();
@@ -68,7 +68,7 @@ public class DialogUser extends JFrame{
 		pnlAction.add(btnFilter);
 		
 		JPanel pnlPage = new JPanel();
-		pnlPage.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		pnlPage.setLayout(new FlowLayout(FlowLayout.CENTER));
 		add(pnlPage, BorderLayout.SOUTH);
 
 		pnlPage.setBackground(Color.WHITE);

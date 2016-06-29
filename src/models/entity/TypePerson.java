@@ -5,6 +5,6 @@ public enum TypePerson {
 	
 	public String toString() {
 		String enumFormat =  name().substring(0, 1) + name().substring(1).toLowerCase();
-		return enumFormat;
+		return enumFormat.replaceAll("_", " ");
 	}
 }

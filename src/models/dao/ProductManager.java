@@ -1,6 +1,10 @@
 package models.dao;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import models.entity.Product;
 import models.entity.TypePerson;
