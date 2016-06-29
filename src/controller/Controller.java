@@ -112,7 +112,7 @@ public class Controller implements ActionListener{
 		dialogAdmin.removePage();
 		if (page > 0) {
 			page--;
-			dialogAdmin.addPage(page + 1);
+			dialogAdmin.addPage(page + 1, (productManager.getProductList().size())/10);
 		}
 		int i = page * 10;
 		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
@@ -125,7 +125,7 @@ public class Controller implements ActionListener{
 		dialogAdmin.removePage();
 		if (page * 10 + 10 < productManager.getProductList().size()) {
 			page++;
-			dialogAdmin.addPage(page + 1);
+			dialogAdmin.addPage(page + 1, (productManager.getProductList().size())/10 );
 		}
 		int i = page * 10;
 		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {

@@ -133,7 +133,6 @@ public class DialogAdmin extends JFrame {
 		
 		
 		JPanel pnlTable = new JPanel();
-		pnlTable.setBorder(BorderFactory.createTitledBorder("PANEL TABLA"));
 		pnlTable.setBounds(210, 170, getWidth()-240, getHeight()-300);
 		pnlTable.setBackground(Color.WHITE);
 		pnlTable.setLayout(new GridLayout(1, 1));
@@ -161,39 +160,44 @@ public class DialogAdmin extends JFrame {
 		pnlFondo.add(pnlTable);
 		
 		JPanel pnlPage = new JPanel();
+		pnlPage.setOpaque(false);
 		pnlPage.setBackground(Color.WHITE);
-		pnlPage.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		pnlPage.setLayout(new FlowLayout(FlowLayout.CENTER));
 		add(pnlPage, BorderLayout.SOUTH);
 		
-		JButton btnFirst = new JButton("<");
-		btnFirst.setBackground(Color.decode("#FE9A2E"));
+		JButton btnFirst = new JButton(new ImageIcon(getClass().getResource("/imgs/primero.png")));
+		btnFirst.setContentAreaFilled(false);
+		btnFirst.setBorder(null);
 		pnlPage.add(btnFirst);
 		
 		JButton btnPreview = new JButton(new ImageIcon(getClass().getResource("/imgs/anterior.png")));
-		btnPreview.setBackground(Color.decode("#FE9A2E"));
+		btnPreview.setContentAreaFilled(false);
+		btnPreview.setBorder(null);
 		btnPreview.addActionListener(controller);
 		btnPreview.setActionCommand(Action.PAGE_PREVIEW.name());
 		pnlPage.add(btnPreview);
 		
-		lbPage = new JLabel("1");
+		lbPage = new JLabel(" 1 ");
 		lbPage.setBackground(Color.WHITE);
 		pnlPage.add(lbPage);
 		
 		JButton btnNext = new JButton(new ImageIcon(getClass().getResource("/imgs/siguiente.png")));
-		btnNext.setBackground(Color.decode("#FE9A2E"));
+		btnNext.setContentAreaFilled(false);
+		btnNext.setBorder(null);
 		btnNext.addActionListener(controller);
 		btnNext.setActionCommand(Action.PAGE_NEXT.name());
 		pnlPage.add(btnNext);
 		
-		JButton btnLastest = new JButton(">");
-		btnLastest.setBackground(Color.decode("#FE9A2E"));
+		JButton btnLastest = new JButton(new ImageIcon(getClass().getResource("/imgs/ultimo.png")));
+		btnLastest.setContentAreaFilled(false);
+		btnLastest.setBorder(null);
 		pnlPage.add(btnLastest);
 		
 		add(pnlFondo, BorderLayout.CENTER);
 	}
 
-	public void addPage(int page) {
-		this.lbPage.setText("" + page);
+	public void addPage(int pageActual, int pageTotal) {
+		this.lbPage.setText("" + pageActual + " de " + pageTotal );
 	}
 	
 	public void addToTable(Object[] product) {
@@ -220,9 +224,6 @@ public class DialogAdmin extends JFrame {
 		}
 	}
 	
-	public static void main(String[] args) {
-		new DialogAdmin(null);
-	}
 	/*
 	 *  crear una ventana de usuario y administrador
 	 *  en admin colocar lo basico en la tabla y colocar los detalles con lo q falta en la tabla
@@ -230,5 +231,5 @@ public class DialogAdmin extends JFrame {
 	 *  hacer lo de elimnar, editar, detalles  
 	 *  en usuario hacer filtro
 	 */
-	
+
 }
