@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
@@ -51,6 +53,7 @@ public class DialogAddProduct  extends JDialog{
 	private JTextField txVerImagen;
 	private JTextArea textAreaErrors;
 	private JScrollPane scroll;
+	private JScrollPane scrollDescription;
 
 	public DialogAddProduct(Controller controller) {
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
@@ -206,7 +209,12 @@ public class DialogAddProduct  extends JDialog{
 		gbc.fill = GridBagConstraints.BOTH;
 		txtDescription = new JTextArea();
 		txtDescription.setToolTipText("Ingrese la descripcion del producto");
-		add(txtDescription, gbc);
+		txtDescription.setPreferredSize(new Dimension(100,50));
+		txtDescription.setLineWrap(true); 
+//		txtDescription.setWrapStyleWord(true);
+		scrollDescription = new JScrollPane(txtDescription );
+		scrollDescription.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		add(scrollDescription, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 7;
@@ -250,6 +258,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.fill = GridBagConstraints.BOTH;
 		lbImage = new JLabel();
 		lbImage.setBackground(Color.WHITE);
+		lbImage.setPreferredSize(new Dimension(100,50));
 		add(lbImage, gbc);
 
 		gbc.gridx = 1;

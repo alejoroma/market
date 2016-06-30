@@ -40,16 +40,27 @@ public class DialogDetails extends JDialog implements ActionListener {
 		getContentPane().setBackground(Color.decode("#85929E"));
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-	
+		
 		gbc.insets.set(0, 2, 2, 60);
 		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth  = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		JLabel lbImg = new JLabel("Producto: ");
+		lbImg.setHorizontalAlignment(SwingConstants.RIGHT);
+		add(lbImg, gbc);
+	
+		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.gridwidth  = 1;
 		gbc.gridheight = 1;
 		gbc.weightx = 0.5;
 		gbc.weighty = 2.0;
 		gbc.fill = GridBagConstraints.BOTH;
-		lbImage = new JLabel(":)");
+		lbImage = new JLabel("");
 		lbImage.setSize(100, 100);
 		add(lbImage, gbc);
 
@@ -57,8 +68,8 @@ public class DialogDetails extends JDialog implements ActionListener {
 		gbc.gridy = 1;
 		gbc.gridwidth  = 1;
 		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.0;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		JLabel lbId = new JLabel("Id: ");
 		lbId.setHorizontalAlignment(SwingConstants.RIGHT);
