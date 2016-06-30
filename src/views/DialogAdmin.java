@@ -50,7 +50,7 @@ public class DialogAdmin extends JFrame {
 		
 		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(pantalla.width, pantalla.height);
-		setTitle("Flea Market");
+		setTitle("Flea Market-Admin");
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -98,7 +98,7 @@ public class DialogAdmin extends JFrame {
 		btnAdd.setActionCommand(Action.SHOW_DIALOD_ADD.name());
 		pnlButtons.add(btnAdd);
 		
-		JLabel lbFilterForType = new JLabel("filtrar por:");
+		JLabel lbFilterForType = new JLabel("Filter by :");
 		lbFilterForType.setBounds(320, 60, 80, 50);
 		pnlButtons.add(lbFilterForType);
 		
@@ -256,7 +256,6 @@ public class DialogAdmin extends JFrame {
 		deleteAllItems();
 		for (Product product : productListForCategory) {
 			addToTable(product.getAdminProduct(actions));
-			System.out.println("agrego");
 		}
 		revalidate();
 	}

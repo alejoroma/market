@@ -64,9 +64,9 @@ public class PersistenceManager {
 
 	public static void main(String[] args) throws Exception {
 		ArrayList<Product> a = new ArrayList<>();
-		a.add(new Product(0,"", "d", 2, TypePerson.MEN, TypeProduct.CALZADO, "ds", 34));
-		a.add(new Product(0, "", "d", 2, TypePerson.MEN, TypeProduct.CALZADO, "ds", 34));
-		a.add(new Product(0, "", "d", 2, TypePerson.MEN, TypeProduct.CALZADO, "ds", 34));
+		a.add(new Product(0,"", "d", 2, TypePerson.MEN, TypeProduct.FOOTWEAR, "ds", 34));
+		a.add(new Product(0, "", "d", 2, TypePerson.MEN, TypeProduct.FOOTWEAR, "ds", 34));
+		a.add(new Product(0, "", "d", 2, TypePerson.MEN, TypeProduct.FOOTWEAR, "ds", 34));
 		ArrayList<Product> b = new ArrayList<>();
 		try {
  			PersistenceManager.saveProduct(a);

@@ -58,12 +58,12 @@ public class PanelActionAdmin extends JPanel  {
 		
 		
 		
-	    btCancelar= new JButton("Cancelar");
+	    btCancelar= new JButton("Cancel");
 	    btCancelar.setBackground(Color.decode("#2980B9"));
 	    btCancelar.setFont(new Font("Arial Black", Font.PLAIN, 12));
 	    btCancelar.setForeground(Color.WHITE);
 	    
-	    btAceptar= new JButton("Aceptar");
+	    btAceptar= new JButton("Accept");
 	    btAceptar.setBackground(Color.decode("#52BE80"));
 	    btAceptar.setFont(new Font("Arial Black", Font.PLAIN, 12));
 	    btAceptar.setForeground(Color.WHITE);
@@ -90,7 +90,7 @@ public class PanelActionAdmin extends JPanel  {
 		UIManager UI=new UIManager();
 		UI.put("OptionPane.background", Color.white);
 		UI.put("Panel.background", Color.white);
-	    JOptionPane myOptionPane = new JOptionPane("¿Esta seguro que desea Eliminar?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/warning.png"),new Object [] { btCancelar, btAceptar},btAceptar);
+	    JOptionPane myOptionPane = new JOptionPane("Are you sure you want to delate?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/warning.png"),new Object [] { btCancelar, btAceptar},btAceptar);
 	    JDialog myDialog = myOptionPane.createDialog(null, "Remove");
 	    myDialog.setModal(true);
 	    myDialog.setVisible(true);
@@ -103,14 +103,13 @@ public class PanelActionAdmin extends JPanel  {
 		UIManager UI=new UIManager();
 		UI.put("OptionPane.background", Color.white);
 		UI.put("Panel.background", Color.white);
-		JOptionPane myOptionPane = new JOptionPane("¿Esta seguro que desea salir?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/logout.png"),new Object [] { btCancelar, btAceptar},btAceptar);
+		JOptionPane myOptionPane = new JOptionPane("Are you sure you want to close?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/logout.png"),new Object [] { btCancelar, btAceptar},btAceptar);
 	    JDialog myDialog = myOptionPane.createDialog(null, "Logout");
 	    myDialog.setModal(true);
 	    myDialog.setVisible(true);
 	    Object result = myOptionPane.getValue();
 	    return Integer.parseInt(result +"");
 	}	
-	
 	
 	protected static JOptionPane getOptionPane(JComponent parent) {
 	    JOptionPane pane = null;

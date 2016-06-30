@@ -31,7 +31,7 @@ public class DialogUser extends JFrame{
 	private JPanel pnlProducts;
 
 	public DialogUser(Controller controller) {
-		setTitle("Crud-Product 1.0");
+		setTitle("Flea market-User");
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
 		setExtendedState(MAXIMIZED_BOTH);
 		
