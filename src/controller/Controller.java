@@ -57,7 +57,7 @@ public class Controller implements ActionListener{
 			addProduct();
 			break;
 		case REMOVE:
-			this.removeProduct();
+			removeProduct();
 			break;
 		case ADD_IMAGE:
 			this.addImage();
@@ -231,7 +231,7 @@ public class Controller implements ActionListener{
 	}
 
 	private void removeProduct() {
-		System.out.println(dialogAdmin.getProduct());
+//		if()
 		productManager.removeProduct(dialogAdmin.getProduct());
 		try {
 			PersistenceManager.saveProduct(productManager.getProductList());
