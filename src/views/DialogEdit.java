@@ -15,6 +15,7 @@ public class DialogEdit extends DialogAddProduct{
 		getBtnCreate().setText("Edit");
 		getBtnCreate().addActionListener(controller);
 		getBtnCreate().setActionCommand(Action.EDIT.name());
+		setLocationRelativeTo(null);
 	}
 	
 	public void loadData(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,

@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import com.sun.java.swing.plaf.windows.WindowsDesktopManager;
 
@@ -48,7 +49,7 @@ public class Controller implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		switch (Action.valueOf(e.getActionCommand())) {
 		case MANAGER:
-			this.showDialogAdmin();
+			showDialogAdmin();
 			mainWindow.setVisible(false);
 			break;
 		case USER:
@@ -85,8 +86,19 @@ public class Controller implements ActionListener{
 		case CANCELE:
 			cancele();
 			break;
+		case LOGOUT:
+			logoudManager();
+			break;
 		}
 	}
+	
+	public void logoudManager(){
+		if(dialogAdmin.logout() == 0){
+			dialogAdmin.setVisible(false);
+			mainWindow.setVisible(true);
+		}
+	}
+	
 	
 	private void cancele() {
 		dialogAddProduct.setVisible(false);
@@ -231,6 +243,4 @@ public class Controller implements ActionListener{
 		dialogAdmin.removeRow();
 		System.out.println(productManager.getProductList());
 	}
-
-
 }

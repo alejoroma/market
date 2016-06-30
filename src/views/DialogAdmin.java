@@ -2,22 +2,32 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 import controller.Action;
@@ -41,7 +51,6 @@ public class DialogAdmin extends JFrame {
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		
 		JPanel pnlFondo = new JPanel();
 		pnlFondo.setOpaque(false);
 		pnlFondo.setLayout(null);
@@ -224,6 +233,71 @@ public class DialogAdmin extends JFrame {
 		}
 	}
 	
+	@SuppressWarnings("static-access")
+	public int  logout(){
+		 UIManager UI=new UIManager();
+		 UI.put("OptionPane.background", Color.white);
+		 UI.put("Panel.background", Color.white);
+	    JButton button1= new JButton("Cancelar");
+	    button1.setBackground(Color.decode("#2980B9"));
+	    button1.setFont(new Font("Arial Black", Font.PLAIN, 12));
+	    button1.setForeground(Color.WHITE);
+	    
+	    JButton button2= new JButton("Aceptar");
+	    button2.setBackground(Color.decode("#52BE80"));
+	    button2.setFont(new Font("Arial Black", Font.PLAIN, 12));
+	    button2.setForeground(Color.WHITE);
+	   
+	    button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane pane = getOptionPane((JComponent)e.getSource());
+                pane.setValue(JOptionPane.OK_OPTION);
+            }
+        });
+	    
+	    button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane pane = getOptionPane((JComponent)e.getSource());
+                pane.setValue(JOptionPane.CANCEL_OPTION);
+            }
+        });
+	    
+	    JOptionPane myOptionPane = new JOptionPane("¿Esta seguro que desea salir?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/logout.png"),new Object [] { button1, button2},button2);
+	    JDialog myDialog = myOptionPane.createDialog(null, "Logout");
+	     myDialog.setModal(true);
+	     myDialog.setVisible(true);
+	     Object result = myOptionPane.getValue();
+	     return Integer.parseInt(result +"");	
+	}	
+	
+	protected static JOptionPane getOptionPane(JComponent parent) {
+	    JOptionPane pane = null;
+	    if (!(parent instanceof JOptionPane)) {
+	        pane = getOptionPane((JComponent) parent.getParent());
+	    } else {
+	        pane = (JOptionPane) parent;
+	    }
+	    return pane;
+	}
+	
+   private static void inactivateOption(Container container, String text) {
+      Component[] comps = container.getComponents();
+      for (Component comp : comps) {
+         if (comp instanceof AbstractButton) {
+            AbstractButton btn = (AbstractButton) comp;
+            if (btn.getActionCommand().equals(text)) {
+               btn.setEnabled(false);
+               return;
+            }
+         } else if (comp instanceof Container) {
+            inactivateOption((Container) comp, text);
+         }
+      }
+   }
+	
+
 	/*
 	 *  crear una ventana de usuario y administrador
 	 *  en admin colocar lo basico en la tabla y colocar los detalles con lo q falta en la tabla
@@ -231,5 +305,8 @@ public class DialogAdmin extends JFrame {
 	 *  hacer lo de elimnar, editar, detalles  
 	 *  en usuario hacer filtro
 	 */
+
+
+
 
 }
