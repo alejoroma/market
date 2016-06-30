@@ -18,7 +18,7 @@ public class WindowsManager extends JFrame  {
 	private static final long serialVersionUID = 1L;
 	
 	public WindowsManager(Controller controller) {
-		setTitle("Iniciar cecion");
+		setTitle("Log in");
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -36,7 +36,7 @@ public class WindowsManager extends JFrame  {
 		jpanelConten.setBackground(new Color(220, 220, 220));
 		panelCenter.add(jpanelConten);
 		
-		JLabel labelTitle1 = new JLabel("Union market todas tus compras en un solo lugar");
+		JLabel labelTitle1 = new JLabel("Flea market, all your shopping in one place");
 		labelTitle1.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTitle1.setFont(new Font("Arial", Font.ITALIC, 16));
 		labelTitle1.setForeground(new Color(0, 0, 0));

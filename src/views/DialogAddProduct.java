@@ -84,7 +84,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtId = new JTextField();
-		txtId.setToolTipText("Ingrese el numero que identifica el producto");
+		txtId.setToolTipText("Input the number that identifies the product, please");
 		ValidateFields.onlyNumber(txtId);
 		add(txtId, gbc);;
 		
@@ -108,7 +108,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.fill = GridBagConstraints.BOTH;
 		txtName = new JTextField();
 		ValidateFields.onlyLetter(txtName);
-		txtName.setToolTipText("Ingrese el nombre del producto");
+		txtName.setToolTipText("Input the name that product");
 		add(txtName, gbc);
 
 		gbc.gridx = 0;
@@ -118,7 +118,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.gridheight = 1;
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
-		JLabel jLabelBrand = new JLabel("Cantidad Product:");
+		JLabel jLabelBrand = new JLabel("Quantity Product:");
 		jLabelBrand.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(jLabelBrand, gbc);
 
@@ -131,7 +131,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.fill = GridBagConstraints.BOTH;
 		SpinnerModel sm = new SpinnerNumberModel(1, 1,10000 , 1); 
 		spinerNumberProduct = new JSpinner(sm);
-		spinerNumberProduct.setToolTipText("Ingrese la cantidad del producto");
+		spinerNumberProduct.setToolTipText("Input quanty product");
 		add(spinerNumberProduct, gbc);
 
 		gbc.gridx = 0;
@@ -153,7 +153,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		cbxTypePerson = new JComboBox<TypePerson>(TypePerson.values());
-		cbxTypePerson.setToolTipText("Escoga el tipo de categoria");
+		cbxTypePerson.setToolTipText("Choose type category");
 		add(cbxTypePerson, gbc);
 
 		gbc.gridx = 0;
@@ -175,7 +175,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		cbxTypeProduct = new JComboBox<>(TypeProduct.values());
-		cbxTypeProduct.setToolTipText("Ingrese el precio del producto");
+		cbxTypeProduct.setToolTipText("Input price that product");
 		add(cbxTypeProduct, gbc);
 
 		gbc.gridx = 0;
@@ -208,7 +208,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtDescription = new JTextArea();
-		txtDescription.setToolTipText("Ingrese la descripcion del producto");
+		txtDescription.setToolTipText("Input description that product");
 //		txtDescription.setPreferredSize(new Dimension(100,50));
 		txtDescription.setLineWrap(true); 
 		scrollDescription = new JScrollPane();
@@ -235,7 +235,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.fill = GridBagConstraints.BOTH;
 		SpinnerModel spinerModelValue = new SpinnerNumberModel(1, 1,10000 , 1); 
 		spinertValue = new JSpinner(spinerModelValue);
-		spinertValue.setToolTipText("Ingrese el estado del producto");
+		spinertValue.setToolTipText("Input estatus that product");
 		add(spinertValue, gbc);
 		
 		gbc.gridx = 0;
@@ -267,7 +267,7 @@ public class DialogAddProduct  extends JDialog{
 		gbc.gridheight = 1;
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
-		btnAddImage = new JButton("Subir Image");
+		btnAddImage = new JButton("Up Image");
 		btnAddImage.setBackground(Color.decode("#808B96"));
 		btnAddImage.addActionListener(controller);
 		btnAddImage.setActionCommand(Action.ADD_IMAGE.name());
@@ -297,7 +297,7 @@ public class DialogAddProduct  extends JDialog{
 		scroll = new JScrollPane(textAreaErrors );
 		scroll.setBounds(0, 710, getWidth()-15, 75);
 		scroll.setAutoscrolls(true);
-		scroll.setBorder(BorderFactory.createTitledBorder("Errors:"));
+		scroll.setBorder(BorderFactory.createTitledBorder("Error:"));
 		scroll.setVisible(false);
 		add(scroll, gbc);
 		
