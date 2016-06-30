@@ -2,36 +2,28 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 import controller.Action;
 import controller.Controller;
+import models.entity.Product;
 import models.entity.TypeProduct;
 
 public class DialogAdmin extends JFrame {
@@ -49,32 +41,34 @@ public class DialogAdmin extends JFrame {
 		setSize(pantalla.width, pantalla.height);
 		setTitle("Flea Market");
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
+		
 		JPanel pnlFondo = new JPanel();
 		pnlFondo.setOpaque(false);
 		pnlFondo.setLayout(null);
 		
 		JPanel pnlHeader = new JPanel();
 		pnlHeader.setLayout(null);
-		pnlHeader.setBackground(Color.BLACK);
-		pnlHeader.setBounds(0, 0, getWidth(), 35);
+		pnlHeader.setBackground(Color.decode("#333333"));
+		pnlHeader.setBounds(200, 0, getWidth()-200, 35);
 		
 		JButton btnAdmin = new JButton("Admin");
 		btnAdmin.setForeground(Color.WHITE);
 		btnAdmin.setBorder(null);
 		btnAdmin.setIcon(new ImageIcon(getClass().getResource("/imgs/admin.png")));
 		btnAdmin.setContentAreaFilled(false);
-		btnAdmin.setBounds(getWidth()-260, 5, 190, 30);
+		btnAdmin.setBounds(pnlHeader.getWidth()-240, 5, 100, 30);
 		pnlHeader.add(btnAdmin);
 		
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.setBorder(null);
 		btnLogout.setIcon(new ImageIcon(getClass().getResource("/imgs/salir.png")));
+		btnLogout.setBounds(pnlHeader.getWidth()-130, 5, 100, 30);
+		btnLogout.setBorder(null);
 		btnLogout.setForeground(Color.WHITE);
 		btnLogout.addActionListener(controller);
 		btnLogout.setActionCommand(Action.LOGOUT.name());
 		btnLogout.setContentAreaFilled(false);
-		btnLogout.setBounds(getWidth()-170, 5, 180, 30);
 		pnlHeader.add(btnLogout);
 		
 		pnlFondo.add(pnlHeader);
@@ -82,13 +76,13 @@ public class DialogAdmin extends JFrame {
 		JPanel pnlButtons = new JPanel();
 		pnlButtons.setOpaque(false);
 		pnlButtons.setLayout(null);
-		//pnlButtons.setBorder(BorderFactory.createTitledBorder("panel botones"));
 		pnlButtons.setBounds(210, 50, getWidth(), 120);
 		pnlFondo.add(pnlButtons);
 		
-		JButton btnAdd = new JButton("Add Product");
+		JButton btnAdd = new JButton(new ImageIcon(getClass().getResource("/imgs/add.png")));
 		btnAdd.setBounds(0, 50, 120, 35);
-		btnAdd.setBackground(Color.decode("#067ab4"));
+		btnAdd.setContentAreaFilled(false);
+		btnAdd.setBorder(null);
 		btnAdd.addActionListener(controller);
 		btnAdd.setActionCommand(Action.SHOW_DIALOD_ADD.name());
 		pnlButtons.add(btnAdd);
@@ -109,39 +103,44 @@ public class DialogAdmin extends JFrame {
 		btnSearch.setBounds(783, 60, 45, 45);
 		btnSearch.setBorder(null);
 		btnSearch.setContentAreaFilled(false);
+		btnSearch.addActionListener(controller);
+		btnSearch.setActionCommand(Action.FILTER_FOR_TYPE_PRODUCT.name());
 		pnlButtons.add(btnSearch);
 	
-		JLabel lbProducts = new JLabel("  Products");
+		JLabel lbProducts = new JLabel("Products  ");
 		lbProducts.setOpaque(true);
 		lbProducts.setForeground(Color.BLACK);
-		//lbProducts.setBackground(Color.decode("#a5acaf"));
-		lbProducts.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbProducts.setBorder(BorderFactory.createLoweredSoftBevelBorder());
+		lbProducts.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbProducts.setBounds(0, 10, pnlButtons.getWidth()-240, 30);
 		pnlButtons.add(lbProducts);
 		
 		JPanel pnlMenu = new JPanel();	
-		pnlMenu.setOpaque(false);
+		//pnlMenu.setOpaque(false);
+		pnlMenu.setBackground(Color.decode("#333333"));
 		pnlMenu.setLayout(null);
-		pnlMenu.setBounds(0, 50, 200, getHeight());
+		pnlMenu.setBounds(0, 0, 200, getHeight());
 		
 		JLabel lbLogo = new JLabel(new ImageIcon(getClass().getResource("/imgs/logo.png")));
 		lbLogo.setBounds(0, 5, 200, 105);
 		pnlMenu.add(lbLogo);
 		
-		JLabel lbProduct = new JLabel("Products");
+		JLabel lbProduct = new JLabel("   Products   ");
+		lbProduct.setIcon(new ImageIcon(getClass().getResource("/imgs/products.png")));
 		lbProduct.setOpaque(true);
+		lbProduct.setFont(new Font("'proxima_nova','Helvetica Neue',Helvetica,Arial,sans-serif", Font.BOLD, 14));
 		lbProduct.setHorizontalAlignment(SwingConstants.CENTER);
-		lbProduct.setBounds(0, 120, 200, 50);
+		lbProduct.setBounds(0, 140, 200, 50);
 		lbProduct.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		lbProduct.setForeground(Color.WHITE);
-		lbProduct.setBackground(Color.BLACK);
+		lbProduct.setForeground(Color.decode("#121314"));
+		lbProduct.setBackground(Color.decode("#a3a3a3"));
 		pnlMenu.add(lbProduct);
 		
 		pnlFondo.add(pnlMenu);
 		
 		
 		JPanel pnlTable = new JPanel();
-		pnlTable.setBounds(210, 170, getWidth()-240, getHeight()-300);
+		pnlTable.setBounds(210, 170, getWidth()-240, getHeight()-345);
 		pnlTable.setBackground(Color.WHITE);
 		pnlTable.setLayout(new GridLayout(1, 1));
 		add(pnlTable, BorderLayout.CENTER);
@@ -161,7 +160,7 @@ public class DialogAdmin extends JFrame {
 		tableProductList.getTableHeader().setBackground(Color.WHITE);
 		
 		JScrollPane scroll = new JScrollPane(tableProductList);
-		scroll.setBounds(210, 170, getWidth()-240, getHeight()-300);
+		scroll.setBounds(210, 170, getWidth()-240, getHeight()-345);
 		scroll.setBackground(Color.WHITE);
 		pnlTable.add(scroll);
 		
@@ -170,8 +169,7 @@ public class DialogAdmin extends JFrame {
 		JPanel pnlPage = new JPanel();
 		pnlPage.setOpaque(false);
 		pnlPage.setBackground(Color.WHITE);
-		pnlPage.setLayout(new FlowLayout(FlowLayout.CENTER));
-		add(pnlPage, BorderLayout.SOUTH);
+		pnlPage.setBounds(210, getHeight()-140, getWidth()-240, 55);
 		
 		JButton btnFirst = new JButton(new ImageIcon(getClass().getResource("/imgs/primero.png")));
 		btnFirst.setContentAreaFilled(false);
@@ -200,6 +198,8 @@ public class DialogAdmin extends JFrame {
 		btnLastest.setContentAreaFilled(false);
 		btnLastest.setBorder(null);
 		pnlPage.add(btnLastest);
+		
+		pnlFondo.add(pnlPage);
 		
 		add(pnlFondo, BorderLayout.CENTER);
 	}
@@ -232,80 +232,29 @@ public class DialogAdmin extends JFrame {
 		}
 	}
 	
-	@SuppressWarnings("static-access")
-	public int  logout(){
-		 UIManager UI=new UIManager();
-		 UI.put("OptionPane.background", Color.white);
-		 UI.put("Panel.background", Color.white);
-	    JButton button1= new JButton("Cancelar");
-	    button1.setBackground(Color.decode("#2980B9"));
-	    button1.setFont(new Font("Arial Black", Font.PLAIN, 12));
-	    button1.setForeground(Color.WHITE);
-	    
-	    JButton button2= new JButton("Aceptar");
-	    button2.setBackground(Color.decode("#52BE80"));
-	    button2.setFont(new Font("Arial Black", Font.PLAIN, 12));
-	    button2.setForeground(Color.WHITE);
-	   
-	    button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane pane = getOptionPane((JComponent)e.getSource());
-                pane.setValue(JOptionPane.OK_OPTION);
-            }
-        });
-	    
-	    button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane pane = getOptionPane((JComponent)e.getSource());
-                pane.setValue(JOptionPane.CANCEL_OPTION);
-            }
-        });
-	    
-	    JOptionPane myOptionPane = new JOptionPane("¿Esta seguro que desea salir?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/logout.png"),new Object [] { button1, button2},button2);
-	    JDialog myDialog = myOptionPane.createDialog(null, "Logout");
-	     myDialog.setModal(true);
-	     myDialog.setVisible(true);
-	     Object result = myOptionPane.getValue();
-	     return Integer.parseInt(result +"");	
-	}	
-	
-	protected static JOptionPane getOptionPane(JComponent parent) {
-	    JOptionPane pane = null;
-	    if (!(parent instanceof JOptionPane)) {
-	        pane = getOptionPane((JComponent) parent.getParent());
-	    } else {
-	        pane = (JOptionPane) parent;
-	    }
-	    return pane;
+	public void deleteAllItems(){
+		tableProductList.removeAll();
+		for (int i = 0; i < tableModel.getRowCount(); i++) {
+			for (int j = 0; j < tableModel.getRowCount(); j++) {
+				tableModel.removeRow(j);
+			}
+		}
 	}
 	
-   private static void inactivateOption(Container container, String text) {
-      Component[] comps = container.getComponents();
-      for (Component comp : comps) {
-         if (comp instanceof AbstractButton) {
-            AbstractButton btn = (AbstractButton) comp;
-            if (btn.getActionCommand().equals(text)) {
-               btn.setEnabled(false);
-               return;
-            }
-         } else if (comp instanceof Container) {
-            inactivateOption((Container) comp, text);
-         }
-      }
-   }
+	public void filterForCategory(ArrayList<Product> productListForCategory, Object[] actions){
+		deleteAllItems();
+		for (Product product : productListForCategory) {
+			addToTable(product.getAdminProduct(actions));
+			System.out.println("agrego");
+		}
+		revalidate();
+	}
 	
+	public TypeProduct getTypeCategorySelected(){
+		return (TypeProduct) typeCategory.getSelectedItem();
+	}
 
-	/*
-	 *  crear una ventana de usuario y administrador
-	 *  en admin colocar lo basico en la tabla y colocar los detalles con lo q falta en la tabla
-	 *  mostrar los primeros 10 productos al ingresar, los errores es un text area, iconos
-	 *  hacer lo de elimnar, editar, detalles  
-	 *  en usuario hacer filtro
-	 */
-
-
-
-
+	public int logout() {
+		return 0;
+	}
 }

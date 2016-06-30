@@ -1,10 +1,6 @@
 package models.dao;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import models.entity.Product;
 import models.entity.TypePerson;
@@ -12,10 +8,10 @@ import models.entity.TypeProduct;
 
 public class ProductManager {
 
-	private static ArrayList<Product> producList;
+	private static ArrayList<Product> productList;
 	
 	public ProductManager() {
-		producList = new ArrayList<>();
+		productList = new ArrayList<>();
 	}
 	
 	public static Product createProduct(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,	String description, double value) {
@@ -23,15 +19,15 @@ public class ProductManager {
 	}
 	
 	public void addProduct(Product product) {
-		producList.add(product);
+		productList.add(product);
 	}
 	
 	public ArrayList<Product> getProductList() {
-		return producList;
+		return productList;
 	}
 	
 	public Product getProduct(int id) throws Exception {
-		for (Product product : producList) {
+		for (Product product : productList) {
 			if (product.getId() == id) {
 				return product;
 			}
@@ -42,7 +38,7 @@ public class ProductManager {
 	public static void editProduct(int searchId, int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,
 			String description, double value) {
 		System.out.println(id+ "·..");
-		for (Product product : producList) {
+		for (Product product : productList) {
 			if (product.getId() == searchId) {
 				product.setId(id);
 				product.setImage(image);
@@ -57,17 +53,27 @@ public class ProductManager {
 	}
 	
 	public void removeProduct(int id) {
-		for (Product product : producList) {
+		for (Product product : productList) {
 			if (product.getId() == id) {
-				producList.remove(product);
+				productList.remove(product);
 				break;
 			}
 		}
 	}
 	
+	public ArrayList<Product> filterForTypeProduct(TypeProduct typeProduct){
+		ArrayList<Product> productTypeList = new ArrayList<>();
+		for (Product product : productList) {
+			if (product.getTypeProduct().equals(typeProduct)) {
+				productTypeList.add(product); 
+			}
+		}
+		return productTypeList;
+	}
+	
 	public ArrayList<Product> getFilterUser(Double value) {
 		ArrayList<Product> productListAux = new ArrayList<>();
-		for (Product product : producList) {
+		for (Product product : productList) {
 			if (product.getValue() == value) {
 				productListAux.add(product);
 			}
