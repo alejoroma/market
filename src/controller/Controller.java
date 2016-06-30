@@ -90,7 +90,7 @@ public class Controller implements ActionListener{
 	}
 	
 	public void logoudManager(){
-		if(dialogAdmin.logout() == 0){
+		if(PanelActionAdmin.Logout() == 0){
 			dialogAdmin.setVisible(false);
 			mainWindow.setVisible(true);
 		}
@@ -231,14 +231,15 @@ public class Controller implements ActionListener{
 	}
 
 	private void removeProduct() {
-//		if()
-		productManager.removeProduct(dialogAdmin.getProduct());
-		try {
-			PersistenceManager.saveProduct(productManager.getProductList());
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(PanelActionAdmin.remorveOK() == 0){
+			productManager.removeProduct(dialogAdmin.getProduct());
+			try {
+				PersistenceManager.saveProduct(productManager.getProductList());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			dialogAdmin.removeRow();
+			System.out.println(productManager.getProductList());
 		}
-		dialogAdmin.removeRow();
-		System.out.println(productManager.getProductList());
 	}
 }
