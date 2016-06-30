@@ -376,20 +376,21 @@ public class DialogAddProduct  extends JDialog{
 	}
 	
 	public void resetDialog() {
-		lbImage.setText("");
+		lbImage.setIcon(null);
 		txtId.setText("");
 		txtName.setText("");
 		txtDescription.setText("");
 		spinerNumberProduct.setValue(1);
 		spinertValue.setValue(1);
 		scroll.setVisible(false);
+		
 	}
 	
 	public void setLbImage(String image) {
 		ImageIcon image1 = new ImageIcon(image);
 		Icon icon = new ImageIcon(image1.getImage().getScaledInstance(this.lbImage.getWidth(), this.lbImage.getHeight(),Image.SCALE_DEFAULT));
 		this.lbImage.setIcon(icon);
-		this.txVerImagen.add(new JLabel(icon));
+//		this.txVerImagen.add(new JLabel(icon));
 	}
 	
 	public JLabel getLbImage() {

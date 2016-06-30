@@ -49,7 +49,6 @@ public class DialogAdmin extends JFrame {
 		setSize(pantalla.width, pantalla.height);
 		setTitle("Flea Market");
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		JPanel pnlFondo = new JPanel();
 		pnlFondo.setOpaque(false);

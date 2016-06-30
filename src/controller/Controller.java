@@ -3,13 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
-import com.sun.java.swing.plaf.windows.WindowsDesktopManager;
-
 import models.dao.ProductManager;
 import models.entity.Product;
 import persistence.PersistenceManager;
@@ -17,9 +11,9 @@ import views.DialogAddProduct;
 import views.DialogAdmin;
 import views.DialogDetails;
 import views.DialogEdit;
+import views.DialogShoping;
 import views.DialogUser;
 import views.PanelActionAdmin;
-import views.PanelActionUser;
 import views.entrar.WindowsManager;
 
 public class Controller implements ActionListener{
@@ -89,6 +83,9 @@ public class Controller implements ActionListener{
 		case LOGOUT:
 			logoudManager();
 			break;
+		case SHOPPING:
+			new DialogShoping().setVisible(true);
+			break;
 		}
 	}
 	
@@ -122,6 +119,7 @@ public class Controller implements ActionListener{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		loadProduct();
 	}
 
 	private void getPagePreview() {
@@ -156,11 +154,11 @@ public class Controller implements ActionListener{
 			productManager.getProductList().clear();
 			productManager.getProductList().addAll(PersistenceManager.loadProduct());
 			int i = 0;
-			for (Product product : productManager.getProductList()) {
+			for (int j = productManager.getProductList().size() - 1; j >= 0; j--) {
 				if (i++ == 10) {
 					break;
 				}
-				dialogAdmin.addToTable(product.getAdminProduct(new PanelActionAdmin(this)));
+				dialogAdmin.addToTable(productManager.getProductList().get(j).getAdminProduct(new PanelActionAdmin(this)));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -172,12 +170,21 @@ public class Controller implements ActionListener{
 		dialogAdmin.setVisible(true);
 	}
 
-
 	private void showWindowUser() {
-		loadProduct();
 		dialogUser.clearPnlProducts();
-		for (Product product : productManager.getProductList()) {
-			dialogUser.addProduct(product.getImage(), product.getName(), product.getDescription(), product.getValue());
+		productManager.getProductList().clear();
+		try {
+			productManager.getProductList().addAll(PersistenceManager.loadProduct());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int i = 0;
+		for (int j = productManager.getProductList().size() - 1; j >= 0; j--) {
+			if (i++ == 12) {
+				break;
+			}
+			dialogUser.addProduct(productManager.getProductList().get(j).getImage(), productManager.getProductList().get(j).getName(), 
+					productManager.getProductList().get(j).getDescription(), productManager.getProductList().get(j).getValue());
 		}
 		dialogUser.setVisible(true);
 	}
@@ -209,20 +216,11 @@ public class Controller implements ActionListener{
 	private void editProduct() {
 		try {
 			dialogEdit.editProduct(dialogAdmin.getProduct(), product.getImage());
-			System.out.println(productManager.getProductList() + "ertyui");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
 			PersistenceManager.saveProduct(productManager.getProductList());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		dialogAdmin.removePage();
 		loadProduct();
-		/*for (Product product : productManager.getProductList()) {
-			dialogAdmin.addToTable(product.getAdminProduct(new PanelActionAdmin(this)));
-		}*/
 	}
 
 	private void addImage() {
