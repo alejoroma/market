@@ -58,7 +58,7 @@ public class DialogAddProduct  extends JDialog{
 	public DialogAddProduct(Controller controller) {
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
 		setModal(true);
-		setTitle("Data Entry Product");
+		setTitle("Add product data");
 		setSize(500, 500);
 		getContentPane().setBackground(Color.decode("#85929E"));
 		setLayout(new GridBagLayout());
