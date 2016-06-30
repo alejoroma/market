@@ -305,7 +305,6 @@ public class DialogAddProduct  extends JDialog{
 		PanelBotones.setLayout(new  GridLayout(1, 2));
 		
 		JButton btnCancel= new JButton("Cancel");
-		btnCancel.setIcon(new ImageIcon(getClass().getResource("/imgs/cancele.png")));
 		btnCancel.addActionListener(controller);
 		btnCancel.setActionCommand(Action.CANCELE.name());
 		btnCancel.setFont(new Font("Arial Black", Font.PLAIN, 12));
@@ -313,11 +312,9 @@ public class DialogAddProduct  extends JDialog{
 		btnCancel.setBackground(Color.decode("#2980B9"));
 		PanelBotones.add(btnCancel);
 
-	
 		btnCreate = new JButton("Create");
 		btnCreate.addActionListener(controller);
 		btnCreate.setActionCommand(Action.ADD.name());
-		btnCreate.setIcon(new ImageIcon(getClass().getResource("/imgs/add.png")));
 		btnCreate.setBackground(Color.decode("#52BE80"));
 		btnCreate.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		btnCreate.setForeground(Color.WHITE); 
@@ -349,12 +346,12 @@ public class DialogAddProduct  extends JDialog{
 			textAreaErrors.setForeground(Color.RED);
 		}
 //		try {
-//			ValidateFields.validatePrece(txtValue);
-//		} catch (ErrorDates e3) {
-//			scroll.setVisible(true);
-//			textAreaErrors.setText(e3.getMessage()+"\n");
-//			textAreaErrors.setForeground(Color.RED);
-//		}
+////			ValidateFields.validatePrece(txtValue);
+////		} catch (ErrorDates e3) {
+////			scroll.setVisible(true);
+////			textAreaErrors.setText(e3.getMessage()+"\n");
+////			textAreaErrors.setForeground(Color.RED);
+////		}
 		try {
 			ValidateFields.validateDescription(txtDescription);
 		} catch (ErrorDates e4) {
