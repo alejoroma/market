@@ -60,37 +60,44 @@ public class Controller implements ActionListener{
 			removeProduct();
 			break;
 		case ADD_IMAGE:
-			this.addImage();
+			addImage();
 			break;
 		case SHOW_DIALOG_DETAILS:
-			this.showDialogDetails();
+			showDialogDetails();
 			break;
 		case SHOW_DIALOG_EDIT:
-			this.showDialogEdit();
+			showDialogEdit();
 			break;
 		case EDIT:
-			this.editProduct();
+			editProduct();
 			break;
 		case PAGE_PREVIEW:
-			this.getPagePreview();
+			getPagePreview();
 			break;
 		case PAGE_NEXT:
-			this.getPageNext();
+			getPageNext();
 			break;
 		case CANCELE:
 			cancele();
 			break;
 		case LOGOUT:
-			logoudManager();
+			logoutManager();
 			break;
 		case SHOPPING:
 			new DialogShoping().setVisible(true);
 			break;
+		case FILTER_FOR_TYPE_PRODUCT:
+			filterForTypeProduct();
+			break;
 		}
 	}
 	
-	public void logoudManager(){
-		if(PanelActionAdmin.Logout() == 0){
+	private void filterForTypeProduct() {
+		dialogAdmin.filterForCategory(productManager.filterForTypeProduct(dialogAdmin.getTypeCategorySelected()), this);
+	}
+
+	public void logoutManager(){
+		if(dialogAdmin.logout() == 0){
 			dialogAdmin.setVisible(false);
 			mainWindow.setVisible(true);
 		}
@@ -203,7 +210,6 @@ public class Controller implements ActionListener{
 
 	private void showDialogEdit() {
 		try {
-			System.out.println(dialogAdmin.getProduct());
 			product = productManager.getProduct(dialogAdmin.getProduct());
 			dialogEdit.loadData(product.getId(),product.getImage(), product.getName(), product.getNumberOfProduct(),
 					product.getTypePerson(), product.getTypeProduct(), product.getDescription(), product.getValue());
@@ -221,6 +227,7 @@ public class Controller implements ActionListener{
 			e.printStackTrace();
 		}
 		loadProduct();
+		dialogEdit.setVisible(false);
 	}
 
 	private void addImage() {
@@ -231,15 +238,14 @@ public class Controller implements ActionListener{
 	}
 
 	private void removeProduct() {
-		if(PanelActionAdmin.remorveOK() == 0){
-			productManager.removeProduct(dialogAdmin.getProduct());
-			try {
-				PersistenceManager.saveProduct(productManager.getProductList());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			dialogAdmin.removeRow();
-			System.out.println(productManager.getProductList());
+//		if()
+		productManager.removeProduct(dialogAdmin.getProduct());
+		try {
+			PersistenceManager.saveProduct(productManager.getProductList());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		dialogAdmin.removeRow();
+		System.out.println(productManager.getProductList());
 	}
 }

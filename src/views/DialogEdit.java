@@ -18,7 +18,8 @@ public class DialogEdit extends DialogAddProduct{
 		setLocationRelativeTo(null);
 	}
 	
-	public void loadData(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,
+	public void loadData(int id, String image, String name, int numberOfProduct, TypePerson typePerson,
+			TypeProduct typeProduct,
 			String description, double value) {
 		getTxtId().setText("" + id);
 		setLbImage(image);
@@ -31,9 +32,10 @@ public class DialogEdit extends DialogAddProduct{
 	}
 	
 	public void editProduct(int id, String image) {
-		System.out.println(getTxtId().getText()+ "+*");
 		ProductManager.editProduct(id, Integer.parseInt(getTxtId().getText()), image, getTxtName().getText(),
 				(int)getSpinerNumberProduct().getValue(), (TypePerson)getCbxTypePerson().getSelectedItem(), 
-				(TypeProduct)getCbxTypeProduct().getSelectedItem(), getTxtDescription().getText(), (double) getSpinerValue().getValue());
+				(TypeProduct)getCbxTypeProduct().getSelectedItem(), getTxtDescription().getText(), 
+				Double.parseDouble(getSpinerValue().getValue().toString()));
+		
 	}
 }
