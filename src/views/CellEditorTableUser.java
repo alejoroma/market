@@ -1,6 +1,5 @@
 package views;
 
-
 import java.awt.Component;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;

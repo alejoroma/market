@@ -11,9 +11,6 @@ public class Product {
 	private String description;
 	private double value;
 
-	public Product() {
-	}
-
 	public Product(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,String description, double value) {
 		this.id = id;
 		this.image = image;
@@ -93,17 +90,9 @@ public class Product {
 
 	public int getId() {
 		return this.id;
-
 	}
 
 	public void setValue(double value) {
 		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", image=" + image + ", name=" + name + ", numberOfProduct=" + numberOfProduct
-				+ ", typePerson=" + typePerson + ", typeProduct=" + typeProduct + ", description=" + description
-				+ ", value=" + value + "]";
 	}
 }

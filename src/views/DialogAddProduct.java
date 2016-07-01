@@ -207,7 +207,6 @@ public class DialogAddProduct  extends JDialog{
 		gbc.fill = GridBagConstraints.BOTH;
 		txtDescription = new JTextArea();
 		txtDescription.setToolTipText("Ingrese la descripcion del producto");
-//		txtDescription.setPreferredSize(new Dimension(100,50));
 		txtDescription.setLineWrap(true); 
 		scrollDescription = new JScrollPane();
 		scrollDescription.setViewportView(txtDescription);

@@ -83,6 +83,5 @@ public class WindowsManager extends JFrame  {
 		jpanelConten.add(labelManager);
 		
 		setVisible(true);
-		
 	}
 }

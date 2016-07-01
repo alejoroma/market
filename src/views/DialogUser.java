@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,12 +20,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+
 import controller.Action;
 import controller.Controller;
 
 public class DialogUser extends JFrame{
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private static String[] HEAD = {"Image", "Name", "Number of product", "Type Person", "Type Product", "Description", "Value", "Actions"};
 	private JLabel lbPage;
 	private JTextField txtValueFilter;

@@ -89,6 +89,10 @@ public class Controller implements ActionListener{
 		case FILTER_FOR_TYPE_PRODUCT:
 			filterForTypeProduct();
 			break;
+		case BUY:
+			break;
+		case FILTER_USER:
+			break;
 		}
 	}
 	
@@ -238,14 +242,15 @@ public class Controller implements ActionListener{
 	}
 
 	private void removeProduct() {
-//		if()
-		productManager.removeProduct(dialogAdmin.getProduct());
-		try {
-			PersistenceManager.saveProduct(productManager.getProductList());
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(PanelActionAdmin.remorveOK() == 0){
+			productManager.removeProduct(dialogAdmin.getProduct());
+			try {
+				PersistenceManager.saveProduct(productManager.getProductList());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			dialogAdmin.removeRow();
 		}
-		dialogAdmin.removeRow();
 		System.out.println(productManager.getProductList());
 	}
 }

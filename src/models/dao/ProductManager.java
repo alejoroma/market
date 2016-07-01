@@ -1,8 +1,6 @@
 package models.dao;
 
 import java.util.ArrayList;
-
-import views.PanelActionAdmin;
 import models.entity.Product;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;

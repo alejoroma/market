@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class DialogShoping extends JDialog{
@@ -54,14 +53,12 @@ public class DialogShoping extends JDialog{
 		jlLabelPrice.setForeground(Color.DARK_GRAY);
 		add(jlLabelPrice);
 
-
 		JLabel jlLabelQuantity = new JLabel("Quantity");
 		jlLabelQuantity.setBounds(400, 18, 100, 30);
 		jlLabelQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		jlLabelQuantity.setFont(new Font("Arial", Font.BOLD, 15));
 		jlLabelQuantity.setForeground(Color.DARK_GRAY);
 		add(jlLabelQuantity);
-
 	}
 
 	public JLabel getImage(String wayImage) {
