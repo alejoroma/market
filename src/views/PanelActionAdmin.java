@@ -99,6 +99,32 @@ public class PanelActionAdmin extends JPanel  {
 	}	
 
 	@SuppressWarnings("static-access")
+	public static int  editOK(){
+		UIManager UI=new UIManager();
+		UI.put("OptionPane.background", Color.white);
+		UI.put("Panel.background", Color.white);
+	    JOptionPane myOptionPane = new JOptionPane("Are you sure you want to Edit?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/warning.png"),new Object [] { btCancelar, btAceptar},btAceptar);
+	    JDialog myDialog = myOptionPane.createDialog(null, "Edit");
+	    myDialog.setModal(true);
+	    myDialog.setVisible(true);
+	    Object result = myOptionPane.getValue();
+	    return Integer.parseInt(result +"");	
+	}	
+
+	
+	@SuppressWarnings("static-access")
+	public static void createSuccessfulMessage() {
+		UIManager UI=new UIManager();
+		UI.put("OptionPane.background", Color.white);
+		UI.put("Panel.background", Color.white);
+		JOptionPane myOptionPane = new JOptionPane("Are you sure you want to close?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/success.png"),new Object [] { btAceptar},btAceptar);
+	    JDialog myDialog = myOptionPane.createDialog(null, "Logout");
+	    myDialog.setModal(true);
+	    myDialog.setVisible(true);
+	}
+	
+	
+	@SuppressWarnings("static-access")
 	public static int  Logout(){
 		UIManager UI=new UIManager();
 		UI.put("OptionPane.background", Color.white);

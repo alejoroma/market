@@ -2,6 +2,7 @@ package models.dao;
 
 import java.util.ArrayList;
 
+import views.PanelActionAdmin;
 import models.entity.Product;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
@@ -37,19 +38,18 @@ public class ProductManager {
 	
 	public static void editProduct(int searchId, int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,
 			String description, double value) {
-		System.out.println(id+ "·..");
-		for (Product product : productList) {
-			if (product.getId() == searchId) {
-				product.setId(id);
-				product.setImage(image);
-				product.setValue(value);
-				product.setNumberOfProduct(numberOfProduct);
-				product.setTypePerson(typePerson);
-				product.setTypeProduct(typeProduct);
-				product.setDescription(description);
-				product.setValue(value);
+			for (Product product : productList) {
+				if (product.getId() == searchId) {
+					product.setId(id);
+					product.setImage(image);
+					product.setValue(value);
+					product.setNumberOfProduct(numberOfProduct);
+					product.setTypePerson(typePerson);
+					product.setTypeProduct(typeProduct);
+					product.setDescription(description);
+					product.setValue(value);
+				}
 			}
-		}
 	}
 	
 	public void removeProduct(int id) {
