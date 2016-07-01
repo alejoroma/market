@@ -11,7 +11,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -29,7 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.TableColumnModel;
 import controller.Action;
 import controller.Controller;
 import models.entity.Product;
@@ -164,6 +163,7 @@ public class DialogAdmin extends JFrame {
 		CellEditor cellEditor = new CellEditor(controller);
 		model.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		
 		tableProductList.setDefaultRenderer(Object.class, model);
 		tableProductList.setDefaultEditor(Object.class, cellEditor);
 		tableProductList.getTableHeader().setBackground(Color.WHITE);
@@ -172,6 +172,11 @@ public class DialogAdmin extends JFrame {
 		scroll.setBounds(210, 170, getWidth()-240, getHeight()-345);
 		scroll.setBackground(Color.WHITE);
 		pnlTable.add(scroll);
+		
+		TableColumnModel columnModel =  tableProductList.getColumnModel();
+		columnModel.getColumn(0).setMinWidth(100);
+		columnModel.getColumn(1).setMaxWidth(100);
+		columnModel.getColumn(4).setMaxWidth(100);
 		
 		pnlFondo.add(pnlTable);
 		

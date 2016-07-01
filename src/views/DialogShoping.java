@@ -18,7 +18,7 @@ public class DialogShoping extends JDialog{
 	private static final long serialVersionUID = 1L;
 	private static JPanel jPanelConten;
 	private JTextArea textval;
-	private double val;
+	private double valueProduct;
 	private JScrollPane jScrollPane;
 
 	public DialogShoping() {
@@ -35,7 +35,7 @@ public class DialogShoping extends JDialog{
 		jPanelConten.setOpaque(false);
 		jPanelConten.setLayout(new GridLayout(4, 1));
 		jScrollPane = new JScrollPane(jPanelConten);
-		val = 0.0;
+		valueProduct = 0.0;
 		textval = new JTextArea();
 		textval.setForeground(Color.red);
 
@@ -79,27 +79,22 @@ public class DialogShoping extends JDialog{
 		lbImage.setIcon(icon);
 		JPanel panelContenDates = new JPanel();
 		panelContenDates.setLayout(new GridLayout(1, 2,10, 10));
-		String[] cade = description.split(" ");
-		JTextArea textArea = null;
-		textArea = new JTextArea("\n"+"\n"+name+"\n"+description);
+		 JTextArea textArea = new JTextArea("\n"+"\n"+name+"\n"+description);
 		textArea.setLineWrap(true);
-
 		textArea.setEditable(false);
 		textArea.setOpaque(false);
 		panelContenDates.add(lbImage);
 		panelContenDates.add(textArea);
-
 		JLabel jlLabelValue = new JLabel(String.valueOf("     "+value));
 		jlLabelValue.setForeground(Color.red);
 		panelContenDates.add(jlLabelValue);
-
 		JLabel jLabelQuantity = new JLabel(String.valueOf("    "+cantidad));
 		panelContenDates.add(jLabelQuantity);
 		jPanelConten.add(panelContenDates);
 		jPanelConten.add(textval);
 		jScrollPane.add(jPanelConten);
-		val += value;
-		textval.setText("                                                          Valor Total: "+String.valueOf(val));
+		valueProduct += value;
+		textval.setText("                                                          Valor Total: "+String.valueOf(valueProduct));
 		textval.setOpaque(false);
 		textval.setEditable(false);
 	}
