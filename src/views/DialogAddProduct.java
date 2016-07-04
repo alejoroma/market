@@ -7,19 +7,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,20 +35,25 @@ import models.errores.ValidateFields;
 
 public class DialogAddProduct  extends JDialog{
 
+	private static final String FILE_IMG_ICON = "/imgs/icon.png";
+	private static final String FILE_IMG_CANCEL = "/imgs/cancele.png";
+	private static final String FILE_IMG_ADD = "/imgs/add.png";
+	private static final String FILE_IMG_LOAD_IMAGE = "/imgs/subirImage.png";
 	private static final long serialVersionUID = 1L;
-	private JTextField txtId, txtName;
-	private JTextArea txtDescription;
-	private JSpinner spinerNumberProduct, spinertValue;
-	private JComboBox<TypePerson> cbxTypePerson;
-	private JComboBox<TypeProduct> cbxTypeProduct;
-	private JButton btnCreate, btnAddImage;
-	private JLabel lbImage, lbId;
-	private JTextArea textAreaErrors;
-	private JScrollPane scroll;
-	private JScrollPane scrollDescription;
+	protected JTextField txtId, txtName;
+	protected JTextArea txtDescription;
+	protected JSpinner spinerNumberProduct, spinertValue;
+	protected JComboBox<TypePerson> cbxTypePerson;
+	protected JComboBox<TypeProduct> cbxTypeProduct;
+	protected JButton btnCreate, btnAddImage;
+	protected JLabel lbImage, lbId;
+	protected JTextArea textAreaErrors;
+	protected JScrollPane scroll;
+	protected JScrollPane scrollDescription;
+	private String wayImage;
 
 	public DialogAddProduct(Controller controller) {
-		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource(FILE_IMG_ICON)).getImage());
 		setModal(true);
 		setTitle("Data Entry Product");
 		setSize(500, 500);
@@ -253,25 +252,10 @@ public class DialogAddProduct  extends JDialog{
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		lbImage = new JLabel();
-		lbImage.setIcon(new ImageIcon(getClass().getResource("/imgs/subirImage.png")));
+		lbImage.setIcon(new ImageIcon(getClass().getResource(FILE_IMG_LOAD_IMAGE)));
 		lbImage.setText("Arrastra o sube la imagen");
 		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
 		lbImage.setPreferredSize(new Dimension(100,100));
-		lbImage.setDropTarget(new DropTarget(){
-			private static final long serialVersionUID = 1L;
-			@Override
-			public synchronized void drop(DropTargetDropEvent dtde) {
-				dtde.acceptDrop(DnDConstants.ACTION_COPY);
-				try {
-					setLbImage(dtde.getTransferable().getTransferData(DataFlavor.javaFileListFlavor).toString().replace("[", "").replace("]", "").replace("\\", "/"));
-					Toolkit.getDefaultToolkit().beep();
-				} catch (UnsupportedFlavorException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
 		add(lbImage, gbc);
 
 		gbc.gridx = 1;
@@ -319,7 +303,7 @@ public class DialogAddProduct  extends JDialog{
 		PanelBotones.setLayout(new  GridLayout(1, 2));
 		
 		JButton btnCancel= new JButton("Cancel");
-		btnCancel.setIcon(new ImageIcon(getClass().getResource("/imgs/cancele.png")));
+		btnCancel.setIcon(new ImageIcon(getClass().getResource(FILE_IMG_CANCEL)));
 		btnCancel.addActionListener(controller);
 		btnCancel.setActionCommand(Action.CANCELE.name());
 		btnCancel.setFont(new Font("Arial Black", Font.PLAIN, 12));
@@ -331,7 +315,7 @@ public class DialogAddProduct  extends JDialog{
 		btnCreate = new JButton("Create");
 		btnCreate.addActionListener(controller);
 		btnCreate.setActionCommand(Action.ADD.name());
-		btnCreate.setIcon(new ImageIcon(getClass().getResource("/imgs/add.png")));
+		btnCreate.setIcon(new ImageIcon(getClass().getResource(FILE_IMG_ADD)));
 		btnCreate.setBackground(Color.decode("#52BE80"));
 		btnCreate.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		btnCreate.setForeground(Color.WHITE); 
@@ -381,19 +365,9 @@ public class DialogAddProduct  extends JDialog{
 
 	public Product createProduct() {
 		validateFields();
-		Product newProducto =  ProductManager.createProduct(Integer.parseInt(txtId.getText()),	lbImage.getIcon().toString(), txtName.getText(),
+		return ProductManager.createProduct(Integer.parseInt(txtId.getText()),	wayImage, txtName.getText(),
 				(int) spinerNumberProduct.getValue(),(TypePerson) cbxTypePerson.getSelectedItem(),	(TypeProduct) cbxTypeProduct.getSelectedItem(),
 				txtDescription.getText(),(int) spinertValue.getValue());
-		setVisible(false);
-		resetDialog();
-		return newProducto;
-	}
-	
-	public void setLbImage(String image) {
-		lbImage.setText("");
-		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
-		Image img = new ImageIcon(image).getImage().getScaledInstance( 150, -10, java.awt.Image.SCALE_AREA_AVERAGING);
-		this.lbImage.setIcon(new ImageIcon(img));
 	}
 	
 	public void resetDialog() {
@@ -401,50 +375,23 @@ public class DialogAddProduct  extends JDialog{
 		txtName.setText("");
 		txtDescription.setText("");
 		spinerNumberProduct.setValue(1);
-		spinertValue.setValue(1);
+		spinertValue.setValue(0);
 		scroll.setVisible(false);
-		lbImage.setIcon(new ImageIcon(getClass().getResource("/imgs/subirImage.png")));
+		lbImage.setIcon(new ImageIcon(getClass().getResource(FILE_IMG_LOAD_IMAGE)));
 		lbImage.setText("Arrastra o sube la imagen");
 		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 	
-	public JLabel getLbImage() {
-		return lbImage;
+	public void addImage() {
+		JFileChooser chooserFile = new JFileChooser();
+		chooserFile.showOpenDialog(this);
+		wayImage = chooserFile.getSelectedFile().toString();
+		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
+		Image img = new ImageIcon(wayImage).getImage().getScaledInstance( 150, -10, java.awt.Image.SCALE_AREA_AVERAGING);
+		this.lbImage.setIcon(new ImageIcon(img));
 	}
-
-	public JLabel getLbId() {
-		return lbId;
-	}
-
-	public JTextField getTxtId() {
-		return txtId;
-	}
-
-	public JTextField getTxtName() {
-		return txtName;
-	}
-
-	public JSpinner getSpinerValue() {
-		return spinertValue;
-	}
-
-	public JTextArea getTxtDescription() {
-		return txtDescription;
-	}
-
-	public JSpinner getSpinerNumberProduct() {
-		return spinerNumberProduct;
-	}
-
-	public JComboBox<TypePerson> getCbxTypePerson() {
-		return cbxTypePerson;
-	}
-
-	public JComboBox<TypeProduct> getCbxTypeProduct() {
-		return cbxTypeProduct;
-	}
-
-	public JButton getBtnCreate() {
-		return btnCreate;
+	
+	public String getWayImage() {
+		return wayImage;
 	}
 }

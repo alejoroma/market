@@ -1,7 +1,12 @@
 package models.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import models.entity.Product;
+import models.entity.StatusProduct;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
 
@@ -14,7 +19,7 @@ public class ProductManager {
 	}
 	
 	public static Product createProduct(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,	String description, double value) {
-		return  new Product(id, image, name, numberOfProduct, typePerson, typeProduct, description, value);
+		return new Product(id, image, name, numberOfProduct, typePerson, typeProduct, description, value);
 	}
 	
 	public void addProduct(Product product) {
@@ -34,20 +39,13 @@ public class ProductManager {
 		throw new Exception("Ha ocurrido un error desconocido");
 	}
 	
-	public static void editProduct(int searchId, int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,
-			String description, double value) {
-			for (Product product : productList) {
-				if (product.getId() == searchId) {
-					product.setId(id);
-					product.setImage(image);
-					product.setValue(value);
-					product.setNumberOfProduct(numberOfProduct);
-					product.setTypePerson(typePerson);
-					product.setTypeProduct(typeProduct);
-					product.setDescription(description);
-					product.setValue(value);
-				}
+	public void editProduct(int searchId, Object[] listProductEdit) {
+		for (Product product : productList) {
+			if (product.getId() == searchId) {
+				product.editProduct(listProductEdit);
+				break;
 			}
+		}
 	}
 	
 	public void removeProduct(int id) {
@@ -78,4 +76,13 @@ public class ProductManager {
 		}
 		return productListAux;
 	}
+	
+	public static String getDate() {
+		Calendar dataDate = new GregorianCalendar();
+		dataDate.set(dataDate.get(Calendar.YEAR), dataDate.get(Calendar.MONTH), dataDate.get(Calendar.DAY_OF_MONTH),
+				dataDate.get(Calendar.HOUR_OF_DAY), dataDate.get(Calendar.MINUTE), dataDate.get(Calendar.SECOND));
+		 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");  
+		 String date = sdf.format(dataDate.getTime());  
+		 return date;
+		}
 }

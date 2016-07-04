@@ -34,8 +34,19 @@ import controller.Controller;
 import models.entity.Product;
 import models.entity.TypeProduct;
 
-public class DialogAdmin extends JFrame {
+public class WindowAdmin extends JFrame {
 	
+	private static final String FILE_IMG_FINISH_PAGE = "/imgs/ultimo.png";
+	private static final String FILE_IMG_NEXT_PAGE = "/imgs/siguiente.png";
+	private static final String FILE_IMG_PREVIEW_PAGE = "/imgs/anterior.png";
+	private static final String FILE_IMG_FIRST_PAGE = "/imgs/primero.png";
+	private static final String FILE_IMG_PRODUCTS = "/imgs/products.png";
+	private static final String FILE_IMG_LOGO = "/imgs/logo.png";
+	private static final String FILE_IMG_SEARCH = "/imgs/search.png";
+	private static final String FILE_IMG_ADD_NEW = "/imgs/addNew.png";
+	private static final String FILE_EXIT = "/imgs/salir.png";
+	private static final String FILE_ADMIN = "/imgs/admin.png";
+	private static final String FILE_ICON = "/imgs/icon.png";
 	private static final long serialVersionUID = 1L;
 	private static String[] HEAD = {"Id", "Name", "Type of Person", "Type of Product", "Value", "Actions"};
 	private DefaultTableModel tableModel;
@@ -43,12 +54,12 @@ public class DialogAdmin extends JFrame {
 	private JLabel lbPage;
 	private JComboBox<TypeProduct> typeCategory;
 
-	public DialogAdmin(Controller controller) {
+	public WindowAdmin(Controller controller) {
 		
 		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(pantalla.width, pantalla.height);
 		setTitle("Flea Market");
-		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource(FILE_ICON)).getImage());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		
@@ -64,13 +75,13 @@ public class DialogAdmin extends JFrame {
 		JButton btnAdmin = new JButton("Admin");
 		btnAdmin.setForeground(Color.WHITE);
 		btnAdmin.setBorder(null);
-		btnAdmin.setIcon(new ImageIcon(getClass().getResource("/imgs/admin.png")));
+		btnAdmin.setIcon(new ImageIcon(getClass().getResource(FILE_ADMIN)));
 		btnAdmin.setContentAreaFilled(false);
 		btnAdmin.setBounds(pnlHeader.getWidth()-240, 5, 100, 30);
 		pnlHeader.add(btnAdmin);
 		
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.setIcon(new ImageIcon(getClass().getResource("/imgs/salir.png")));
+		btnLogout.setIcon(new ImageIcon(getClass().getResource(FILE_EXIT)));
 		btnLogout.setBounds(pnlHeader.getWidth()-130, 5, 100, 30);
 		btnLogout.setBorder(null);
 		btnLogout.setForeground(Color.WHITE);
@@ -87,7 +98,7 @@ public class DialogAdmin extends JFrame {
 		pnlButtons.setBounds(210, 50, getWidth(), 120);
 		pnlFondo.add(pnlButtons);
 		
-		JButton btnAdd = new JButton(new ImageIcon(getClass().getResource("/imgs/addNew.png")));
+		JButton btnAdd = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_ADD_NEW)));
 		btnAdd.setBounds(0, 50, 120, 35);
 		btnAdd.setContentAreaFilled(false);
 		btnAdd.setBorder(null);
@@ -95,7 +106,7 @@ public class DialogAdmin extends JFrame {
 		btnAdd.setActionCommand(Action.SHOW_DIALOD_ADD.name());
 		pnlButtons.add(btnAdd);
 		
-		JLabel lbFilterForType = new JLabel("filtrar por:");
+		JLabel lbFilterForType = new JLabel("Filter for:");
 		lbFilterForType.setBounds(320, 60, 80, 50);
 		pnlButtons.add(lbFilterForType);
 		
@@ -107,7 +118,7 @@ public class DialogAdmin extends JFrame {
 		txtSearch.setBounds(490, 70, 300, 30);
 		pnlButtons.add(txtSearch);
 		
-		JButton btnSearch = new JButton(new ImageIcon(getClass().getResource("/imgs/search.png")));
+		JButton btnSearch = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_SEARCH)));
 		btnSearch.setBounds(783, 60, 45, 45);
 		btnSearch.setBorder(null);
 		btnSearch.setContentAreaFilled(false);
@@ -124,17 +135,16 @@ public class DialogAdmin extends JFrame {
 		pnlButtons.add(lbProducts);
 		
 		JPanel pnlMenu = new JPanel();	
-		//pnlMenu.setOpaque(false);
 		pnlMenu.setBackground(Color.decode("#333333"));
 		pnlMenu.setLayout(null);
 		pnlMenu.setBounds(0, 0, 200, getHeight());
 		
-		JLabel lbLogo = new JLabel(new ImageIcon(getClass().getResource("/imgs/logo.png")));
+		JLabel lbLogo = new JLabel(new ImageIcon(getClass().getResource(FILE_IMG_LOGO)));
 		lbLogo.setBounds(0, 5, 200, 105);
 		pnlMenu.add(lbLogo);
 		
 		JLabel lbProduct = new JLabel("   Products   ");
-		lbProduct.setIcon(new ImageIcon(getClass().getResource("/imgs/products.png")));
+		lbProduct.setIcon(new ImageIcon(getClass().getResource(FILE_IMG_PRODUCTS)));
 		lbProduct.setOpaque(true);
 		lbProduct.setFont(new Font("'proxima_nova','Helvetica Neue',Helvetica,Arial,sans-serif", Font.BOLD, 14));
 		lbProduct.setHorizontalAlignment(SwingConstants.CENTER);
@@ -185,30 +195,30 @@ public class DialogAdmin extends JFrame {
 		pnlPage.setBackground(Color.WHITE);
 		pnlPage.setBounds(210, getHeight()-140, getWidth()-240, 55);
 		
-		JButton btnFirst = new JButton(new ImageIcon(getClass().getResource("/imgs/primero.png")));
+		JButton btnFirst = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_FIRST_PAGE)));
 		btnFirst.setContentAreaFilled(false);
 		btnFirst.setBorder(null);
 		pnlPage.add(btnFirst);
 		
-		JButton btnPreview = new JButton(new ImageIcon(getClass().getResource("/imgs/anterior.png")));
+		JButton btnPreview = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_PREVIEW_PAGE)));
 		btnPreview.setContentAreaFilled(false);
 		btnPreview.setBorder(null);
 		btnPreview.addActionListener(controller);
-		btnPreview.setActionCommand(Action.PAGE_PREVIEW.name());
+		btnPreview.setActionCommand(Action.PAGE_PREVIEW_ADMIN.name());
 		pnlPage.add(btnPreview);
 		
 		lbPage = new JLabel(" 1 ");
 		lbPage.setBackground(Color.WHITE);
 		pnlPage.add(lbPage);
 		
-		JButton btnNext = new JButton(new ImageIcon(getClass().getResource("/imgs/siguiente.png")));
+		JButton btnNext = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_NEXT_PAGE)));
 		btnNext.setContentAreaFilled(false);
 		btnNext.setBorder(null);
 		btnNext.addActionListener(controller);
-		btnNext.setActionCommand(Action.PAGE_NEXT.name());
+		btnNext.setActionCommand(Action.PAGE_NEXT_ADMIN.name());
 		pnlPage.add(btnNext);
 		
-		JButton btnLastest = new JButton(new ImageIcon(getClass().getResource("/imgs/ultimo.png")));
+		JButton btnLastest = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_FINISH_PAGE)));
 		btnLastest.setContentAreaFilled(false);
 		btnLastest.setBorder(null);
 		pnlPage.add(btnLastest);
@@ -232,7 +242,6 @@ public class DialogAdmin extends JFrame {
 	}
 
 	public int getProduct() {
-		System.out.println(tableProductList.getSelectedRow());
 		return Integer.parseInt(tableModel.getValueAt(tableProductList.getSelectedRow(), 0).toString());
 	}
 	
@@ -244,15 +253,6 @@ public class DialogAdmin extends JFrame {
 	public void removePage() {
 		for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
 			tableModel.removeRow(i);
-		}
-	}
-	
-	public void deleteAllItems(){
-		tableProductList.removeAll();
-		for (int i = 0; i < tableModel.getRowCount(); i++) {
-			for (int j = 0; j < tableModel.getRowCount(); j++) {
-				tableModel.removeRow(j);
-			}
 		}
 	}
 	
@@ -299,7 +299,7 @@ public class DialogAdmin extends JFrame {
             }
         });
 	    
-	    JOptionPane myOptionPane = new JOptionPane("¿Esta seguro que desea salir?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/logout.png"),new Object [] { button1, button2},button2);
+	    JOptionPane myOptionPane = new JOptionPane("Esta seguro que desea salir?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/logout.png"),new Object [] { button1, button2},button2);
 	    JDialog myDialog = myOptionPane.createDialog(null, "Logout");
 	     myDialog.setModal(true);
 	     myDialog.setVisible(true);

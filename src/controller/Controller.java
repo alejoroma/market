@@ -3,16 +3,19 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import javax.swing.JFileChooser;
+
+import javax.swing.JButton;
 import models.dao.ProductManager;
 import models.entity.Product;
+import models.entity.StatusProduct;
 import persistence.PersistenceManager;
 import views.DialogAddProduct;
-import views.DialogAdmin;
+import views.WindowAdmin;
 import views.DialogDetails;
 import views.DialogEdit;
+import views.DialogProductList;
 import views.DialogShoping;
-import views.DialogUser;
+import views.WindowUser;
 import views.PanelActionAdmin;
 import views.entrar.WindowsManager;
 
@@ -20,23 +23,24 @@ public class Controller implements ActionListener{
 
 	private WindowsManager mainWindow;
 	private ProductManager productManager;
-	private DialogAdmin dialogAdmin;
+	private WindowAdmin dialogAdmin;
 	private DialogAddProduct dialogAddProduct;
 	private DialogDetails dialogDetails;
 	private DialogEdit dialogEdit;
-	private DialogUser dialogUser;
-	private String wayImage;
+	private WindowUser dialogUser;
+	private DialogProductList dialogProducList;
 	private Product	product;
-	private int page = 0;
+	private int page;
 
 	public Controller() {
 		mainWindow = new WindowsManager(this);
-		dialogAdmin = new DialogAdmin(this);
+		dialogAdmin = new WindowAdmin(this);
 		productManager = new ProductManager();
-		dialogUser = new DialogUser(this);
+		dialogUser = new WindowUser(this);
 		dialogAddProduct = new DialogAddProduct(this); 
 		dialogDetails = new DialogDetails();
 		dialogEdit = new DialogEdit(this);
+		dialogProducList = new DialogProductList(this);
 	}
 
 	@Override
@@ -44,23 +48,21 @@ public class Controller implements ActionListener{
 		switch (Action.valueOf(e.getActionCommand())) {
 		case MANAGER:
 			showDialogAdmin();
-			mainWindow.setVisible(false);
 			break;
 		case USER:
 			this.showWindowUser();
-			mainWindow.setVisible(false);
 			break;
 		case SHOW_DIALOD_ADD:
-			showDialogAdd();
+			dialogAddProduct.setVisible(true);
 			break;
 		case ADD:
 			addProduct();
 			break;
+		case ADD_IMAGE:
+			loadImage();
+			break;
 		case REMOVE:
 			removeProduct();
-			break;
-		case ADD_IMAGE:
-			addImage();
 			break;
 		case SHOW_DIALOG_DETAILS:
 			showDialogDetails();
@@ -71,14 +73,20 @@ public class Controller implements ActionListener{
 		case EDIT:
 			editProduct();
 			break;
-		case PAGE_PREVIEW:
-			getPagePreview();
+		case PAGE_PREVIEW_ADMIN:
+			getPagePreviewAdmin();
 			break;
-		case PAGE_NEXT:
-			getPageNext();
+		case PAGE_NEXT_ADMIN:
+			getPageNextAdmin();
+			break;
+		case PAGE_PREVIEW_USER:
+			getPagePreviewUser();
+			break;
+		case PAGE_NEXT_USER:
+			getPageNextUser();
 			break;
 		case CANCELE:
-			cancele();
+			dialogAddProduct.setVisible(false);
 			break;
 		case LOGOUT:
 			logoutManager();
@@ -89,13 +97,53 @@ public class Controller implements ActionListener{
 		case FILTER_FOR_TYPE_PRODUCT:
 			filterForTypeProduct();
 			break;
-		case BUY:
-			break;
 		case FILTER_USER:
+			break;
+		case ADD_SHOPING:
+			addShoping((JButton) e.getSource());
+			break;
+		case SHOW_DIALOGSHOPING:
+			dialogProducList.setVisible(true);
+			break;
+		case BUY_PRODUCT:
+			buyProduct();
+			break;
+		case BUY_ALL:
+			buyAllProducts();
 			break;
 		}
 	}
-	
+
+	private void buyAllProducts() {
+		dialogProducList.buyAllProducts();
+		dialogProducList.getValueAbsolute(this, dialogProducList.getValueAbsoluteUpdate());
+	}
+
+	private void buyProduct() {
+		dialogProducList.buyProduct();
+		dialogProducList.getValueAbsolute(this, dialogProducList.getValueAbsoluteUpdate());
+	}
+
+	private void addShoping(JButton btn) {
+		try {
+			Product product = productManager.getProduct(Integer.parseInt(btn.getText()));
+			product.viewStatusProduct();
+			PersistenceManager.saveProduct(productManager.getProductList());
+			dialogProducList.addProduct(this, product.getImage(), ProductManager.getDate(), product.getName(), product.getValue());
+			showWindowUser();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void loadImage() {
+		if (dialogAddProduct.isVisible()) {
+			dialogAddProduct.addImage();
+		} else {
+			dialogEdit.addImage();
+		}
+	}
+
 	private void filterForTypeProduct() {
 		dialogAdmin.filterForCategory(productManager.filterForTypeProduct(dialogAdmin.getTypeCategorySelected()), this);
 	}
@@ -106,21 +154,12 @@ public class Controller implements ActionListener{
 			mainWindow.setVisible(true);
 		}
 	}
-	
-	
-	private void cancele() {
-		dialogAddProduct.setVisible(false);
-	}
-
-	private void showDialogAdd() {
-		dialogAddProduct.setLocationRelativeTo(mainWindow);
-		dialogAddProduct.setVisible(true);
-	}
 
 	private void addProduct() {
+		page = 1;
 		Product product = dialogAddProduct.createProduct();
 		productManager.addProduct(product);
-		product.setImage(wayImage);
+		dialogAddProduct.resetDialog();
 		if ((productManager.getProductList().size() % 10) == 0) {
 			dialogAdmin.removePage();
 		}
@@ -133,11 +172,11 @@ public class Controller implements ActionListener{
 		loadProduct();
 	}
 
-	private void getPagePreview() {
+	private void getPagePreviewAdmin() {
 		dialogAdmin.removePage();
 		if (page > 0) {
 			page--;
-			dialogAdmin.addPage(page + 1, (productManager.getProductList().size())/10);
+			dialogAdmin.addPage(page + 1, getAbsolutePage());
 		}
 		int i = page * 10;
 		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
@@ -145,18 +184,58 @@ public class Controller implements ActionListener{
 			i++;
 		}
 	}
+	
+	private void getPagePreviewUser() {
+		dialogUser.clearPnlProduct();
+		if (page > 0) {
+			page--;
+			dialogUser.addPage(page + 1, getAbsolutePage());
+		}
+		int i = page * 20;
+		while (i < productManager.getProductList().size() && i < (page * 20) + 20) {
+			dialogUser.addProduct(this, productManager.getProductList().get(i).getId(), productManager.getProductList().get(i).getNumberOfProduct(),
+					productManager.getProductList().get(i).getImage(), productManager.getProductList().get(i).getName(),
+					productManager.getProductList().get(i).getDescription(), productManager.getProductList().get(i).getValue());
+			i++;
+		}
+		dialogUser.repaint();
+	}
 
-	private void getPageNext() {
+	private void getPageNextAdmin() {
 		dialogAdmin.removePage();
 		if (page * 10 + 10 < productManager.getProductList().size()) {
 			page++;
-			dialogAdmin.addPage(page + 1, (productManager.getProductList().size())/10 );
+			dialogAdmin.addPage(page + 1, getAbsolutePage());
 		}
 		int i = page * 10;
 		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
 			dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
 			i++;
 		}
+	}
+	
+	private void getPageNextUser() {
+		dialogUser.clearPnlProduct();
+		if (page * 20 + 20 < productManager.getProductList().size()) {
+			page++;
+			dialogUser.addPage(page + 1, getAbsolutePage());
+		}
+		int i = page * 20;
+		while (i < productManager.getProductList().size() && i < (page * 20) + 20) {
+			dialogUser.addProduct(this, productManager.getProductList().get(i).getId(), productManager.getProductList().get(i).getNumberOfProduct(),
+					productManager.getProductList().get(i).getImage(), productManager.getProductList().get(i).getName(),
+					productManager.getProductList().get(i).getDescription(), productManager.getProductList().get(i).getValue());
+			i++;
+		}
+		dialogUser.repaint();
+	}
+
+	private int getAbsolutePage() {
+		int page = productManager.getProductList().size() / 10;
+		if (productManager.getProductList().size() % 10 != 0) {
+			page++;
+		}
+		return page;
 	}
 
 	private void loadProduct() {
@@ -182,7 +261,7 @@ public class Controller implements ActionListener{
 	}
 
 	private void showWindowUser() {
-		dialogUser.clearPnlProducts();
+		dialogUser.clearPnlProduct();
 		productManager.getProductList().clear();
 		try {
 			productManager.getProductList().addAll(PersistenceManager.loadProduct());
@@ -191,11 +270,15 @@ public class Controller implements ActionListener{
 		}
 		int i = 0;
 		for (int j = productManager.getProductList().size() - 1; j >= 0; j--) {
-			if (i++ == 12) {
+			if (i++ == 20) {
 				break;
 			}
-			dialogUser.addProduct(productManager.getProductList().get(j).getImage(), productManager.getProductList().get(j).getName(), 
-					productManager.getProductList().get(j).getDescription(), productManager.getProductList().get(j).getValue());
+			productManager.getProductList().get(j).changeStatus(productManager.getProductList().get(j).getNumberOfProduct());
+			if (productManager.getProductList().get(j).getStatusProduct() != StatusProduct.NO_DISPONIBLE) {
+				dialogUser.addProduct(this, productManager.getProductList().get(j).getId(), productManager.getProductList().get(j).getNumberOfProduct(),
+						productManager.getProductList().get(j).getImage(), productManager.getProductList().get(j).getName(), 
+						productManager.getProductList().get(j).getDescription(), productManager.getProductList().get(j).getValue());
+			}
 		}
 		dialogUser.setVisible(true);
 	}
@@ -215,7 +298,7 @@ public class Controller implements ActionListener{
 	private void showDialogEdit() {
 		try {
 			product = productManager.getProduct(dialogAdmin.getProduct());
-			dialogEdit.loadData(product.getId(),product.getImage(), product.getName(), product.getNumberOfProduct(),
+			dialogEdit.loadData(product.getId(), product.getImage(), product.getName(), product.getNumberOfProduct(),
 					product.getTypePerson(), product.getTypeProduct(), product.getDescription(), product.getValue());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -225,20 +308,19 @@ public class Controller implements ActionListener{
 
 	private void editProduct() {
 		try {
-			dialogEdit.editProduct(dialogAdmin.getProduct(), product.getImage());
+			String wayImage; 
+			if (dialogEdit.getWayImage() != null) {
+				wayImage = dialogEdit.getWayImage();
+			} else {
+				wayImage = product.getImage();
+			}
+			productManager.editProduct(product.getId(), dialogEdit.getProductToEdit(wayImage));
 			PersistenceManager.saveProduct(productManager.getProductList());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		loadProduct();
-		dialogEdit.setVisible(false);
-	}
-
-	private void addImage() {
-		JFileChooser chooserFile = new JFileChooser();
-		chooserFile.showOpenDialog(dialogAddProduct);
-		wayImage = chooserFile.getSelectedFile().toString();
-		dialogAddProduct.setLbImage(wayImage);
+		dialogEdit.exit();
 	}
 
 	private void removeProduct() {
@@ -251,6 +333,5 @@ public class Controller implements ActionListener{
 			}
 			dialogAdmin.removeRow();
 		}
-		System.out.println(productManager.getProductList());
 	}
 }

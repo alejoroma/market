@@ -16,11 +16,14 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
 
 public class DialogDetails extends JDialog implements ActionListener {
+
+	private static final String FILE_IMG_ICON = "/imgs/icon.png";
 
 	private static final long serialVersionUID = 1L;
 	
@@ -28,14 +31,14 @@ public class DialogDetails extends JDialog implements ActionListener {
 	private JTextArea txtDescription;
 	private JLabel lbImage;
 	JButton btnConfirm;
-	public static final int TAMAÑO_LETRA = 12;
+	public static final int TAM = 12;
 	public static final String TYPE_WORD = "Arial Black";
 
 	public DialogDetails() {
 		setSize(500, 500);
 		setModal(true);
 		setTitle("Crud-Product 1.0");
-		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource(FILE_IMG_ICON)).getImage());
 		getContentPane().setBackground(Color.decode("#85929E"));
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -82,7 +85,7 @@ public class DialogDetails extends JDialog implements ActionListener {
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtId = new JLabel();
-		txtId.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		txtId.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		txtId.setFocusable(false);
 		add(txtId, gbc);
 
@@ -105,7 +108,7 @@ public class DialogDetails extends JDialog implements ActionListener {
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtName = new JLabel();
-		txtName.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		txtName.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		txtName.setFocusable(false);
 		add(txtName, gbc);
 
@@ -128,7 +131,7 @@ public class DialogDetails extends JDialog implements ActionListener {
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtNumber = new JLabel();
-		txtNumber.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		txtNumber.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		txtNumber.setFocusable(false);
 		add(txtNumber, gbc);
 
@@ -151,7 +154,7 @@ public class DialogDetails extends JDialog implements ActionListener {
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtTypePerson = new JLabel();
-		txtTypePerson.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		txtTypePerson.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		txtTypePerson.setFocusable(false);
 		add(txtTypePerson, gbc);
 
@@ -175,7 +178,7 @@ public class DialogDetails extends JDialog implements ActionListener {
 		gbc.fill = GridBagConstraints.BOTH;
 		txtTypeProduct = new JLabel();
 		txtTypeProduct.setFocusable(false);
-		txtTypeProduct.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		txtTypeProduct.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		add(txtTypeProduct, gbc);
 
 		gbc.gridx = 0;
@@ -197,8 +200,10 @@ public class DialogDetails extends JDialog implements ActionListener {
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtDescription = new JTextArea();
-		txtDescription.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
-		txtDescription.setFocusable(false);
+		txtDescription.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
+		txtDescription.setBackground(Color.decode("#85929E"));
+		txtDescription.setEditable(false);
+		txtDescription.setEditable(false);
 		add(txtDescription, gbc);
 
 		JScrollPane scroll = new JScrollPane(txtDescription);
@@ -230,7 +235,7 @@ public class DialogDetails extends JDialog implements ActionListener {
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		txtValue = new JLabel();
-		txtValue.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		txtValue.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		txtValue.setFocusable(false);
 		add(txtValue, gbc);
 

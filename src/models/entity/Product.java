@@ -10,6 +10,8 @@ public class Product {
 	private TypeProduct typeProduct;
 	private String description;
 	private double value;
+	private StatusProduct statusProduct;
+	
 
 	public Product(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,String description, double value) {
 		this.id = id;
@@ -20,6 +22,36 @@ public class Product {
 		this.typeProduct = typeProduct;
 		this.description = description;
 		this.value = value;
+		this.statusProduct = StatusProduct.DISPONIBLE;
+	}
+
+	public void editProduct(Object[] listProductEdit) {
+		System.out.println(listProductEdit[0]+ "v");
+		this.id = (int)listProductEdit[0];
+		this.image = (String)listProductEdit[1];
+		this.name = (String)listProductEdit[2];
+		this.numberOfProduct = (int)listProductEdit[3];
+		this.typePerson = (TypePerson)listProductEdit[4];
+		this.typeProduct = (TypeProduct)listProductEdit[5];
+		this.description = (String)listProductEdit[6];
+		this.value = (double)listProductEdit[7];
+	}
+	
+	public void viewStatusProduct() {
+		if (numberOfProduct > 0) {
+		numberOfProduct--;
+		}
+		changeStatus(numberOfProduct);
+	}
+	
+	public void changeStatus(int numberOfProduct) {
+		if (numberOfProduct == 0) {
+			statusProduct = StatusProduct.NO_DISPONIBLE;
+		}
+	}
+	
+	public StatusProduct getStatusProduct() {
+		return statusProduct;
 	}
 
 	public String getImage() {
@@ -48,34 +80,6 @@ public class Product {
 
 	public double getValue() {
 		return value;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setNumberOfProduct(int numberOfProduct) {
-		this.numberOfProduct = numberOfProduct;
-	}
-
-	public void setTypePerson(TypePerson typePerson) {
-		this.typePerson = typePerson;
-	}
-
-	public void setTypeProduct(TypeProduct typeProduct) {
-		this.typeProduct = typeProduct;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public Object[] getAdminProduct(Object actions) {

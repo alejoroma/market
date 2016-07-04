@@ -94,7 +94,7 @@ public class DialogShoping extends JDialog{
 		jPanelConten.add(textval);
 		jScrollPane.add(jPanelConten);
 		valueProduct += value;
-		textval.setText("                                                          Valor Total: "+String.valueOf(valueProduct));
+		textval.setText("Valor Total: "+String.valueOf(valueProduct));
 		textval.setOpaque(false);
 		textval.setEditable(false);
 	}

@@ -23,7 +23,7 @@ import controller.Controller;
 public class PanelActionAdmin extends JPanel  {
 
 	private static final long serialVersionUID = 1L;
-	public static final int TAMAÑO_LETRA = 10;
+	public static final int TAM = 10;
 	public static final String TYPE_WORD = "Arial Black";
 	private static JButton btCancelar;
 	private static JButton btAceptar;
@@ -33,7 +33,7 @@ public class PanelActionAdmin extends JPanel  {
 		setLayout(new GridLayout(1, 3, 5, 8));
 		JButton btnDetails = new JButton("Details");
 		btnDetails.setBackground(Color.decode("#1E8449"));
-		btnDetails.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		btnDetails.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		btnDetails.setForeground(Color.WHITE); 
 		btnDetails.addActionListener(controller);
 		btnDetails.setActionCommand(Action.SHOW_DIALOG_DETAILS.name());
@@ -42,14 +42,14 @@ public class PanelActionAdmin extends JPanel  {
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.setBackground(Color.decode("#1F618D"));
 		btnEdit.addActionListener(controller);
-		btnEdit.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		btnEdit.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		btnEdit.setForeground(Color.WHITE); 
 		btnEdit.setActionCommand(Action.SHOW_DIALOG_EDIT.name());
 		add(btnEdit);
 		
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setBackground(Color.decode("#C0392B"));
-		btnRemove.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		btnRemove.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM));
 		btnRemove.setForeground(Color.WHITE); 
 		btnRemove.addActionListener(controller);
 		btnRemove.setActionCommand(Action.REMOVE.name());

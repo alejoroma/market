@@ -20,7 +20,7 @@ public class Dialog  extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int TAMAÑO_LETRA = 12;
+	public static final int TAM_LETRA = 12;
 	public static final String TYPE_WORD = "Arial Black";
 
 	private JPasswordField txPassword;
@@ -31,7 +31,7 @@ public class Dialog  extends JDialog {
 		
 		setModal(true);
 		setTitle("Create Product");
-		setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		setFont(new Font(TYPE_WORD, Font.PLAIN, TAM_LETRA));
 		setSize(300,250);
 		getContentPane().setBackground(Color.WHITE);
 		ImageIcon iconoAplicacion = new ImageIcon(getClass().getResource("/img/icono.jpg"));
@@ -51,7 +51,7 @@ public class Dialog  extends JDialog {
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		JLabel labelName = new JLabel("Name User: ",  SwingConstants.RIGHT);
-		labelName.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		labelName.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM_LETRA));
 		add(labelName, gbc);
 		
 		gbc.gridx = 1;
@@ -72,7 +72,7 @@ public class Dialog  extends JDialog {
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		JLabel labelNumberOfProduct = new JLabel("Contrasena: : ",  SwingConstants.RIGHT);
-		labelNumberOfProduct.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		labelNumberOfProduct.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM_LETRA));
 		add(labelNumberOfProduct, gbc);
 		
 		gbc.gridx = 1;
@@ -111,7 +111,7 @@ public class Dialog  extends JDialog {
 		gbc.fill = GridBagConstraints.BOTH;
 		JButton btnCAncel = new JButton("Cancel");
 		btnCAncel.setBackground(Color.decode("#000000"));
-		btnCAncel.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		btnCAncel.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM_LETRA));
 		btnCAncel.setForeground(Color.WHITE); 
 		btnCAncel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
 		btnCAncel.addActionListener(controller);
@@ -128,7 +128,7 @@ public class Dialog  extends JDialog {
 		gbc.fill = GridBagConstraints.BOTH;
 		JButton btnCreate = new JButton("Create");
 		btnCreate.setBackground(Color.decode("#000000"));
-		btnCreate.setFont(new Font(TYPE_WORD, Font.PLAIN, TAMAÑO_LETRA));
+		btnCreate.setFont(new Font(TYPE_WORD, Font.PLAIN, TAM_LETRA));
 		btnCreate.setForeground(Color.WHITE); 
 		btnCreate.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
 		btnCreate.addActionListener(controller);
@@ -138,7 +138,7 @@ public class Dialog  extends JDialog {
 	
 	public void createProduct(){
 		
-//		String contraseña = txPassword.getSelectedText();
+//		String contraseï¿½a = txPassword.getSelectedText();
 		System.out.println(txName.getText() + getPassword());
 		clear();
 		setVisible(false);
