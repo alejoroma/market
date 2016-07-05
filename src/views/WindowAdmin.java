@@ -241,7 +241,7 @@ public class WindowAdmin extends JFrame {
 		return tableModel;
 	}
 
-	public int getProduct() {
+	public int obtenerIDProductoSelecionado() {
 		return Integer.parseInt(tableModel.getValueAt(tableProductList.getSelectedRow(), 0).toString());
 	}
 	
@@ -256,6 +256,15 @@ public class WindowAdmin extends JFrame {
 		}
 	}
 	
+	public void deleteAllItems(){
+		tableProductList.removeAll();
+		for (int i = 0; i < tableModel.getRowCount(); i++) {
+			for (int j = 0; j < tableModel.getRowCount(); j++) {
+				tableModel.removeRow(j);
+			}
+		}
+	}
+	
 	public void filterForCategory(ArrayList<Product> productListForCategory, Controller controller){
 		removePage();
 		for (Product product : productListForCategory) {
@@ -267,69 +276,4 @@ public class WindowAdmin extends JFrame {
 	public TypeProduct getTypeCategorySelected(){
 		return (TypeProduct) typeCategory.getSelectedItem();
 	}
-
-	@SuppressWarnings("static-access")
-	public int  logout(){
-		 UIManager UI=new UIManager();
-		 UI.put("OptionPane.background", Color.white);
-		 UI.put("Panel.background", Color.white);
-	    JButton button1= new JButton("Cancelar");
-	    button1.setBackground(Color.decode("#2980B9"));
-	    button1.setFont(new Font("Arial Black", Font.PLAIN, 12));
-	    button1.setForeground(Color.WHITE);
-	    
-	    JButton button2= new JButton("Aceptar");
-	    button2.setBackground(Color.decode("#52BE80"));
-	    button2.setFont(new Font("Arial Black", Font.PLAIN, 12));
-	    button2.setForeground(Color.WHITE);
-	   
-	    button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane pane = getOptionPane((JComponent)e.getSource());
-                pane.setValue(JOptionPane.OK_OPTION);
-            }
-        });
-	    
-	    button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane pane = getOptionPane((JComponent)e.getSource());
-                pane.setValue(JOptionPane.CANCEL_OPTION);
-            }
-        });
-	    
-	    JOptionPane myOptionPane = new JOptionPane("Esta seguro que desea salir?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/logout.png"),new Object [] { button1, button2},button2);
-	    JDialog myDialog = myOptionPane.createDialog(null, "Logout");
-	     myDialog.setModal(true);
-	     myDialog.setVisible(true);
-	     Object result = myOptionPane.getValue();
-	     return Integer.parseInt(result +"");	
-	}	
-	
-	protected static JOptionPane getOptionPane(JComponent parent) {
-	    JOptionPane pane = null;
-	    if (!(parent instanceof JOptionPane)) {
-	        pane = getOptionPane((JComponent) parent.getParent());
-	    } else {
-	        pane = (JOptionPane) parent;
-	    }
-	    return pane;
-	}
-	
-   @SuppressWarnings("unused")
-private static void inactivateOption(Container container, String text) {
-      Component[] comps = container.getComponents();
-      for (Component comp : comps) {
-         if (comp instanceof AbstractButton) {
-            AbstractButton btn = (AbstractButton) comp;
-            if (btn.getActionCommand().equals(text)) {
-               btn.setEnabled(false);
-               return;
-            }
-         } else if (comp instanceof Container) {
-            inactivateOption((Container) comp, text);
-         }
-      }
-   }
 }

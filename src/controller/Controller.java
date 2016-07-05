@@ -3,20 +3,22 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
 import models.dao.ProductManager;
 import models.entity.Product;
-import models.entity.StatusProduct;
 import persistence.PersistenceManager;
 import views.DialogAddProduct;
-import views.WindowAdmin;
 import views.DialogDetails;
 import views.DialogEdit;
-import views.DialogProductList;
 import views.DialogShoping;
-import views.WindowUser;
 import views.PanelActionAdmin;
+import views.WindowAdmin;
+import views.WindowUser;
 import views.entrar.WindowsManager;
 
 public class Controller implements ActionListener{
@@ -28,9 +30,9 @@ public class Controller implements ActionListener{
 	private DialogDetails dialogDetails;
 	private DialogEdit dialogEdit;
 	private WindowUser dialogUser;
-	private DialogProductList dialogProducList;
-	private Product	product;
-	private int page;
+	private String wayImage;
+	private int page = 0;
+	private int id;
 
 	public Controller() {
 		mainWindow = new WindowsManager(this);
@@ -40,7 +42,6 @@ public class Controller implements ActionListener{
 		dialogAddProduct = new DialogAddProduct(this); 
 		dialogDetails = new DialogDetails();
 		dialogEdit = new DialogEdit(this);
-		dialogProducList = new DialogProductList(this);
 	}
 
 	@Override
@@ -48,21 +49,23 @@ public class Controller implements ActionListener{
 		switch (Action.valueOf(e.getActionCommand())) {
 		case MANAGER:
 			showDialogAdmin();
+			mainWindow.setVisible(false);
 			break;
 		case USER:
-			this.showWindowUser();
+//			this.showWindowUser();
+			mainWindow.setVisible(false);
 			break;
 		case SHOW_DIALOD_ADD:
-			dialogAddProduct.setVisible(true);
+			showDialogAdd();
 			break;
 		case ADD:
 			addProduct();
 			break;
-		case ADD_IMAGE:
-			loadImage();
-			break;
 		case REMOVE:
 			removeProduct();
+			break;
+		case ADD_IMAGE:
+//			addImage();
 			break;
 		case SHOW_DIALOG_DETAILS:
 			showDialogDetails();
@@ -73,20 +76,14 @@ public class Controller implements ActionListener{
 		case EDIT:
 			editProduct();
 			break;
-		case PAGE_PREVIEW_ADMIN:
-			getPagePreviewAdmin();
-			break;
-		case PAGE_NEXT_ADMIN:
-			getPageNextAdmin();
-			break;
-		case PAGE_PREVIEW_USER:
-			getPagePreviewUser();
-			break;
-		case PAGE_NEXT_USER:
-			getPageNextUser();
-			break;
+//		case PAGE_PREVIEW:
+////			getPagePreview();
+//			break;
+//		case PAGE_NEXT:
+////			getPageNext();
+//			break;
 		case CANCELE:
-			dialogAddProduct.setVisible(false);
+			cancele();
 			break;
 		case LOGOUT:
 			logoutManager();
@@ -95,243 +92,175 @@ public class Controller implements ActionListener{
 			new DialogShoping().setVisible(true);
 			break;
 		case FILTER_FOR_TYPE_PRODUCT:
-			filterForTypeProduct();
+//			filterForTypeProduct();
 			break;
+//		case BUY:
+//			break;
 		case FILTER_USER:
 			break;
-		case ADD_SHOPING:
-			addShoping((JButton) e.getSource());
-			break;
-		case SHOW_DIALOGSHOPING:
-			dialogProducList.setVisible(true);
-			break;
-		case BUY_PRODUCT:
-			buyProduct();
-			break;
-		case BUY_ALL:
-			buyAllProducts();
-			break;
-		}
-	}
-
-	private void buyAllProducts() {
-		dialogProducList.buyAllProducts();
-		dialogProducList.getValueAbsolute(this, dialogProducList.getValueAbsoluteUpdate());
-	}
-
-	private void buyProduct() {
-		dialogProducList.buyProduct();
-		dialogProducList.getValueAbsolute(this, dialogProducList.getValueAbsoluteUpdate());
-	}
-
-	private void addShoping(JButton btn) {
-		try {
-			Product product = productManager.getProduct(Integer.parseInt(btn.getText()));
-			product.viewStatusProduct();
-			PersistenceManager.saveProduct(productManager.getProductList());
-			dialogProducList.addProduct(this, product.getImage(), ProductManager.getDate(), product.getName(), product.getValue());
-			showWindowUser();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void loadImage() {
-		if (dialogAddProduct.isVisible()) {
-			dialogAddProduct.addImage();
-		} else {
-			dialogEdit.addImage();
-		}
-	}
-
-	private void filterForTypeProduct() {
-		dialogAdmin.filterForCategory(productManager.filterForTypeProduct(dialogAdmin.getTypeCategorySelected()), this);
-	}
-
-	public void logoutManager(){
-		if(dialogAdmin.logout() == 0){
-			dialogAdmin.setVisible(false);
-			mainWindow.setVisible(true);
-		}
-	}
-
-	private void addProduct() {
-		page = 1;
-		Product product = dialogAddProduct.createProduct();
-		productManager.addProduct(product);
-		dialogAddProduct.resetDialog();
-		if ((productManager.getProductList().size() % 10) == 0) {
-			dialogAdmin.removePage();
-		}
-		dialogAdmin.addToTable(product.getAdminProduct(new PanelActionAdmin(this)));
-		try {
-			PersistenceManager.saveProduct(productManager.getProductList());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadProduct();
-	}
-
-	private void getPagePreviewAdmin() {
-		dialogAdmin.removePage();
-		if (page > 0) {
-			page--;
-			dialogAdmin.addPage(page + 1, getAbsolutePage());
-		}
-		int i = page * 10;
-		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
-			dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
-			i++;
 		}
 	}
 	
-	private void getPagePreviewUser() {
-		dialogUser.clearPnlProduct();
-		if (page > 0) {
-			page--;
-			dialogUser.addPage(page + 1, getAbsolutePage());
-		}
-		int i = page * 20;
-		while (i < productManager.getProductList().size() && i < (page * 20) + 20) {
-			dialogUser.addProduct(this, productManager.getProductList().get(i).getId(), productManager.getProductList().get(i).getNumberOfProduct(),
-					productManager.getProductList().get(i).getImage(), productManager.getProductList().get(i).getName(),
-					productManager.getProductList().get(i).getDescription(), productManager.getProductList().get(i).getValue());
-			i++;
-		}
-		dialogUser.repaint();
-	}
-
-	private void getPageNextAdmin() {
-		dialogAdmin.removePage();
-		if (page * 10 + 10 < productManager.getProductList().size()) {
-			page++;
-			dialogAdmin.addPage(page + 1, getAbsolutePage());
-		}
-		int i = page * 10;
-		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
-			dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
-			i++;
-		}
-	}
-	
-	private void getPageNextUser() {
-		dialogUser.clearPnlProduct();
-		if (page * 20 + 20 < productManager.getProductList().size()) {
-			page++;
-			dialogUser.addPage(page + 1, getAbsolutePage());
-		}
-		int i = page * 20;
-		while (i < productManager.getProductList().size() && i < (page * 20) + 20) {
-			dialogUser.addProduct(this, productManager.getProductList().get(i).getId(), productManager.getProductList().get(i).getNumberOfProduct(),
-					productManager.getProductList().get(i).getImage(), productManager.getProductList().get(i).getName(),
-					productManager.getProductList().get(i).getDescription(), productManager.getProductList().get(i).getValue());
-			i++;
-		}
-		dialogUser.repaint();
-	}
-
-	private int getAbsolutePage() {
-		int page = productManager.getProductList().size() / 10;
-		if (productManager.getProductList().size() % 10 != 0) {
-			page++;
-		}
-		return page;
-	}
-
-	private void loadProduct() {
-		try {
-			dialogAdmin.removePage();
-			productManager.getProductList().clear();
-			productManager.getProductList().addAll(PersistenceManager.loadProduct());
-			int i = 0;
-			for (int j = productManager.getProductList().size() - 1; j >= 0; j--) {
-				if (i++ == 10) {
-					break;
-				}
-				dialogAdmin.addToTable(productManager.getProductList().get(j).getAdminProduct(new PanelActionAdmin(this)));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void showDialogAdmin() {
-		loadProduct();
-		dialogAdmin.setVisible(true);
-	}
-
-	private void showWindowUser() {
-		dialogUser.clearPnlProduct();
-		productManager.getProductList().clear();
-		try {
-			productManager.getProductList().addAll(PersistenceManager.loadProduct());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		int i = 0;
-		for (int j = productManager.getProductList().size() - 1; j >= 0; j--) {
-			if (i++ == 20) {
-				break;
-			}
-			productManager.getProductList().get(j).changeStatus(productManager.getProductList().get(j).getNumberOfProduct());
-			if (productManager.getProductList().get(j).getStatusProduct() != StatusProduct.NO_DISPONIBLE) {
-				dialogUser.addProduct(this, productManager.getProductList().get(j).getId(), productManager.getProductList().get(j).getNumberOfProduct(),
-						productManager.getProductList().get(j).getImage(), productManager.getProductList().get(j).getName(), 
-						productManager.getProductList().get(j).getDescription(), productManager.getProductList().get(j).getValue());
-			}
-		}
-		dialogUser.setVisible(true);
-	}
-
-	private void showDialogDetails() {
-		try {
-			product = productManager.getProduct(dialogAdmin.getProduct());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		dialogDetails.loadData(product.getId(),product.getImage(), product.getName(), product.getNumberOfProduct(),
-				product.getTypePerson(), product.getTypeProduct(), product.getDescription(), product.getValue());
-		dialogDetails.setLocationRelativeTo(mainWindow);
-		dialogDetails.setVisible(true);
-	}
+//	private void filterForTypeProduct() {
+//		dialogAdmin.filterForCategory(productManager.filterForTypeProduct(dialogAdmin.getTypeCategorySelected()), this);
+//	}
 
 	private void showDialogEdit() {
+		id =dialogAdmin.obtenerIDProductoSelecionado();
 		try {
-			product = productManager.getProduct(dialogAdmin.getProduct());
-			dialogEdit.loadData(product.getId(), product.getImage(), product.getName(), product.getNumberOfProduct(),
-					product.getTypePerson(), product.getTypeProduct(), product.getDescription(), product.getValue());
+			Product product = productManager.obtenerProductSelecionado(id);
+			dialogEdit.loadData(product);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		dialogEdit.setVisible(true);
 	}
-
+	
+	@SuppressWarnings("static-access")
 	private void editProduct() {
 		try {
-			String wayImage; 
-			if (dialogEdit.getWayImage() != null) {
-				wayImage = dialogEdit.getWayImage();
-			} else {
-				wayImage = product.getImage();
-			}
-			productManager.editProduct(product.getId(), dialogEdit.getProductToEdit(wayImage));
-			PersistenceManager.saveProduct(productManager.getProductList());
+			productManager.editProduct(id, dialogEdit.createProduct());
+			loadProduct(productManager.loadProducto());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		loadProduct();
-		dialogEdit.exit();
+		dialogEdit.setVisible(false);
+	}
+	
+	private void showDialogDetails() {
+		try {
+			Product product = productManager.obtenerProductSelecionado(dialogAdmin.obtenerIDProductoSelecionado());
+			dialogDetails.loadData(product);
+			dialogDetails.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void logoutManager(){
+		if(PanelActionAdmin.Logout() == 0){
+			dialogAdmin.setVisible(false);
+			mainWindow.setVisible(true);
+		}
+	}
+	
+	private void cancele() {
+		dialogAddProduct.setVisible(false);
+		dialogAddProduct.resetDialog();
 	}
 
+	private void showDialogAdd() {
+		dialogAddProduct.setLocationRelativeTo(mainWindow);
+		dialogAddProduct.setVisible(true);
+	}
+
+	@SuppressWarnings("static-access")
+	private void addProduct(){
+		Product product = dialogAddProduct.createProduct();
+		try {
+			System.out.println("hola");
+			productManager.addProduct(product);
+			loadProduct(productManager.loadProducto());
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		product.setImage(wayImage);
+//		if ((productManager.getProductList().size() % 10) == 0) {
+//			dialogAdmin.removePage();
+//		}
+//		dialogAdmin.addToTable(product.getAdminProduct(new PanelActionAdmin(this)));
+//		try {
+//			PersistenceManager.saveProduct(productManager.getProductList());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
+	}
+	
 	private void removeProduct() {
 		if(PanelActionAdmin.remorveOK() == 0){
-			productManager.removeProduct(dialogAdmin.getProduct());
 			try {
-				PersistenceManager.saveProduct(productManager.getProductList());
-			} catch (Exception e) {
+				productManager.removeProduct(dialogAdmin.obtenerIDProductoSelecionado());
+			} catch (ParseException | IOException e) {
 				e.printStackTrace();
 			}
 			dialogAdmin.removeRow();
 		}
 	}
+	
+	private void loadProduct(ArrayList<Product> produtos) throws IOException {
+		dialogAdmin.removePage();
+		int i = 0;
+		for (int j = produtos.size() - 1; j >= 0; j--) {
+			if (i++ == 10) {
+				break;
+			}
+			dialogAdmin.addToTable(produtos.get(j).getAdminProduct(new PanelActionAdmin(this)));
+		}
+	}
+	
+	@SuppressWarnings("static-access")
+	private void showDialogAdmin() {
+		try {
+			loadProduct(productManager.loadProducto());
+		} catch (ParseException | IOException e) {
+			e.printStackTrace();
+		}
+		dialogAdmin.setVisible(true);
+	}
+
+//	private void getPagePreview() {
+//		dialogAdmin.removePage();
+//		if (page > 0) {
+//			page--;
+//			dialogAdmin.addPage(page + 1, (productManager.getProductList().size())/10);
+//		}
+//		int i = page * 10;
+//		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
+//			dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
+//			i++;
+//		}
+//	}
+//
+//	private void getPageNext() {
+//		dialogAdmin.removePage();
+//		if (page * 10 + 10 < productManager.getProductList().size()) {
+//			page++;
+//			dialogAdmin.addPage(page + 1, (productManager.getProductList().size())/10 );
+//		}
+//		int i = page * 10;
+//		while (i < productManager.getProductList().size() && i < (page * 10) + 10) {
+//			dialogAdmin.addToTable(productManager.getProductList().get(i).getAdminProduct(new PanelActionAdmin(this)));
+//			i++;
+//		}
+//	}
+//
+//	private void showWindowUser() {
+//		dialogUser.clearPnlProducts();
+//		productManager.getProductList().clear();
+//		try {
+//			productManager.getProductList().addAll(PersistenceManager.loadProduct());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		int i = 0;
+//		for (int j = productManager.getProductList().size() - 1; j >= 0; j--) {
+//			if (i++ == 12) {
+//				break;
+//			}
+//			dialogUser.addProduct(productManager.getProductList().get(j).getImage(), productManager.getProductList().get(j).getName(), 
+//					productManager.getProductList().get(j).getDescription(), productManager.getProductList().get(j).getValue());
+//		}
+//		dialogUser.setVisible(true);
+//	}
+//
+//	private void addImage() {
+//		JFileChooser chooserFile = new JFileChooser();
+//		chooserFile.showOpenDialog(dialogAddProduct);
+//		wayImage = chooserFile.getSelectedFile().toString();
+//		dialogAddProduct.setLbImage(wayImage);
+//	}
+//
+	
 }

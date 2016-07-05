@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
+import models.entity.Product;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
 
@@ -255,20 +256,26 @@ public class DialogDetails extends JDialog implements ActionListener {
 		add(btnConfirm, gbc);
 	}
 
-	public void loadData(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,
-			String description, double value) {
-		txtId.setText("" + id);
-		ImageIcon image1 = new ImageIcon(image);
-		Icon icon = new ImageIcon(image1.getImage().getScaledInstance(lbImage.getWidth(), lbImage.getHeight(), Image.SCALE_REPLICATE));
-		lbImage.setIcon(icon);
-		txtName.setText(name);
-		txtNumber.setText("" + numberOfProduct);
-		txtTypePerson.setText("" + typePerson);
-		txtTypeProduct.setText("" + typeProduct);
-		txtDescription.setText(description);
-		txtValue.setText("" + value);
+	public void loadData(Product ProductEdit) {
+		Object [] informacionProducto = ProductEdit.getDetallesProduct();
+		txtId.setText(informacionProducto[0] + "");
+		setLbImage(informacionProducto[1].toString());
+		txtName.setText(informacionProducto[2].toString());
+		txtNumber.setText("" + informacionProducto[3]);
+		txtTypePerson.setText("" + informacionProducto[4]);
+		txtTypeProduct.setText("" + informacionProducto[5]);
+		txtDescription.setText(informacionProducto[6].toString());
+		txtValue.setText("" + informacionProducto[7]);
 	}
-
+	
+	public void setLbImage(String image) {
+		lbImage.setText("");
+		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
+		Image img = new ImageIcon(image).getImage().getScaledInstance( 150, -10, java.awt.Image.SCALE_AREA_AVERAGING);
+		this.lbImage.setIcon(new ImageIcon(img));
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnConfirm) {

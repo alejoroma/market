@@ -2,51 +2,44 @@ package views;
 
 import java.awt.Image;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 
 import controller.Action;
 import controller.Controller;
+import models.dao.ProductManager;
+import models.entity.Product;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
 
-public class DialogEdit extends DialogAddProduct {
+public class DialogEdit extends DialogAddProduct{
 
 	private static final long serialVersionUID = 1L;
 
 	public DialogEdit(Controller controller) {
 		super(controller);
-		btnCreate.setText("Edit");
-		btnCreate.addActionListener(controller);
-		btnCreate.setActionCommand(Action.EDIT.name());
+		getBtnCreate().setText("Edit");
+		getBtnCreate().addActionListener(controller);
+		getBtnCreate().setActionCommand(Action.EDIT.name());
+		setLocationRelativeTo(null);
 	}
 	
-	public void loadData(int id, String image, String name, int numberOfProduct, TypePerson typePerson, TypeProduct typeProduct,
-			String description, double value) {
-		txtId.setText("" + id);
-		loadImage(image);
-		txtName.setText(name);
-		spinerNumberProduct.setValue(numberOfProduct);
-		cbxTypePerson.setSelectedItem(typePerson);
-		cbxTypeProduct.setSelectedItem(typeProduct);
-		txtDescription.setText(description);
-		spinertValue.setValue(value);
+	public void loadData(Product product) {
+		Object [] informacionProducto = product.getDetallesProduct();
+		getTxtId().setText(informacionProducto[0].toString());
+		setLbImage(informacionProducto[1].toString());
+		getTxtName().setText(informacionProducto[2].toString());
+		getSpinerNumberProduct().setValue((int) informacionProducto[3]);
+		getCbxTypePerson().setSelectedItem((TypePerson)informacionProducto[4]);
+		getCbxTypeProduct().setSelectedItem((TypeProduct)informacionProducto[5]);
+		getTxtDescription().setText(informacionProducto[6].toString());
+		double value =  (double) informacionProducto[7];
+		getSpinerValue().setValue((int) value);
 	}
 	
-	public void loadImage(String image) {
-		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
-		Image img = new ImageIcon(image).getImage().getScaledInstance( 200, -1, java.awt.Image.SCALE_AREA_AVERAGING);
-		lbImage.setIcon(new ImageIcon(img));
-	}
-	
-	public Object[] getProductToEdit(String image) {
-		Object[] listProductEdit = {Integer.parseInt(txtId.getText()), image,txtName.getText(),
-				(int)spinerNumberProduct.getValue(), (TypePerson)cbxTypePerson.getSelectedItem(), 
-				(TypeProduct)cbxTypeProduct.getSelectedItem(), txtDescription.getText(), (double)(spinertValue.getValue())};
-		return listProductEdit;
-	}
-	
-	public void exit() {
-		dispose();
+	public Product editProduct(int id, String image) {
+		Product exit = createProduct();
+		exit.toString();
+		return exit;
 	}
 }
