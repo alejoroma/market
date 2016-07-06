@@ -3,6 +3,7 @@ package models.dao;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,9 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import models.entity.Product;
+import models.entity.StatusProduct;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
 
@@ -123,4 +124,67 @@ public class ProductManager {
 		}
 		return productList;
 	}
+	
+	
+	public  ArrayList<Product> paginaPrincipal() throws ParseException, IOException{
+		ArrayList<Product> productList = loadProducto();
+		for (int i = productList.size() -6 ; i >= 0; i--) {
+				productList.remove(i);
+		}
+		return productList;
+	}
+	
+	public ArrayList<Product> paginaFinal() throws ParseException, IOException {
+		ArrayList<Product> productList = loadProducto();
+		ArrayList<Product> salida = new ArrayList<Product>();
+		if (totalProductosUltimaPaguina() != 0) {
+			for (int i = 0 ; i < totalProductosUltimaPaguina() ; i++) {
+				salida.add(productList.get(i));
+			}
+		} else {
+			for (int i = 0 ; i < 5  ; i++) {
+				salida.add(productList.get(i));
+			}
+		}
+		return salida;
+	}
+	
+	public ArrayList<Product> siguientePaguina(int paguinaActual) throws ParseException, IOException {
+		ArrayList<Product> productList = loadProducto();
+		ArrayList<Product> salida = new ArrayList<Product>();
+		if ((paguinaActual * 5 ) < productList.size()  ) {
+			for (int i = productList.size() - (( paguinaActual * 5 )  + 1)  ; i >=  productList.size() - (( paguinaActual - 1 ) * 5) ; i--) {
+				salida.add(productList.get(i));
+			}
+		} else {
+			for (int i = 0 ; i < 5  ; i++) {
+				salida.add(productList.get(i));
+			}
+		}
+		return salida;
+	}
+	
+	public int totalPaguinasCompletas() throws ParseException, IOException{
+		return (loadProducto().size() + 1 ) / 5;
+	}
+	
+	public int totalProductosUltimaPaguina() throws ParseException, IOException{
+		return (loadProducto().size() + 1 ) % 5;
+	}
+	
+	public int totalPaguinas() throws ParseException, IOException{
+		return (totalProductosUltimaPaguina() == 0 )? totalPaguinasCompletas() : totalPaguinasCompletas() + 1 ;
+	}
+
+	public ArrayList<Product> obtenerProdutosDisponible() throws IOException, ParseException {
+		ArrayList<Product> productList = loadProducto();
+			for (int i = 0; i < productList.size(); i++) {
+				if (productList.get(i).getStatusProduct().equals(StatusProduct.NO_DISPONIBLE)) {
+					productList.remove(i);
+				}
+			}
+		return productList;
+	}
+	
+	
 }

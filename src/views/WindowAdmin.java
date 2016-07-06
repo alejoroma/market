@@ -10,9 +10,13 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,20 +26,23 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
 import controller.Action;
 import controller.Controller;
 import models.entity.Product;
+import models.entity.TypePerson;
 import models.entity.TypeProduct;
 
 public class WindowAdmin extends JFrame {
 	
+	private static final String FILE_IMG_VIEW_REPORT = "/imgs/binoculares.png";
 	private static final String FILE_IMG_FINISH_PAGE = "/imgs/ultimo.png";
 	private static final String FILE_IMG_NEXT_PAGE = "/imgs/siguiente.png";
 	private static final String FILE_IMG_PREVIEW_PAGE = "/imgs/anterior.png";
@@ -47,12 +54,15 @@ public class WindowAdmin extends JFrame {
 	private static final String FILE_EXIT = "/imgs/salir.png";
 	private static final String FILE_ADMIN = "/imgs/admin.png";
 	private static final String FILE_ICON = "/imgs/icon.png";
+	private static final String FILE_IMG_PRINT = "/imgs/impresora.png";
 	private static final long serialVersionUID = 1L;
 	private static String[] HEAD = {"Id", "Name", "Type of Person", "Type of Product", "Value", "Actions"};
 	private DefaultTableModel tableModel;
 	private JTable tableProductList;
 	private JLabel lbPage;
 	private JComboBox<TypeProduct> typeCategory;
+	private JRadioButton jrMen, jrWomen, jrMenAndWomen;
+	private int page;
 
 	public WindowAdmin(Controller controller) {
 		
@@ -98,6 +108,14 @@ public class WindowAdmin extends JFrame {
 		pnlButtons.setBounds(210, 50, getWidth(), 120);
 		pnlFondo.add(pnlButtons);
 		
+		JLabel lbProducts = new JLabel("Products  ");
+		lbProducts.setOpaque(true);
+		lbProducts.setForeground(Color.BLACK);
+		lbProducts.setBorder(BorderFactory.createLoweredSoftBevelBorder());
+		lbProducts.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbProducts.setBounds(0, 10, pnlButtons.getWidth()-240, 30);
+		pnlButtons.add(lbProducts);
+		
 		JButton btnAdd = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_ADD_NEW)));
 		btnAdd.setBounds(0, 50, 120, 35);
 		btnAdd.setContentAreaFilled(false);
@@ -106,33 +124,64 @@ public class WindowAdmin extends JFrame {
 		btnAdd.setActionCommand(Action.SHOW_DIALOD_ADD.name());
 		pnlButtons.add(btnAdd);
 		
-		JLabel lbFilterForType = new JLabel("Filter for:");
-		lbFilterForType.setBounds(320, 60, 80, 50);
+		JLabel lbFilterForType = new JLabel("Filter for type:");
+		lbFilterForType.setBounds(300, 60, 80, 50);
 		pnlButtons.add(lbFilterForType);
 		
 		typeCategory = new JComboBox<TypeProduct>(TypeProduct.values());
 		typeCategory.setBounds(390, 70, 100, 28);
 		pnlButtons.add(typeCategory);
 		
-		JTextField txtSearch = new JTextField("Search");
-		txtSearch.setBounds(490, 70, 300, 30);
-		pnlButtons.add(txtSearch);
+		jrMen = new  JRadioButton("Men");
+		jrMen.setBounds(500, 60, 50, 50);
+		pnlButtons.add(jrMen);
+		
+		jrWomen = new  JRadioButton("Women");
+		jrWomen.setBounds(560, 60, 80, 50);
+		pnlButtons.add(jrWomen);
+		
+		jrMenAndWomen = new  JRadioButton("Men and Women");
+		jrMenAndWomen.setBounds(640, 60, 120, 50);
+		pnlButtons.add(jrMenAndWomen);
+		
+		ButtonGroup group = new ButtonGroup();
+	    group.add(jrMen);
+	    group.add(jrWomen);
+	    group.add(jrMenAndWomen);
 		
 		JButton btnSearch = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_SEARCH)));
-		btnSearch.setBounds(783, 60, 45, 45);
+		btnSearch.setBounds(760, 60, 45, 45);
 		btnSearch.setBorder(null);
 		btnSearch.setContentAreaFilled(false);
 		btnSearch.addActionListener(controller);
 		btnSearch.setActionCommand(Action.FILTER_FOR_TYPE_PRODUCT.name());
 		pnlButtons.add(btnSearch);
+		
+		JButton btnViewAll = new JButton("View All");
+		btnViewAll.setBackground(Color.decode("#2b82ad"));
+		btnViewAll.setBounds(820, 65, 80, 35);
+		btnViewAll.addActionListener(controller);
+		btnViewAll.setActionCommand(Action.VIEW_ALL.name());
+		pnlButtons.add(btnViewAll);
+		
+		JButton btnViewReport = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_VIEW_REPORT)));
+		btnViewReport.setBorder(null);
+		btnViewReport.setContentAreaFilled(false);
+		btnViewReport.addActionListener(controller);
+		btnViewReport.setActionCommand(Action.SHOW_REPORT.name());
+		btnViewReport.setToolTipText("View report");
+		btnViewReport.setBounds(pnlButtons.getWidth()-350, 60, 40, 45);
+		pnlButtons.add(btnViewReport);
 	
-		JLabel lbProducts = new JLabel("Products  ");
-		lbProducts.setOpaque(true);
-		lbProducts.setForeground(Color.BLACK);
-		lbProducts.setBorder(BorderFactory.createLoweredSoftBevelBorder());
-		lbProducts.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbProducts.setBounds(0, 10, pnlButtons.getWidth()-240, 30);
-		pnlButtons.add(lbProducts);
+		JButton btnPrint = new JButton(new ImageIcon(getClass().getResource(FILE_IMG_PRINT)));
+		btnPrint.setBorder(null);
+		btnPrint.addActionListener(controller);
+		btnPrint.setActionCommand(Action.PRINT.name());
+		btnPrint.setContentAreaFilled(false);
+		btnPrint.setToolTipText("Print");
+		btnPrint.setBounds(pnlButtons.getWidth()-300, 60, 40, 45);
+		
+		pnlButtons.add(btnPrint);
 		
 		JPanel pnlMenu = new JPanel();	
 		pnlMenu.setBackground(Color.decode("#333333"));
@@ -156,7 +205,6 @@ public class WindowAdmin extends JFrame {
 		
 		pnlFondo.add(pnlMenu);
 		
-		
 		JPanel pnlTable = new JPanel();
 		pnlTable.setBounds(210, 170, getWidth()-240, getHeight()-345);
 		pnlTable.setBackground(Color.WHITE);
@@ -172,7 +220,6 @@ public class WindowAdmin extends JFrame {
 		TableRender model = new TableRender();
 		CellEditor cellEditor = new CellEditor(controller);
 		model.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		
 		tableProductList.setDefaultRenderer(Object.class, model);
 		tableProductList.setDefaultEditor(Object.class, cellEditor);
@@ -207,7 +254,7 @@ public class WindowAdmin extends JFrame {
 		btnPreview.setActionCommand(Action.PAGE_PREVIEW_ADMIN.name());
 		pnlPage.add(btnPreview);
 		
-		lbPage = new JLabel(" 1 ");
+		lbPage = new JLabel();
 		lbPage.setBackground(Color.WHITE);
 		pnlPage.add(lbPage);
 		
@@ -232,9 +279,12 @@ public class WindowAdmin extends JFrame {
 		this.lbPage.setText("" + pageActual + " de " + pageTotal );
 	}
 	
-	public void addToTable(Object[] product) {
-			tableModel.addRow(product);
+	public void addToTable(ArrayList<Product> produtos, Controller controller) {
+		for (int i = produtos.size() - 1; i >= 0; i--) {
+			Object[] entrada = produtos.get(i).getAdminProduct(new PanelActionAdmin(controller));
+			tableModel.addRow(entrada);
 			tableModel.fireTableStructureChanged();
+		}
 	}
 	
 	public DefaultTableModel getTableModel() {
@@ -243,6 +293,11 @@ public class WindowAdmin extends JFrame {
 
 	public int obtenerIDProductoSelecionado() {
 		return Integer.parseInt(tableModel.getValueAt(tableProductList.getSelectedRow(), 0).toString());
+	}
+	
+	public void paguinaActual(int paginaActual, int totalPaginas){
+		page = paginaActual;
+		lbPage.setText(paginaActual + "/" + totalPaginas);
 	}
 	
 	public void removeRow() {
@@ -256,24 +311,104 @@ public class WindowAdmin extends JFrame {
 		}
 	}
 	
-	public void deleteAllItems(){
-		tableProductList.removeAll();
-		for (int i = 0; i < tableModel.getRowCount(); i++) {
-			for (int j = 0; j < tableModel.getRowCount(); j++) {
-				tableModel.removeRow(j);
-			}
-		}
-	}
-	
-	public void filterForCategory(ArrayList<Product> productListForCategory, Controller controller){
-		removePage();
-		for (Product product : productListForCategory) {
-			addToTable(product.getAdminProduct(new PanelActionAdmin(controller)));
-		}
-		revalidate();
-	}
+//	public void filterForCategory(ArrayList<Product> productListForCategory, Controller controller){
+//		removePage();
+//		for (Product product : productListForCategory) {
+//			addToTable(product.getAdminProduct(new PanelActionAdmin(controller)));
+//		}
+//		revalidate();
+//	}
 	
 	public TypeProduct getTypeCategorySelected(){
 		return (TypeProduct) typeCategory.getSelectedItem();
 	}
+	
+	public int getPage() {
+		return page;
+	}
+
+	public TypePerson getTypePersonSelected(){
+		if (jrMen.isSelected()) {
+			return  TypePerson.MEN;
+		}
+		if (jrWomen.isSelected()) {
+			return TypePerson.WOMEN;
+		}
+		return TypePerson.MEN_AND_WOMEN;
+	}
+	
+	public void imprimirFile(){
+		try {
+			MessageFormat headerFormat = new MessageFormat("page {0}");
+			MessageFormat fooFormat = new MessageFormat("-{0}-");
+			tableProductList.print(JTable.PrintMode.FIT_WIDTH,headerFormat,fooFormat);
+		} catch (PrinterException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("static-access")
+	public int  logout(){
+		 UIManager UI=new UIManager();
+		 UI.put("OptionPane.background", Color.white);
+		 UI.put("Panel.background", Color.white);
+	    JButton button1= new JButton("Cancelar");
+	    button1.setBackground(Color.decode("#2980B9"));
+	    button1.setFont(new Font("Arial Black", Font.PLAIN, 12));
+	    button1.setForeground(Color.WHITE);
+	    
+	    JButton button2= new JButton("Aceptar");
+	    button2.setBackground(Color.decode("#52BE80"));
+	    button2.setFont(new Font("Arial Black", Font.PLAIN, 12));
+	    button2.setForeground(Color.WHITE);
+	   
+	    button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane pane = getOptionPane((JComponent)e.getSource());
+                pane.setValue(JOptionPane.OK_OPTION);
+            }
+        });
+	    
+	    button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane pane = getOptionPane((JComponent)e.getSource());
+                pane.setValue(JOptionPane.CANCEL_OPTION);
+            }
+        });
+	    
+	    JOptionPane myOptionPane = new JOptionPane("Esta seguro que desea salir?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,  new ImageIcon("src/imgs/png/logout.png"),new Object [] { button1, button2},button2);
+	    JDialog myDialog = myOptionPane.createDialog(null, "Logout");
+	     myDialog.setModal(true);
+	     myDialog.setVisible(true);
+	     Object result = myOptionPane.getValue();
+	     return Integer.parseInt(result +"");	
+	}	
+	
+	protected static JOptionPane getOptionPane(JComponent parent) {
+	    JOptionPane pane;
+	    if (!(parent instanceof JOptionPane)) {
+	        pane = getOptionPane((JComponent) parent.getParent());
+	    } else {
+	        pane = (JOptionPane) parent;
+	    }
+	    return pane;
+	}
+	
+   @SuppressWarnings("unused")
+private static void inactivateOption(Container container, String text) {
+      Component[] comps = container.getComponents();
+      for (Component comp : comps) {
+         if (comp instanceof AbstractButton) {
+            AbstractButton btn = (AbstractButton) comp;
+            if (btn.getActionCommand().equals(text)) {
+               btn.setEnabled(false);
+               return;
+            }
+         } else if (comp instanceof Container) {
+            inactivateOption((Container) comp, text);
+         }
+      }
+   }
 }

@@ -3,15 +3,18 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
+
+
+import javax.swing.JButton;
 
 import models.dao.ProductManager;
 import models.entity.Product;
-import persistence.PersistenceManager;
+import models.entity.StatusProduct;
 import views.DialogAddProduct;
 import views.DialogDetails;
 import views.DialogEdit;
@@ -31,7 +34,7 @@ public class Controller implements ActionListener{
 	private DialogEdit dialogEdit;
 	private WindowUser dialogUser;
 	private String wayImage;
-	private int page = 0;
+	
 	private int id;
 
 	public Controller() {
@@ -52,7 +55,7 @@ public class Controller implements ActionListener{
 			mainWindow.setVisible(false);
 			break;
 		case USER:
-//			this.showWindowUser();
+			this.showWindowUser();
 			mainWindow.setVisible(false);
 			break;
 		case SHOW_DIALOD_ADD:
@@ -96,10 +99,76 @@ public class Controller implements ActionListener{
 			break;
 //		case BUY:
 //			break;
+		case ADD_SHOPING:
+			addShoping((JButton) e.getSource());
+			break;
 		case FILTER_USER:
 			break;
+		case PAGE_FIRST_PAGE:
+			primeraPaguinaTabla();
+			break;
+		case PAGE_FINISH_PAGE:
+			UltimaPaguinaTabla();
+			break;
+		case PAGE_NEXT_ADMIN:
+			siguientePaguinaTabla();
+			break;
+		}
+		
+	}
+
+	private void siguientePaguinaTabla() {
+		int page = dialogAdmin.getPage() +1 ;
+		try {
+			dialogAdmin.paguinaActual(page, productManager.totalPaguinas());
+			loadProduct(productManager.siguientePaguina(page));	
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+	}
+
+	private void UltimaPaguinaTabla() {
+		try {
+			dialogAdmin.paguinaActual(productManager.totalPaguinas(), productManager.totalPaguinas());
+			loadProduct(productManager.paginaFinal());
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
+
+	private void primeraPaguinaTabla() {
+		try {
+			dialogAdmin.paguinaActual(1, productManager.totalPaguinas());
+			loadProduct(productManager.paginaPrincipal());
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	
+	private void addShoping(JButton btn) {
+//		try {
+//			Product product = productManager.getProduct(Integer.parseInt(btn.getName()));
+//			product.viewStatusProduct();
+//			PersistenceManager.saveProduct(productManager.getProductList());
+//			dialogProducList.addProduct(this, product.getImage(), ProductManager.getDate(), product.getName(), product.getValue());
+//			showWindowUser();
+//			dialogReport.refrechDates(0, dialogProducList.getNumberProduct(), 0, 0, 0, 0, 0);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+	}
+	
 	
 //	private void filterForTypeProduct() {
 //		dialogAdmin.filterForCategory(productManager.filterForTypeProduct(dialogAdmin.getTypeCategorySelected()), this);
@@ -119,7 +188,7 @@ public class Controller implements ActionListener{
 	@SuppressWarnings("static-access")
 	private void editProduct() {
 		try {
-			productManager.editProduct(id, dialogEdit.createProduct());
+			productManager.editProduct(id, dialogEdit.createProductEdit());
 			loadProduct(productManager.loadProducto());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -158,9 +227,9 @@ public class Controller implements ActionListener{
 	private void addProduct(){
 		Product product = dialogAddProduct.createProduct();
 		try {
-			System.out.println("hola");
 			productManager.addProduct(product);
-			loadProduct(productManager.loadProducto());
+			dialogAdmin.paguinaActual(1, productManager.totalPaguinas());
+			loadProduct(productManager.paginaPrincipal());
 		} catch (ParseException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -191,24 +260,23 @@ public class Controller implements ActionListener{
 	
 	private void loadProduct(ArrayList<Product> produtos) throws IOException {
 		dialogAdmin.removePage();
-		int i = 0;
-		for (int j = produtos.size() - 1; j >= 0; j--) {
-			if (i++ == 10) {
-				break;
-			}
-			dialogAdmin.addToTable(produtos.get(j).getAdminProduct(new PanelActionAdmin(this)));
-		}
+		dialogAdmin.addToTable(produtos, this);
 	}
 	
 	@SuppressWarnings("static-access")
 	private void showDialogAdmin() {
 		try {
-			loadProduct(productManager.loadProducto());
+			dialogAdmin.paguinaActual(1, productManager.totalPaguinas());
+			loadProduct(productManager.paginaPrincipal());
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}
 		dialogAdmin.setVisible(true);
 	}
+	
+	
+	
+	
 
 //	private void getPagePreview() {
 //		dialogAdmin.removePage();
@@ -236,25 +304,19 @@ public class Controller implements ActionListener{
 //		}
 //	}
 //
-//	private void showWindowUser() {
-//		dialogUser.clearPnlProducts();
-//		productManager.getProductList().clear();
-//		try {
-//			productManager.getProductList().addAll(PersistenceManager.loadProduct());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		int i = 0;
-//		for (int j = productManager.getProductList().size() - 1; j >= 0; j--) {
-//			if (i++ == 12) {
-//				break;
-//			}
-//			dialogUser.addProduct(productManager.getProductList().get(j).getImage(), productManager.getProductList().get(j).getName(), 
-//					productManager.getProductList().get(j).getDescription(), productManager.getProductList().get(j).getValue());
-//		}
-//		dialogUser.setVisible(true);
-//	}
-//
+	private void showWindowUser() {
+		dialogUser.clearPnlProduct();
+		try {
+			dialogUser.addProduct(this, productManager.obtenerProdutosDisponible());
+			dialogUser.setVisible(true);
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 //	private void addImage() {
 //		JFileChooser chooserFile = new JFileChooser();
 //		chooserFile.showOpenDialog(dialogAddProduct);

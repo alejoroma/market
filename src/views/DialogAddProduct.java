@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
 import controller.Action;
 import controller.Controller;
@@ -36,23 +37,22 @@ import models.dao.ProductManager;
 import models.entity.Product;
 import models.entity.TypePerson;
 import models.entity.TypeProduct;
-import models.errores.ErrorDates;
 import models.errores.ValidateFields;
 
 public class DialogAddProduct  extends JDialog{
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtId, txtName;
-	private JTextArea txtDescription;
-	private JSpinner spinerNumberProduct, spinertValue;
-	private JComboBox<TypePerson> cbxTypePerson;
-	private JComboBox<TypeProduct> cbxTypeProduct;
-	private JButton btnCreate, btnAddImage;
-	private JLabel lbImage, lbId;
-	private String rutaImagen;
-	private JTextArea textAreaErrors;
-	private JScrollPane scroll;
-	private JScrollPane scrollDescription;
+	protected JTextField txtId, txtName;
+	protected JTextArea txtDescription;
+	protected JSpinner spinerNumberProduct, spinertValue;
+	protected JComboBox<TypePerson> cbxTypePerson;
+	protected JComboBox<TypeProduct> cbxTypeProduct;
+	protected JButton btnCreate, btnAddImage;
+	protected JLabel lbImage, lbId;
+	protected String rutaImagen;
+	protected JTextArea textAreaErrors;
+	protected JScrollPane scroll;
+	protected JScrollPane scrollDescription;
 
 	public DialogAddProduct(Controller controller) {
 		setIconImage(new ImageIcon(getClass().getResource("/imgs/icon.png")).getImage());
@@ -349,41 +349,39 @@ public class DialogAddProduct  extends JDialog{
 		add(PanelBotones, gbc);
 	}
 
-	public void validateFields() {
-			try {
-				ValidateFields.validateId(txtId);
-			} catch (ErrorDates e) {
-				scroll.setVisible(true);
-				textAreaErrors.setText(e.getMessage()+"\n");
-				textAreaErrors.setForeground(Color.RED);
-			}
-		try {
-			ValidateFields.validateName(txtName);
-		} catch (ErrorDates e2) {
+	public boolean validateFields() {
+		textAreaErrors.setText("Datos incompletos:\n");
+		boolean status = true;
+		if (!ValidateFields.validateId(txtId)) {
+			txtId.setBorder(new MatteBorder(2, 2, 2, 2, Color.RED));
+			textAreaErrors.setVisible(true);
 			scroll.setVisible(true);
-			textAreaErrors.setText(e2.getMessage()+"\n");
-			textAreaErrors.setForeground(Color.RED);
+			textAreaErrors.setText(textAreaErrors.getText() + "El campo de id esta vacio.\n");
+			status = false;
 		}
-//		try {
-//			ValidateFields.validatePrece(txtValue);
-//		} catch (ErrorDates e3) {
-//			scroll.setVisible(true);
-//			textAreaErrors.setText(e3.getMessage()+"\n");
-//			textAreaErrors.setForeground(Color.RED);
-//		}
-		try {
-			ValidateFields.validateDescription(txtDescription);
-		} catch (ErrorDates e4) {
+		
+		if (!ValidateFields.validateName(txtName)) {
+			txtName.setBorder(new MatteBorder(2, 2, 2, 2, Color.RED));
+			textAreaErrors.setVisible(true);
 			scroll.setVisible(true);
-			textAreaErrors.setText(e4.getMessage());
-			textAreaErrors.setForeground(Color.RED);
+			textAreaErrors.setText(textAreaErrors.getText() + "El campo de Name esta vacio.\n");
+			status = false;
+		}
+		
+		if (!ValidateFields.validateDescription(txtDescription)) {
+			txtDescription.setBorder(new MatteBorder(2, 2, 2, 2, Color.RED));
+			textAreaErrors.setVisible(true);
+			scroll.setVisible(true);
+			textAreaErrors.setText(textAreaErrors.getText() + "El campo de Description esta vacio.\n");
+			status = false;
 		}
 		revalidate();
+		return status;
 	}
 
 	public Product createProduct() {
 		validateFields();
-		Product newProducto =  ProductManager.createProduct(Integer.parseInt(txtId.getText()),rutaImagen, txtName.getText(),
+		Product newProducto =  ProductManager.createProduct(Integer.parseInt(txtId.getText()),rutaImagen.toString(), txtName.getText(),
 				(int) spinerNumberProduct.getValue(),(TypePerson) cbxTypePerson.getSelectedItem(),	(TypeProduct) cbxTypeProduct.getSelectedItem(),
 				txtDescription.getText(),(int) spinertValue.getValue());
 		setVisible(false);
@@ -392,10 +390,10 @@ public class DialogAddProduct  extends JDialog{
 	}
 	
 	public void setLbImage(String image) {
-		lbImage.setText("");
+		rutaImagen = image;
 		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
 		Image img = new ImageIcon(image).getImage().getScaledInstance( 150, -10, java.awt.Image.SCALE_AREA_AVERAGING);
-		this.lbImage.setIcon(new ImageIcon(img));
+		lbImage.setIcon(new ImageIcon(img));
 	}
 	
 	public void resetDialog() {
@@ -408,45 +406,5 @@ public class DialogAddProduct  extends JDialog{
 		lbImage.setIcon(new ImageIcon(getClass().getResource("/imgs/subirImage.png")));
 		lbImage.setText("Arrastra o sube la imagen");
 		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
-	}
-	
-	public JLabel getLbImage() {
-		return lbImage;
-	}
-
-	public JLabel getLbId() {
-		return lbId;
-	}
-
-	public JTextField getTxtId() {
-		return txtId;
-	}
-
-	public JTextField getTxtName() {
-		return txtName;
-	}
-
-	public JSpinner getSpinerValue() {
-		return spinertValue;
-	}
-
-	public JTextArea getTxtDescription() {
-		return txtDescription;
-	}
-
-	public JSpinner getSpinerNumberProduct() {
-		return spinerNumberProduct;
-	}
-
-	public JComboBox<TypePerson> getCbxTypePerson() {
-		return cbxTypePerson;
-	}
-
-	public JComboBox<TypeProduct> getCbxTypeProduct() {
-		return cbxTypeProduct;
-	}
-
-	public JButton getBtnCreate() {
-		return btnCreate;
 	}
 }

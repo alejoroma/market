@@ -7,34 +7,32 @@ import javax.swing.JTextField;
 
 public class ValidateFields {
 	
-	public static void validateId(JTextField jTextField)throws ErrorDates{
-		if (jTextField.getText().equals("")) {
-			throw new ErrorDates("Datos incompletos, el campo de Id esta vacio");
+	public static boolean validateId(JTextField jTextField) {
+		if (!jTextField.getText().equals("")) {
+			return true;
 		}
+		return false;
 	}
 	
-	public static void validateName(JTextField jTextField)throws ErrorDates{
-		if (jTextField.getText().equals("")) {
-			throw new ErrorDates("Datos incompletos, el campo de nombre esta vacio");
+	public static boolean validateName(JTextField jTextField) {
+		if (!jTextField.getText().equals("")) {
+			return true;
 		}
+		return false;
 	}
 	
-	public static void validateBrad(JTextField jTextField) throws ErrorDates{
-		if (jTextField.getText().equals("")) {
-			throw new ErrorDates("Datos incompletos, el campo de marca esta vacio");
+	public static boolean validatePrece(JTextField jTextField) {
+		if (!jTextField.getText().equals("")) {
+			return true;
 		}
+		return false;
 	}
 	
-	public static void validatePrece(JTextField jTextField) throws ErrorDates{
-		if (jTextField.getText().equals("")) {
-			throw new ErrorDates("Datos incompletos, el campo de precio esta vacio");
+	public static boolean validateDescription(JTextArea textArea) {
+		if (!textArea.getText().equals("")) {
+			return true;
 		}
-	}
-	
-	public static void validateDescription(JTextArea textArea) throws ErrorDates{
-		if (textArea.getText().equals("")) {
-			throw new ErrorDates("Datos incompletos, el campo de Descripcion esta vacio");
-		}
+		return false;
 	}
 
 	public static void onlyNumber(JTextField jTextField) {

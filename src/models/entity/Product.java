@@ -31,6 +31,10 @@ public class Product {
 		changeStatus(numberOfProduct);
 	}
 	
+	public StatusProduct getStatusProduct() {
+		return statusProduct;
+	}
+
 	public void changeStatus(int numberOfProduct) {
 		if (numberOfProduct == 0) {
 			statusProduct = StatusProduct.NO_DISPONIBLE;
